@@ -1,0 +1,29 @@
+{
+  "angwadis": [
+    {
+	  "aw_code": "01",
+	  "aw_contact": "Bhagya N K",
+	  "aw_phone": "9988001122",
+	  "aw_pwd": "pass",
+	  "aw_loc": "Hoskote, Bengaluru",
+	  "aw_latlng": "13.0707,77.79814"
+	},
+    {
+	  "aw_code": "02",
+	  "aw_contact": "Jayalakshi R",
+	  "aw_phone": "6237688457",
+	  "aw_pwd": "pass",
+	  "aw_loc": "Hoskote, Bengaluru",
+	  "aw_latlng": "13.0707,77.79814"
+	},
+    {
+	  "aw_code": "03",
+	  "aw_contact": "K R Nagarajappa",
+	  "aw_phone": "8768845637",
+	  "aw_pwd": "pass",
+	  "aw_loc": "Hoskote, Bengaluru",
+	  "aw_latlng": "13.0707,77.79814"
+	}
+  ],
+  "empty": false
+}

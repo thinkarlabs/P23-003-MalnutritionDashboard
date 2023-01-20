@@ -1,0 +1,44 @@
+{% extends "static/pages/_common/base_mob.htm" %}
+
+{% block body %}
+<main class="container-full">
+<div id='x-main' class="container-fluid mt-5 p-0">
+
+<div class="row">
+
+<div class="col-12 m-0">
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">Supplement</th>
+      <th scope="col">Count</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for item in kids %}	
+    <tr class="{{item.kid_index}}">
+      <td>{{item.kid_name}} </br> {{item.kid_pname}} </br> {{item.kid_gender}}, {{item.kid_age}}</td>
+      <td class="col-4 align-self-end">{{item.kid_height}} </br> {{item.kid_weight}} </br> {{item.kid_statdate}}</td>
+      <td class="col-1 align-self-start"><i class="bi bi-plus-circle-fill" data-nav="mob.kid"></i></th>
+    </tr>
+  {% endfor %} 	
+  </tbody>
+</table>
+</div>
+
+</div>
+
+<div class="row fixed-bottom">
+	<div class="col-12 p-0">
+		<button class="w-100 bg-primary text-light" data-nav="mob.supplement">Record</button>
+	</div>
+</div>
+</div>
+
+</main>
+{% endblock %}	
+
+{% block footer %}
+{% endblock %}	

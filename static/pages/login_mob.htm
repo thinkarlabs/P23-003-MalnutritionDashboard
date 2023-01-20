@@ -1,0 +1,38 @@
+{% extends "static/pages/_common/site_mob.htm" %}
+
+{% block main %}
+<main class="container-full">
+<div id='x-main' class="container-fluid mt-5 p-3" style="min-height:500px">
+<div class="row">
+<div class="col-12"> 
+	<div class="card login-card m-4 bg-secondary text-light">
+	  <div class="card-body">
+		  <h5 class="card-title">Login</h5>
+		  <form1>
+			<div class="form-group">
+			  <label for="usernameInput">Username</label>
+			  <input type="text" class="form-control" id="usernameInput" placeholder="Enter username">
+			</div>
+			<div class="form-group mt-2">
+			  <label for="passwordInput">Password</label>
+			  <input type="password" class="form-control" id="passwordInput" placeholder="Enter password">
+			</div>
+			<button type="submit" class="mt-4 btn btn-primary" data-nav="mob.home">Login</button>
+		  </form1>
+		</div>
+	  </div>  
+
+	<div class="card login-card m-4 bg-secondary text-light">
+	  <div class="card-body">
+		  <h5 class="card-title">Supported by</h5>
+		  <a href="https://www.emids.com/" target="_blank"><img style="width:100px" src="/static/img/emids-logo.png" class="me-3"></img></a>
+		  <!--<img style="width:145px" src="/static/img/iihmr_bangalore_logo.jpg"></img>-->
+		</div>
+	  </div>  
+
+  </div>
+</div>
+</div>
+
+</main>
+{% endblock %}	

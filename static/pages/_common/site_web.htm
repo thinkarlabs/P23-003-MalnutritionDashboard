@@ -1,0 +1,32 @@
+{% block header %}
+<div id='x-header'>
+	<nav class="navbar navbar-expand navbar-dark fixed-top bg-dark p-1">
+	  <div class="container-fluid">
+		<img src="https://www.asthrasoft.com/site/img/logo.png" style="height:25px"/>
+		<p class="navbar-brand my-0 ms-2">Think Nutrition</p>
+		
+		<div class="collapse navbar-collapse" id="navbarCollapse">
+		  <ul class="navbar-nav ms-auto">
+			<li class="nav-item">
+			  <!--<a class="nav-link active" aria-current="page" href="javascript:(function(w,h){var n=window,d=document,s=n.screen;function r(o){n.resizeTo(Number(w)+o,h);return n.innerWidth||d.body.clientWidth;}function c(t,u){return t>u?(t-u)>>1:0;}if(r(1)==r(0)){if(typeof p==&quot;undefined&quot;||p.closed){$(&quot;info&quot;).className=&quot;no_popup&quot;;p=n.open(n.location.href,&quot;resize_popup&quot;,&quot;menubar,toolbar,location,directories,status,resizable,titlebar,&quot;.split(&quot;,&quot;).join(&quot;=yes,&quot;)+&quot;,width=&quot;+w+&quot;,height=&quot;+h+&quot;,left=&quot;+c(s.width,w)+&quot;,top=&quot;+c(s.height,h));}else{p.focus();}p.resizeTo(w,h);n=p;}if(w>s.width||h>s.height){n.moveTo(0,0);}})(400, 600);">Mobile App</a>-->
+			  <a class="nav-link active" aria-current="page" href="#" onclick="launch('/static/mob_index.html','mobApp');return false;">Mobile App</a>
+			</li>
+		  </ul>
+		</div>
+	  </div>
+	</nav></div>
+{% endblock %}
+
+{% block main %}
+
+{% endblock %}
+
+{% block footer %}
+<footer class="navbar navbar-expand navbar-dark fixed-bottom bg-dark p-1" style="height:30px">
+  <div class="container-fluid1">
+	<p class="text-light mt-3">&copy; Powered by <a href="https://thinkar.org" class="text-light">Thinkar Foundation</a></p>
+  </div>
+</footer>
+{% endblock %}
+
+

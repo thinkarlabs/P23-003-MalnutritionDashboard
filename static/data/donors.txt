@@ -1,0 +1,26 @@
+{
+  "donors": [
+    {
+	  "donor_id": "01",
+	  "donor_name": "Supraja",
+	  "donor_contact": "Dr Kedar",
+	  "donor_email": "kedar@gmail.com",
+	  "donor_phoneno": "8876599485"
+	},
+    {
+	  "donor_id": "02",
+	  "donor_name": "JSW Foundation",
+	  "donor_contact": "Sumit Singhal",
+	  "donor_email": "sumit@jsw.org",
+	  "donor_phoneno": "8876599485"
+	},
+    {
+	  "donor_id": "03",
+	  "donor_name": "MYRADA",
+	  "donor_contact": "Prajwal K",
+	  "donor_email": "prajwal@myrada.org",
+	  "donor_phoneno": "8876599485"
+	}
+  ],
+  "empty": false
+}

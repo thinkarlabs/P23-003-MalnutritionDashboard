@@ -1,0 +1,52 @@
+{% extends "static/pages/_common/base_mob.htm" %}
+
+{% block body %}
+<main class="container-full">
+<div id='x-main' class="container-fluid mt-5 p-3">
+
+<div class="row">
+<h3 class="p-1">Spirulina Chiki Supplement Pack</h3>
+<div class="mb-1 col-6">
+  <label for="exampleFormControlInput1" class="form-label">Select Date</label>
+  <input class="form-control" type="date" value="" aria-label="...">
+</div>
+
+<div class="mb-1 col-6">
+  <label for="exampleFormControlInput1" class="form-label">Packs</label>
+  <input class="form-control" type="number" value="" aria-label="...">
+</div>
+
+<div class="col-12 mt-2">
+	<button class="bg-primary text-light float-end" data-nav="">Submit</button>
+	<button class="bg-primary text-light float-end me-2" data-nav="mob.home">Cancel</button>
+</div>
+<div class="my-2 col-12">
+
+<label for="exampleFormControlInput1" class="form-label">Supplement Schedule</label>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">Packs</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for item in schedule %}
+    <tr>
+      <td>{{item.schd_date}}</td>
+      <td class="col-4 align-self-end">{{item.schd_packs}}</td>
+    </tr>
+  {% endfor %} 	
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</main>
+{% endblock %}	
+
+{% block footer %}
+{% endblock %}	
