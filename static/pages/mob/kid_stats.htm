@@ -1,0 +1,71 @@
+{% extends "static/pages/_common/base_mob.htm" %}
+
+{% block body %}
+<main class="container-full">
+<div id='x-main' class="container-fluid mt-5 p-3">
+
+<label for="exampleFormControlInput1" class="form-label">Record Details for <b> Roshini K N (F, 3yr 4mo) </b></label>
+
+<div class="row">
+<div class="mb-1 col-6">
+  <label for="exampleFormControlInput1" class="form-label">Select Date</label>
+  <input class="form-control" type="date" value="" aria-label="...">
+</div>
+
+<div class="mb-1 col-6">
+  <label for="exampleFormControlInput1" class="form-label">Select Index</label>
+	<select id="level" class="form-select">
+	  <option selected>Index</option>
+	  <option value="L1">SAM</option>
+	  <option value="L1">MAM</option>
+	  <option value="L1">Normal</option>
+	</select>
+  
+</div>
+
+<div class="mb-1 col-6">
+  <label for="exampleFormControlInput1" class="form-label">Record Height (cms)</label>
+  <input class="form-control" type="number" value="" aria-label="...">
+</div>
+
+<div class="mb-1 col-6">
+  <label for="exampleFormControlInput1" class="form-label">Record Weight (kgs)</label>
+  <input class="form-control" type="number" value="" aria-label="...">
+</div>
+
+<div class="col-12 mt-2">
+	<button class="bg-primary text-light float-end" data-nav="">Submit</button>
+	<button class="bg-primary text-light float-end me-2" data-nav="mob.kids">Cancel</button>
+</div>
+
+<div class="my-2 col-12">
+
+<label for="exampleFormControlInput1" class="form-label">Health Record History</label>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">Stats</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for item in stats %}
+    <tr>
+      <td class="col-2 align-self-start">{{item.stat_date}}</td>
+      <td>{{item.stat_info}}</td>
+    </tr>
+  {% endfor %} 	
+  </tbody>
+</table>
+</div>
+
+</div>
+
+</div>
+
+</main>
+{% endblock %}	
+
+{% block footer %}
+{% endblock %}	

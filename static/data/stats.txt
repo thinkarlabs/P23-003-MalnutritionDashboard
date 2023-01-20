@@ -1,0 +1,20 @@
+{
+  "stats": [
+    {
+      "stat_id": "001",
+      "stat_date": "12/Jan/2023",
+      "stat_info": "137 cms, 12.4 kg [N]"
+    },
+    {
+      "stat_id": "001",
+      "stat_date": "16/Jan/2023",
+      "stat_info": "137 cms, 13.5 kg [M]"
+    },
+    {
+      "stat_id": "001",
+      "stat_date": "27/Jan/2023",
+      "stat_info": "138 cms, 13.8 kg [M]"
+    }
+  ],
+  "empty": false
+}
