@@ -1,0 +1,20 @@
+{
+  "supplements": [
+    {
+	  "supplement_id": "01",
+	  "supplement_name": "Spirulina Chikkis",
+	  "supplement_desc": "Spirulina is a super protein and helps in providing a variety of supplements to combat malnutrition"
+	},
+    {
+	  "supplement_id": "02",
+	  "supplement_name": "Spirulina Burfi",
+	  "supplement_desc": "Spirulina Burfi which also includes seasame seeds provides a strong benefit to malnourished kids."
+	},
+    {
+	  "supplement_id": "03",
+	  "supplement_name": "Fortified Mango Bars",
+	  "supplement_desc": "Mango bars fortified with additional micronutrients ensure that kids enjoy the in take."
+	}
+  ],
+  "empty": false
+}

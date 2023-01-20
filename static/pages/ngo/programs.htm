@@ -1,0 +1,48 @@
+{% extends "static/pages/_common/base_ngo.htm" %}
+
+{% block body %}
+<div id='x-main' class="container-full mt-5 p-3" style="min-height:550px">
+<div class="container-md">
+
+	<div class="row">
+	<div class="col-12 p-2">
+		<h3 class="float-start ps-2">Programs</h3>
+		<button type="button" class="btn btn-primary float-end mx-2" data-nav='ngo.program.new'><i class="bi bi-plus-square"></i></button>		
+	</div>
+	
+	<div id='x-challenges'>	
+		<table class="table table-striped" id="tbl_ch">
+		  <thead class="table-dark">
+			<tr>
+			  <th scope="col">Code</th>
+			  <th scope="col">Donor</th>
+			  <th scope="col">Supplement</th>
+			  <th scope="col">From</th>
+			  <th scope="col">To</th>
+			  <th scope="col">Notes</th>
+			  <th scope="col" class="text-center">Actions</th>
+			</tr>
+		  </thead>
+		  <tbody>
+		  {% for item in programs %}
+			<tr>
+			  <td>{{item.pg_code}}</td>
+			  <td>{{item.pg_donor}}</td>
+			  <td>{{item.pg_supp}}</td>
+			  <td>{{item.pg_from}}</td>
+			  <td>{{item.pg_to}}</td>
+			  <td class="col-3">{{item.pg_desc}}</td>
+			  <td class="col-2">
+				<button type="button" class="btn btn-primary float-end mx-2" data-nav='ngo.program.del'><i class="bi bi-trash"></i></button>		  
+				<button type="button" class="btn btn-primary float-end mx-2" data-nav='ngo.program.new'><i class="bi bi-pencil-square"></i></button>
+			  </td>
+			</tr>
+		  {% endfor %}
+		  </tbody>
+		</table>
+	</div>
+	</div>
+</div>	
+</div>
+{% endblock %}
+

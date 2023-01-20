@@ -1,0 +1,44 @@
+{% extends "static/pages/_common/base_mob.htm" %}
+
+{% block body %}
+<main class="container-full">
+<div id='x-main' class="container-fluid mt-5 p-0" style="min-height:500px">
+<div class="card rounded-3 shadow-sm" style="background-color:#afeeee">
+  <div class="card-header">
+	<h4 class="my-0 fw-normal">47 Children</h4>
+  </div>
+  <div class="card-body">
+	<h3 class="card-title pricing-card-title">3 <small class="text-muted fw-light">[SAM] <i class="bi bi-arrow-up-circle text-danger"></i> 1 </small></h3>
+	<h3 class="card-title pricing-card-title">12 <small class="text-muted fw-light">[MAM] <i class="bi bi-arrow-down-circle text-success"></i> 2 </small></h3>
+  </div>
+</div>
+
+<h3 class="p-2">Supplement Programs</h3>
+
+<table class="table table-hover">
+  <tbody>
+  {% for item in programs %}	
+    <tr style="cursor: pointer;" data-nav="mob.supplement">
+      <td>{{item.pg_supp}} supplement pack by {{item.pg_donor}} from {{item.pg_from}} to {{item.pg_to}}</td>
+    </tr>
+  {% endfor %} 	
+  </tbody>
+</table>
+</div>
+
+
+<div class="row fixed-bottom m-0">
+	<div class="col-8 p-0">
+		<input class="w-100" type="text" value="" aria-label="..." placeholder="Program Invite Code">
+	</div>
+	<div class="col-4 p-0">
+		<button class="w-100 bg-primary text-light" data-nav="">Join</button>
+	</div>
+</div>
+
+</main>
+{% endblock %}	
+
+
+{% block footer %}
+{% endblock %}	

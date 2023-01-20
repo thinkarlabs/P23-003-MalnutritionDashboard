@@ -1,0 +1,47 @@
+{% extends "static/pages/_common/base_admin.htm" %}
+
+{% block body %}
+<div id='x-main' class="container-full mt-5 p-3">
+
+<div class="container-md">
+<div id='x-contest' class="container-float">
+	<div class="row">
+
+	<h3 class="float-start">Manage Aanganwadi</h3>
+
+	<div class="col-12 my-2">
+	  <label for="exampleFormControlInput1">Aanganwadi Contact Person</label>
+	  <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="">
+	</div>
+
+	<div class="col-6 my-2">
+	  <label for="exampleFormControlInput1">Contact Phone</label>
+	  <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="">
+	</div>
+
+	<div class="col-6 my-2">
+	  <label for="exampleFormControlInput1">Password</label>
+	  <input type="password" class="form-control" id="exampleFormControlInput1" placeholder="">
+	</div>
+
+	<div class="col-6 my-2">
+	  <label for="exampleFormControlInput1">Location</label>
+	  <input type="password" class="form-control" id="exampleFormControlInput1" placeholder="">
+	</div>
+
+	<div class="col-6 my-2">
+	  <label for="exampleFormControlInput1">Latitude, Longitude Coordinates</label>
+	  <input type="password" class="form-control" id="exampleFormControlInput1" placeholder="">
+	</div>
+	
+<div class="row">
+<div class="col-12 p-2">
+	<button type="button" class="btn btn-primary float-end mx-2" data-nav="admin.angwadis">Save</button>		
+	<button type="button" class="btn btn-primary float-end mx-2" data-nav="admin.angwadis">Cancel</button>		
+</div>
+</div>
+
+</div>
+</div>
+</div>
+{% endblock %}
