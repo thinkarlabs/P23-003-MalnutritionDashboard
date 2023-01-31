@@ -6,22 +6,18 @@ The below are instructions to get started with the development of this project.
 2. Download an install git from https://github.com/git-for-windows/git/releases/download/v2.39.1.windows.1/Git-2.39.1-64-bit.exe
 3. Create an account at MongoDB Atlas at https://www.mongodb.com/atlas
 4. Run the following commands from command prompt in a local folder 1. Clone this repo by running  
-    `       git clone https://github.com/thinkarlabs/P23-003-MalnutritionDashboard.git
-   ` 2. Naviate to the folder
-   `       cd P23-001-RehabTracker
-   ` 3. Create an environment by running
-   `       py -m venv penv
-   ` 4. Activate the environment by running
-   `     .\penv\Scripts\activate
- 5. Install the required packages by running
-   `
-   pip install -r requirements.txt
-   `   6. Run the project using the following command
+    `      git clone https://github.com/thinkarlabs/P23-003-MalnutritionDashboard.git` 2. Naviate to the folder
+   `      cd P23-001-RehabTracker` 3. Create an environment by running
+   `      py -m venv penv` 4. Activate the environment by running
+   ` .\penv\Scripts\activate
+5. Install the required packages by running
+   `pip install -r requirements.txt` 6. Run the project using the following command
    `
    uvicorn main:app --reload --port 8000
-   ```
-   You should now be able to browse to the application from your browser using http://localhost:8000
-   ```
+
+```
+You should now be able to browse to the application from your browser using http://localhost:8000
+```
 
 You can use your favorite editor (VSCode) to edit and make changes. Please keep in mind that the repo has a main branch and a dev branch. The main branch is LOCKED and all changes have to be made on the dev branch.
 
@@ -73,7 +69,7 @@ We will review the same and merge it into the dev branch, after which you can do
 
 (When we accept a PR, we will delete the feature branch associated with it. It is recommended that you delete the same and create new feature branches for further work. For more info follow this blog post - https://dev.to/didof/git-github-made-simple-branching-and-pr-37l9)
 
-FrontEnd App setup and running process:
+#### FrontEnd App setup and running process:
 
 Run the following commands from command prompt in a local folder
 
