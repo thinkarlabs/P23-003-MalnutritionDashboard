@@ -1,0 +1,88 @@
+<template>
+  <div class="container-md mt-5 p-3">
+    <div id="x-contest" class="container-float">
+      <div class="row">
+        <h3 class="float-start">Manage NGO</h3>
+
+        <div class="col-12 my-2">
+          <label for="exampleFormControlInput1">NGO Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="exampleFormControlInput1"
+            placeholder=""
+          />
+        </div>
+
+        <div class="col-6 my-2">
+          <label for="exampleFormControlInput1">Contact Person Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="exampleFormControlInput1"
+            placeholder=""
+          />
+        </div>
+
+        <div class="col-6 my-2">
+          <label for="exampleFormControlInput1">Contact Person Phone</label>
+          <input
+            type="text"
+            class="form-control"
+            id="exampleFormControlInput1"
+            placeholder=""
+          />
+        </div>
+
+        <div class="col-6 my-2">
+          <label for="exampleFormControlInput1">Contact Person EMail</label>
+          <input
+            type="text"
+            class="form-control"
+            id="exampleFormControlInput1"
+            placeholder=""
+          />
+        </div>
+
+        <div class="col-6 my-2">
+          <label for="exampleFormControlInput1">Contact Person Password</label>
+          <input
+            type="password"
+            class="form-control"
+            id="exampleFormControlInput1"
+            placeholder=""
+          />
+        </div>
+
+        <div class="row">
+          <div class="col-12 p-2">
+            <button
+              type="button"
+              class="btn btn-primary float-end mx-2"
+              data-nav="admin.ngos"
+            >
+              Save
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary float-end mx-2"
+              data-nav="admin.ngos"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style>
+@media (min-width: 1024px) {
+  .about {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+}
+</style>
