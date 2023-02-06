@@ -15,11 +15,11 @@ def user_list_serializer(users) -> list:
 def ngo_serializer(newNgo) -> dict:
     return {
         "id": str(newNgo["_id"]),
-        "name": str(newNgo["name"]),
-        "email": str(newNgo["email"]),
-        "password": str(newNgo["email"]),
-        "location": str(newNgo["location"]),
-        "pincode": int(newNgo["pincode"])
+        "ngoName": str(newNgo["ngoName"]),
+        "contactPersonName": str(newNgo["contactPersonName"]),
+        "contactPersonEmail": str(newNgo["contactPersonEmail"]),
+        "contactPersonPassword": str(newNgo["contactPersonPassword"]),
+        "contactPersonPhone": int(newNgo["contactPersonPhone"])
     }
 
 

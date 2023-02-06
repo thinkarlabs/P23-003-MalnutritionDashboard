@@ -3,75 +3,88 @@
     <div id="x-contest" class="container-float">
       <div class="row">
         <h3 class="float-start">Manage NGO</h3>
-
-        <div class="col-12 my-2">
-          <label for="exampleFormControlInput1">NGO Name</label>
-          <input
-            type="text"
-            class="form-control"
-            id="exampleFormControlInput1"
-            placeholder=""
-          />
-        </div>
-
-        <div class="col-6 my-2">
-          <label for="exampleFormControlInput1">Contact Person Name</label>
-          <input
-            type="text"
-            class="form-control"
-            id="exampleFormControlInput1"
-            placeholder=""
-          />
-        </div>
-
-        <div class="col-6 my-2">
-          <label for="exampleFormControlInput1">Contact Person Phone</label>
-          <input
-            type="text"
-            class="form-control"
-            id="exampleFormControlInput1"
-            placeholder=""
-          />
-        </div>
-
-        <div class="col-6 my-2">
-          <label for="exampleFormControlInput1">Contact Person EMail</label>
-          <input
-            type="text"
-            class="form-control"
-            id="exampleFormControlInput1"
-            placeholder=""
-          />
-        </div>
-
-        <div class="col-6 my-2">
-          <label for="exampleFormControlInput1">Contact Person Password</label>
-          <input
-            type="password"
-            class="form-control"
-            id="exampleFormControlInput1"
-            placeholder=""
-          />
-        </div>
-
-        <div class="row">
-          <div class="col-12 p-2">
-            <button
-              type="button"
-              class="btn btn-primary float-end mx-2"
-              data-nav="admin.ngos"
-            >
-              Save
-            </button>
-            <button
-              type="button"
-              class="btn btn-primary float-end mx-2"
-              data-nav="admin.ngos"
-            >
-              Cancel
-            </button>
+        <form @submit.prevent="postNgo">
+          <div class="col-12 my-2">
+            <label for="exampleFormControlInput1">NGO Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="exampleFormControlInput1"
+              placeholder=""
+              v-model="newNgo.ngoName"
+            />
           </div>
-        </div>
+
+          <div class="col-6 my-2">
+            <label for="exampleFormControlInput1">Contact Person Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="exampleFormControlInput1"
+              placeholder=""
+              v-model="newNgo.contactPersonName"
+            />
+          </div>
+
+          <div class="col-6 my-2">
+            <label for="exampleFormControlInput1">Contact Person Phone</label>
+            <input
+              type="text"
+              class="form-control"
+              id="exampleFormControlInput1"
+              placeholder=""
+              v-model="newNgo.contactPersonPhone"
+            />
+          </div>
+
+          <div class="col-6 my-2">
+            <label for="exampleFormControlInput1">Contact Person Email</label>
+            <input
+              type="text"
+              class="form-control"
+              id="exampleFormControlInput1"
+              placeholder=""
+              v-model="newNgo.contactPersonEmail"
+            />
+          </div>
+
+          <div class="col-6 my-2">
+            <label for="exampleFormControlInput1"
+              >Contact Person Password</label
+            >
+            <input
+              type="password"
+              class="form-control"
+              id="exampleFormControlInput1"
+              placeholder=""
+              v-model="newNgo.contactPersonPassword"
+            />
+          </div>
+          <div class="row">
+            <div class="col-12 p-2">
+              <button
+                type="submit"
+                class="btn btn-primary float-end mx-2"
+                data-nav="admin.ngos"
+                @click="navigate"
+                role="link"
+              >
+                Save
+              </button>
+              <router-link to="/ngos" custom v-slot="{ navigate }">
+                <button
+                  type="button"
+                  class="btn btn-primary float-end mx-2"
+                  data-nav="admin.ngos"
+                  @click="navigate"
+                  role="link"
+                >
+                  Cancel
+                </button>
+              </router-link>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -86,3 +99,22 @@
   }
 }
 </style>
+
+<script setup>
+import { ref, onMounted, computed, reactive } from "vue";
+import { useNgoStore } from "../stores/ngo";
+import router from "../router";
+let newNgo = reactive({
+  ngoName: "",
+  contactPersonName: "",
+  contactPersonEmail: "",
+  contactPersonPhone: "",
+  contactPersonPassword: "",
+});
+const store = useNgoStore();
+
+const postNgo = () => {
+  store.postNgo(newNgo);
+  return router.push("/ngos");
+};
+</script>

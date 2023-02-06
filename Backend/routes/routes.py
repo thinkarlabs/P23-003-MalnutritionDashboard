@@ -58,28 +58,30 @@ async def read_item(username:str, password: Union[str, None] = None,user_type: U
 
 
 from Backend.model.model import Ngo
-from Backend.config.database import collection
+from Backend.config.database import Ngocollection
 from Backend.schemas.schema import ngo_addition_serializer
 from bson import ObjectId
 
 ngo_addition_router = APIRouter()
 
 
-@ngo_addition_router.post("/ngoAddition")
+@ngo_addition_router.post("/addNgo")
 async def ngo_addition(ngo: Ngo):
-    _id = collection.insert_one(dict(ngo))
-    added_Ngo = ngo_addition_serializer(collection.find({"_id": _id.inserted_id}))
+    _id = Ngocollection.insert_one(dict(ngo))
+    added_Ngo = ngo_addition_serializer(
+        Ngocollection.find({"_id": _id.inserted_id}))
     return {"status": "ok", "data": added_Ngo}
 
 
-@ngo_addition_router.get("/get_ngos")
+@ngo_addition_router.get("/getNgos")
 async def get_ngos():
-    ngos = ngo_addition_serializer(collection.find())
+    ngos = ngo_addition_serializer(Ngocollection.find())
     return {"status": "ok", "data": ngos}
 
 
 @ngo_addition_router.get(f"/{id}/get_ngo")
 async def get_ngo(id: str):
-    ngo = ngo_addition_serializer(collection.find({"_id": ObjectId(id)}))
+    ngo = ngo_addition_serializer(
+        Ngocollection.find({"_id": ObjectId(id)}))
     return {"status": "ok", "data": ngo}
 

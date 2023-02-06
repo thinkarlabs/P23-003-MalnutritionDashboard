@@ -24,17 +24,19 @@
                 <th scope="col">NGO Name</th>
                 <th scope="col">Contact Person</th>
                 <th scope="col">Contact EMail</th>
-                <th scope="col">Contact Phone No</th>
+                <th scope="col">Contact Password</th>
+                <th scope="col">Contact Phone</th>
                 <th scope="col" class="text-center">Actions</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <li v-for="item of items" :key="item.id">
-                  <td>{{ item.ngo_name }}</td>
-                  <td>{{ item.ngo_contact }}</td>
-                  <td>{{ item.ngo_email }}</td>
-                  <td>{{ item.ngo_phone }}</td>
+                <li v-for="item of ngos" :key="item.id">
+                  <td>{{ item.ngoName }}</td>
+                  <td>{{ item.contactPersonName }}</td>
+                  <td>{{ item.contactPersonEmail }}</td>
+                  <td>{{ item.contactPersonPassword }}</td>
+                  <td>{{ item.contactPersonPhone }}</td>
                   <td class="col-2">
                     <button
                       type="button"
@@ -46,7 +48,7 @@
                     <button
                       type="button"
                       class="btn btn-primary float-end mx-2"
-                      data-nav='admin.exercise.edit?memid="{{item.memid}}"'
+                      data-nav='admin.exercise.edit?memid="{{item.id}}"'
                     >
                       <i class="bi bi-pencil-square"></i>
                     </button>
@@ -60,43 +62,15 @@
     </div>
   </div>
 </template>
-<script>
-import { ref } from "vue";
+<script setup>
+import { onMounted, computed } from "vue";
+import { useNgoStore } from "../stores/ngo";
+const store = useNgoStore();
 
-export default {
-  name: "App",
-  setup() {
-    // make users variable reactive with the ref() function
-    const items = ref([
-      {
-        ngo_id: "01",
-        ngo_name: "Spirulina Foundation",
-        ngo_contact: "Mahesh N",
-        ngo_phone: "6754476326",
-        ngo_email: "mahesh.spirulina@gmail.com",
-        ngo_pwd: "pass",
-      },
-      {
-        ngo_id: "02",
-        ngo_name: "Antenna India",
-        ngo_contact: "Ramesh Sinha",
-        ngo_phone: "6754476326",
-        ngo_email: "ramesh.s6344@gmail.com",
-        ngo_pwd: "pass",
-      },
-      {
-        ngo_id: "03",
-        ngo_name: "Smile Foundation",
-        ngo_contact: "Unnati Baranwal",
-        ngo_phone: "6754476326",
-        ngo_email: "unnati@smilefoundationindia.org",
-        ngo_pwd: "pass",
-      },
-    ]);
-
-    return {
-      items,
-    };
-  },
-};
+const ngos = computed(() => {
+  return store.ngos.data;
+});
+onMounted(() => {
+  store.fetchNgos();
+});
 </script>
