@@ -9,7 +9,7 @@ from fastapi.responses import HTMLResponse, FileResponse, RedirectResponse
 
 from Backend.routes.routes import user_router
 
-from Backend.routes.routes import ngo_addition_router
+from Backend.routes.routes import ngo_router
 
 # from fastapi.templating import Jinja2Templates
 
@@ -21,7 +21,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["http://localhost:5173", "http://localhost:5173/"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -33,7 +33,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 app.include_router(user_router)
 
 
-app.include_router(ngo_addition_router)
+app.include_router(ngo_router)
 
 # app_templates = Jinja2Templates(directory="templates")
 

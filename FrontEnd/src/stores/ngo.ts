@@ -30,6 +30,19 @@ export const useNgoStore = defineStore("ngo", {
             alert(error)
             console.log(error)
         }
+      },
+      async deleteNgo(id) {
+        try {
+          debugger;
+          await axios.delete('http://127.0.0.1:7000/delete_ngo/' + id).then(() => {
+            this.fetchNgos();
+          })
+          
+          }
+          catch (error) {
+            alert(error)
+            console.log(error)
+        }
       }
     },
 })
