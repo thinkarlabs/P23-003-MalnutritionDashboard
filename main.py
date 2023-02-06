@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, Request, Form, Depends
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, FileResponse, RedirectResponse
+from Backend.routes.routes import user_addition_router
 #from fastapi.templating import Jinja2Templates
 
 from pymongo import MongoClient
@@ -12,6 +13,7 @@ load_dotenv()
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
+app.include_router(user_addition_router)
 #app_templates = Jinja2Templates(directory="templates")
 
 CONNECTION_STRING = os.getenv('CONNECTION_STRING')
