@@ -5,24 +5,24 @@ def user_serializer(newUser) -> dict:
         "id": str(newUser["_id"]),
         "username": str(newUser["username"]),
         "password": str(newUser["password"]),
-        "user_type": str(newUser["user_type"]
+        "user_type": str(newUser["user_type"])
     }
+    
 def user_list_serializer(users) -> list:
     return [user_serializer(newUser) for newUser in users]
-
 
 
 def ngo_serializer(newNgo) -> dict:
     return {
         "id": str(newNgo["_id"]),
-        "name": str(newNgo["name"]),
-        "email": str(newNgo["email"]),
-        "password": str(newNgo["email"]),
-        "location": str(newNgo["location"]),
-        "pincode": int(newNgo["pincode"])
+        "ngoName": str(newNgo["ngoName"]),
+        "contactPersonName": str(newNgo["contactPersonName"]),
+        "contactPersonEmail": str(newNgo["contactPersonEmail"]),
+        "contactPersonPassword": str(newNgo["contactPersonPassword"]),
+        "contactPersonPhone": int(newNgo["contactPersonPhone"])
     }
 
 
-def ngo_addition_serializer(ngos) -> list:
-    return [ngo_serializer(newNgo) for newNgo in ngos]
+def ngo_list_serializer(ngos) -> list:
+    return [ngo_serializer(ngo) for ngo in ngos]
 
