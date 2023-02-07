@@ -63,7 +63,9 @@
 <script setup>
 import { onMounted, computed } from "vue";
 import { useNgoStore } from "../stores/ngo";
+import swal from "sweetalert";
 import router from "../router";
+
 const store = useNgoStore();
 
 const ngos = computed(() => {
@@ -73,8 +75,21 @@ const isNgoAvailable = computed(() => {
   return store.ngos?.data?.length > 0;
 });
 const deleteNgo = (id) => {
-  store.deleteNgo(id);
-  this.ngos = store.fetchNgos();
+  swal({
+    title: "Are you sure?",
+    text: "Once deleted, you will not be able to recover this Ngo!",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  }).then((willDelete) => {
+    if (willDelete) {
+      store.deleteNgo(id);
+      swal("Poof! Ngo has been deleted!", {
+        icon: "success",
+      });
+      ngos.value = store.fetchNgos();
+    }
+  });
 };
 onMounted(() => {
   store.fetchNgos();
