@@ -11,12 +11,12 @@ user_router = APIRouter()
 @user_router.post("/userAddition")
 async def user_addition(user: User):
     _id = collection.insert_one(dict(user))
-    added_User = user_addition_serializer(collection.find({"_id": _id.inserted_id}))
+    added_User = user_list_serializer(collection.find({"_id": _id.inserted_id}))
     return {"status": "ok", "data": added_User}
 
 @user_router.get("/get_users")
 async def get_users():
-    users = user_addition_serializer(collection.find())
+    users = user_list_serializer(collection.find())
     return {"status": "ok", "data": users}
 
 
