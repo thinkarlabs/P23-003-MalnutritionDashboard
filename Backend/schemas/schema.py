@@ -5,13 +5,12 @@ def user_serializer(newUser) -> dict:
         "id": str(newUser["_id"]),
         "username": str(newUser["username"]),
         "password": str(newUser["password"]),
-        "user_type": str(newUser["user_type"])
-
+        "user_type": str(newUser["user_type"]
     }
-
-
 def user_addition_serializer(users) -> list:
     return [user_serializer(newUser) for newUser in users]
+
+
 
 def ngo_serializer(newNgo) -> dict:
     return {
