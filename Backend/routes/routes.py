@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+
 from Backend.model.model import User
 from Backend.config.database import collection, db
 from Backend.schemas.schema import user_addition_serializer

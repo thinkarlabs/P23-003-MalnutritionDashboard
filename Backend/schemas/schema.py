@@ -1,3 +1,4 @@
+
 def user_serializer(newUser) -> dict:
     return {
         "id": str(newUser["_id"]),
