@@ -24,7 +24,7 @@ async def get_users():
 
 @user_addition_router.get(f"/{id}/get_user")
 async def get_user(id: str):
-    user = user_addition_serializer(collection.find({"_id": ObjectId(id)}))
+    user = user_list_serializer(collection.find({"_id": ObjectId(id)}))
     return {"status": "ok", "data": user}
 
 def Validate_User_Object(email,password,user_type):
