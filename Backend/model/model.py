@@ -7,7 +7,7 @@ class User(BaseModel):
    user_type: str
 
 
-class Ngo(BaseModel):class Ngo(BaseModel):
+class Ngo(BaseModel):
     ngoName: str
     contactPersonName: str
     contactPersonEmail: str

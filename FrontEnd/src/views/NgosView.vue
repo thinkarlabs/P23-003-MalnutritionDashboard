@@ -84,7 +84,7 @@ const deleteNgo = (id) => {
   }).then((willDelete) => {
     if (willDelete) {
       store.deleteNgo(id);
-      swal("Poof! Ngo has been deleted!", {
+      swal("Ngo has been deleted!", {
         icon: "success",
       });
       ngos.value = store.fetchNgos();

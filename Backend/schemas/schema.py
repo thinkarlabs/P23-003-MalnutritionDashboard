@@ -5,7 +5,7 @@ def user_serializer(newUser) -> dict:
         "id": str(newUser["_id"]),
         "username": str(newUser["username"]),
         "password": str(newUser["password"]),
-        "user_type": str(newUser["user_type"]
+        "user_type": str(newUser["user_type"])
     }
     
 def user_list_serializer(users) -> list:
