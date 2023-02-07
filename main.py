@@ -6,7 +6,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, FileResponse, RedirectResponse
 
 
-from Backend.routes.routes import user_addition_router
+from Backend.routes.routes import user_router
 
 from Backend.routes.routes import ngo_addition_router
 
@@ -20,7 +20,7 @@ app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
-app.include_router(user_addition_router)
+app.include_router(user_router)
 
 
 app.include_router(ngo_addition_router)
