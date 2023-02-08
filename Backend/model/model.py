@@ -14,3 +14,8 @@ class Ngo(BaseModel):
     contactPersonPhone: int
     contactPersonPassword: str
 
+class Donor(BaseModel):
+    name: str
+    contactperson: str
+    email: str
+    phone: int
