@@ -21,23 +21,24 @@ class Ngo(BaseModel):
         for i in ngoName:
             if i.isalpha():
                 continue
+            elif i == ' ':
+                continue
             else:
                 raise ValueError("not accepted")
 
     @validator("contactPersonName")
     def name_validation(cls, contactPersonName):
-        if ' ' not in contactPersonName:
-            raise ValueError('must contain a space')
-
         for i in contactPersonName:
             if i.isalpha():
+                continue
+            elif i == ' ':
                 continue
             else:
                 raise ValueError("only alphabet acceptable")
         return contactPersonName.title()
 
     @validator("contactPersonPhone")
-    def phon_number_validation(cls, contactPersonPhone):
+    def phone_number_validation(cls, contactPersonPhone):
         if not len(str(contactPersonPhone)) == 10:
             raise ValueError("This field should not be empty, and should not be less or greater than 10 digit")
 
