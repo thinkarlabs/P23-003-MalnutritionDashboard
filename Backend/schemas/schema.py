@@ -1,5 +1,3 @@
-
-
 def user_serializer(newUser) -> dict:
     return {
         "id": str(newUser["_id"]),
@@ -7,7 +5,8 @@ def user_serializer(newUser) -> dict:
         "password": str(newUser["password"]),
         "user_type": str(newUser["user_type"])
     }
-    
+
+
 def user_list_serializer(users) -> list:
     return [user_serializer(newUser) for newUser in users]
 
@@ -19,7 +18,9 @@ def ngo_serializer(newNgo) -> dict:
         "contactPersonName": str(newNgo["contactPersonName"]),
         "contactPersonEmail": str(newNgo["contactPersonEmail"]),
         "contactPersonPassword": str(newNgo["contactPersonPassword"]),
-        "contactPersonPhone": int(newNgo["contactPersonPhone"])
+        "contactPersonPhone": int(newNgo["contactPersonPhone"]),
+        "location": str(newNgo["location"]),
+        "pincode": int(newNgo["pincode"])
     }
 
 

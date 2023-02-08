@@ -7,7 +7,6 @@ from typing import Union
 from bson import ObjectId
 from fastapi import HTTPException
 
-
 user_router = APIRouter()
 
 @user_router.post("/userAddition")
@@ -35,14 +34,14 @@ def Validate_User_Object(email,password,user_type):
     return valid
 
 @user_router.get("/isvaliduser")
-async def read_item(username:str, password: Union[str, None] = None,user_type: Union[str, None] = None):
-    valid = Validate_User_Object (username,password,user_type)
+async def read_item(username: str, password: Union[str, None] = None, user_type: Union[str, None] = None):
+    valid = Validate_User_Object(username, password, user_type)
     if valid == 0:
         raise HTTPException(status_code=404, detail="user not found")
-        #return {"response":"Invalid username or password"}
+        # return {"response":"Invalid username or password"}
     else:
         raise HTTPException(status_code=200, detail="Successful login")
-        #return {"response":"Successful login"}
+        # return {"response":"Successful login"}
 
 
 ngo_router = APIRouter()
