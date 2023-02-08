@@ -7,14 +7,16 @@ from typing import Union
 from bson import ObjectId
 from fastapi import HTTPException
 
-
 user_router = APIRouter()
+ngo_router = APIRouter()
+
 
 @user_router.post("/userAddition")
 async def user_addition(user: User):
     _id = UserCollection.insert_one(dict(user))
     added_User = user_list_serializer(UserCollection.find({"_id": _id.inserted_id}))
     return {"status": "ok", "data": added_User}
+
 
 @user_router.get("/get_users")
 async def get_users():
@@ -27,25 +29,24 @@ async def get_user(id: str):
     user = user_list_serializer(UserCollection.find({"_id": ObjectId(id)}))
     return {"status": "ok", "data": user}
 
-def Validate_User_Object(email,password,user_type):
+
+def Validate_User_Object(email, password, user_type):
     valid = 0
     for user in UserCollection.find():
-        if ((user['username'] == email) & (user['password'] == password ) & (user['user_type'] == user_type)):
+        if (user['username'] == email) & (user['password'] == password) & (user['user_type'] == user_type):
             valid = 1
     return valid
 
+
 @user_router.get("/isvaliduser")
-async def read_item(username:str, password: Union[str, None] = None,user_type: Union[str, None] = None):
-    valid = Validate_User_Object (username,password,user_type)
+async def read_item(username: str, password: Union[str, None] = None, user_type: Union[str, None] = None):
+    valid = Validate_User_Object(username, password, user_type)
     if valid == 0:
         raise HTTPException(status_code=404, detail="user not found")
-        #return {"response":"Invalid username or password"}
+        # return {"response":"Invalid username or password"}
     else:
         raise HTTPException(status_code=200, detail="Successful login")
-        #return {"response":"Successful login"}
-
-
-ngo_router = APIRouter()
+        # return {"response":"Successful login"}
 
 
 @ngo_router.post("/addNgo")
