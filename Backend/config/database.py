@@ -8,3 +8,4 @@ NgoCollection = db["Ngo"]
 UserCollection = db["User"]
 DonorsCollection = db["donors"]
 
+AanganwadiCollection = db["Aanganwadi"]

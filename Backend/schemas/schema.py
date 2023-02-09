@@ -27,6 +27,7 @@ def ngo_serializer(newNgo) -> dict:
 def ngo_list_serializer(ngos) -> list:
     return [ngo_serializer(ngo) for ngo in ngos]
 
+
 def donor_serializer(newdonor) -> dict:
     return {
         "id": str(newdonor["_id"]),
@@ -39,3 +40,20 @@ def donor_serializer(newdonor) -> dict:
 
 def donors_list_serializer(donors) -> list:
     return [donor_serializer(donor) for donor in donors]
+
+
+def aanganwadi_serializer(newAanganwadi) -> dict:
+    return {
+        "id": str(newAanganwadi["_id"]),
+        "aanganwadiName": str(newAanganwadi["aanganwadiName"]),
+        "contactPersonName": str(newAanganwadi["contactPersonName"]),
+        "contactPersonEmail": str(newAanganwadi["contactPersonEmail"]),
+        "contactPersonPassword": str(newAanganwadi["contactPersonPassword"]),
+        "contactPersonPhone": int(newAanganwadi["contactPersonPhone"]),
+        "taluka": str(newAanganwadi["taluka"]),
+        "pincode": int(newAanganwadi["pincode"])
+    }
+
+
+def aanganwadi_list_serializer(aanganwadis) -> list:
+    return [aanganwadi_serializer(aanganwadi) for aanganwadi in aanganwadis]

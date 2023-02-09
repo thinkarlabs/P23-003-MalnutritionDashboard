@@ -60,6 +60,17 @@ class Ngo(BaseModel):
             raise ValueError("This field should not be empty, less or greater than 6 digit")
         return pincode
 
+
+class Aanganwadi(BaseModel):
+    aanganwadiName: str
+    contactPersonName: str
+    contactPersonEmail: EmailStr
+    contactPersonPhone: int
+    contactPersonPassword: str
+    taluka: str
+    pincode: int
+
+
 class Donor(BaseModel):
     name: str
     contactperson: str

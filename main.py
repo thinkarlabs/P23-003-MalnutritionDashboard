@@ -9,7 +9,7 @@ from fastapi.responses import HTMLResponse, FileResponse, RedirectResponse
 
 from Backend.routes.routes import user_router
 
-from Backend.routes.routes import ngo_router
+from Backend.routes.routes import ngo_router, aanganwadi_router
 from Backend.routes.routes import donor_router
 
 # from fastapi.templating import Jinja2Templates
@@ -36,6 +36,9 @@ app.include_router(user_router)
 
 app.include_router(ngo_router)
 app.include_router(donor_router)
+
+app.include_router(aanganwadi_router)
+
 # app_templates = Jinja2Templates(directory="templates")
 
 CONNECTION_STRING = os.getenv('CONNECTION_STRING')
