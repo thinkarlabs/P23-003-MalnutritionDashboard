@@ -16,13 +16,6 @@ class Ngo(BaseModel):
     location: str
     pincode: int
 
-
-class Donor(BaseModel):
-    name: str
-    contactperson: str
-    email: str
-    phone: int
-
     @validator("ngoName")
     def val(cls, ngoName):
         for i in ngoName:
@@ -67,3 +60,8 @@ class Donor(BaseModel):
             raise ValueError("This field should not be empty, less or greater than 6 digit")
         return pincode
 
+class Donor(BaseModel):
+    name: str
+    contactperson: str
+    email: emailstr
+    phone: int
