@@ -1,15 +1,17 @@
 from argparse import OPTIONAL
-from fastapi import APIRouter,Body
-from Backend.model.model import Ngo, User, Donor
-from Backend.config.database import NgoCollection, UserCollection
+from fastapi import APIRouter, Body
+from Backend.model.model import Ngo, User, Donor, Aanganwadi
+from Backend.config.database import NgoCollection, UserCollection, AanganwadiCollection
 from Backend.config.database import DonorsCollection
 from Backend.schemas.schema import ngo_list_serializer, user_list_serializer, donors_list_serializer
+from Backend.schemas.schema import aanganwadi_list_serializer
 from typing import Union
 from bson import ObjectId
 from fastapi import HTTPException
 
 user_router = APIRouter()
 ngo_router = APIRouter()
+aanganwadi_router = APIRouter()
 
 
 @user_router.post("/userAddition")
@@ -76,6 +78,7 @@ async def delete_ngo(id: str):
     NgoCollection.find_one_and_delete({"_id": ObjectId(id)})
     return {"status": "ok", "data": []}
 
+
 donor_router = APIRouter()
 
 
@@ -88,7 +91,7 @@ async def create_donor(donor: Donor):
 
 @donor_router.get("/getdonors")
 async def get_donors():
-    donors = donors_list_serializer(donors.find())
+    donors = donors_list_serializer(DonorsCollection.find())
     return {"status": "ok", "data": donors}
 
 
@@ -103,7 +106,43 @@ async def delete_donor(id: str):
     DonorsCollection.find_one_and_delete({"_id": ObjectId(id)})
     return {"status": "ok", "data": []}
 
+
 @donor_router.put("/donors/{donor_id}")
 async def update_donor(donor_id: str, donor: Donor):
     result = DonorsCollection.update_one({"_id": donor_id}, {"$set": donor.dict()})
     return {"updated": result.modified_count}
+
+
+@aanganwadi_router.post("/addAanganwadi")
+async def aanganwadi_addition(aanganwadi: Aanganwadi):
+    _id = AanganwadiCollection.insert_one(dict(aanganwadi))
+    added_Aanganwadi = aanganwadi_list_serializer(
+        AanganwadiCollection.find({"_id": _id.inserted_id}))
+    return {"status": "ok", "data": added_Aanganwadi}
+
+
+@aanganwadi_router.get("/getAanganwadis")
+async def get_aanganwadis():
+    aanganwadis = aanganwadi_list_serializer(AanganwadiCollection.find())
+    return {"status": "ok", "data": aanganwadis}
+
+
+@aanganwadi_router.get(f"/{id}/get_aanganwadi")
+async def get_aanganwadi(id: str):
+    aanganwadi = aanganwadi_list_serializer(
+        AanganwadiCollection.find({"_id": ObjectId(id)}))
+    return {"status": "ok", "data": aanganwadi}
+
+
+@aanganwadi_router.put("/updateAanganwadi")
+async def update_aanganwadi(id: str, aanganwadi: Aanganwadi):
+    AanganwadiCollection.find_one_and_update({"_id": ObjectId(id)},
+                                             {"$set": dict(aanganwadi)})
+    aanganwadi = aanganwadi_list_serializer(AanganwadiCollection.find({"_id": ObjectId(id)}))
+    return {"status": "ok", "data": aanganwadi}
+
+
+@aanganwadi_router.delete("/delete_aanganwadi/{id}")
+async def delete_aanganwadi(id: str):
+    AanganwadiCollection.find_one_and_delete({"_id": ObjectId(id)})
+    return {"status": "ok", "data": []}
