@@ -63,5 +63,5 @@ class Ngo(BaseModel):
 class Donor(BaseModel):
     name: str
     contactperson: str
-    email: emailstr
+    email: EmailStr
     phone: int
