@@ -59,3 +59,9 @@ class Ngo(BaseModel):
         if not len(str(pincode)) == 6:
             raise ValueError("This field should not be empty, less or greater than 6 digit")
         return pincode
+
+class Donor(BaseModel):
+    name: str
+    contactperson: str
+    email: EmailStr
+    phone: int

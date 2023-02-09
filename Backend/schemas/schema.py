@@ -27,3 +27,15 @@ def ngo_serializer(newNgo) -> dict:
 def ngo_list_serializer(ngos) -> list:
     return [ngo_serializer(ngo) for ngo in ngos]
 
+def donor_serializer(newdonor) -> dict:
+    return {
+        "id": str(newdonor["_id"]),
+        "name": str(newdonor["name"]),
+        "contactperson": str(newdonor["contactperson"]),
+        "email": str(newdonor["email"]),
+        "phone": int(newdonor["phone"])
+    }
+
+
+def donors_list_serializer(donors) -> list:
+    return [donor_serializer(donor) for donor in donors]

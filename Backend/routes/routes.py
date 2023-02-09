@@ -1,8 +1,9 @@
 from argparse import OPTIONAL
-from fastapi import APIRouter
-from Backend.model.model import Ngo, User
+from fastapi import APIRouter,Body
+from Backend.model.model import Ngo, User, Donor
 from Backend.config.database import NgoCollection, UserCollection
-from Backend.schemas.schema import ngo_list_serializer, user_list_serializer
+from Backend.config.database import DonorsCollection
+from Backend.schemas.schema import ngo_list_serializer, user_list_serializer, donors_list_serializer
 from typing import Union
 from bson import ObjectId
 from fastapi import HTTPException
@@ -74,3 +75,35 @@ async def get_ngo(id: str):
 async def delete_ngo(id: str):
     NgoCollection.find_one_and_delete({"_id": ObjectId(id)})
     return {"status": "ok", "data": []}
+
+donor_router = APIRouter()
+
+
+@donor_router.post("/donors")
+async def create_donor(donor: Donor):
+    _id = DonorsCollection.insert_one(dict(donor))
+    donor = donors_list_serializer(DonorsCollection.find({"id": _id.inserted_id}))
+    return {"status": "ok", "data": donor}
+
+
+@donor_router.get("/getdonors")
+async def get_donors():
+    donors = donors_list_serializer(donors.find())
+    return {"status": "ok", "data": donors}
+
+
+@donor_router.get(f"/{id}/get_donor")
+async def get_donor(id: str):
+    donor = donors_list_serializer(DonorsCollection.find({"_id": ObjectId(id)}))
+    return {"status": "ok", "data": donor}
+
+
+@donor_router.delete("/delete_donor/{id}")
+async def delete_donor(id: str):
+    DonorsCollection.find_one_and_delete({"_id": ObjectId(id)})
+    return {"status": "ok", "data": []}
+
+@donor_router.put("/donors/{donor_id}")
+async def update_donor(donor_id: str, donor: Donor):
+    result = DonorsCollection.update_one({"_id": donor_id}, {"$set": donor.dict()})
+    return {"updated": result.modified_count}
