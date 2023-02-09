@@ -6,6 +6,5 @@ client = MongoClient("mongodb+srv://username:password@cluster0.cythueh.mongodb.n
 db = client.Malnutrition
 NgoCollection = db["Ngo"]
 UserCollection = db["User"]
-db =client["ngo_login"]
 DonorsCollection = db["donors"]
 
