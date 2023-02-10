@@ -18,9 +18,9 @@ def ngo_serializer(newNgo) -> dict:
         "contactPersonName": str(newNgo["contactPersonName"]),
         "contactPersonEmail": str(newNgo["contactPersonEmail"]),
         "contactPersonPassword": str(newNgo["contactPersonPassword"]),
-        "contactPersonPhone": int(newNgo["contactPersonPhone"]),
+        "contactPersonPhone": str(newNgo["contactPersonPhone"]),
         "location": str(newNgo["location"]),
-        "pincode": int(newNgo["pincode"])
+        "pincode": str(newNgo["pincode"])
     }
 
 

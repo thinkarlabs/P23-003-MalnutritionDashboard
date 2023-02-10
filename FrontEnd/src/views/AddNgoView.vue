@@ -60,6 +60,26 @@
               v-model="newNgo.contactPersonPassword"
             />
           </div>
+          <div class="col-6 my-2">
+            <label for="exampleFormControlInput1">Location</label>
+            <input
+              type="password"
+              class="form-control"
+              id="exampleFormControlInput1"
+              placeholder=""
+              v-model="newNgo.location"
+            />
+          </div>
+          <div class="col-6 my-2">
+            <label for="exampleFormControlInput1">Pincode</label>
+            <input
+              type="password"
+              class="form-control"
+              id="exampleFormControlInput1"
+              placeholder=""
+              v-model="newNgo.pincode"
+            />
+          </div>
           <div class="row">
             <div class="col-12 p-2">
               <button
@@ -108,8 +128,10 @@ let newNgo = reactive({
   ngoName: "",
   contactPersonName: "",
   contactPersonEmail: "",
-  contactPersonPhone: "",
+  contactPersonPhone: 0,
   contactPersonPassword: "",
+  location: "",
+  pincode: 0,
 });
 const store = useNgoStore();
 

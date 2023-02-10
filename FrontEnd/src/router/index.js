@@ -3,7 +3,8 @@ import DashboardView from "../views/DashboardView.vue";
 import PageNotFound from "@/views/PageNotFoundView.vue";
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  //history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory("/"),
   routes: [
     {
       path: "/",

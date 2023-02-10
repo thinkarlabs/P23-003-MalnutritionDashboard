@@ -14,10 +14,11 @@ ngo_router = APIRouter()
 aanganwadi_router = APIRouter()
 
 
-@user_router.post("/userAddition")
-async def user_addition(user: User):
+@user_router.post("/create_user")
+async def create_user(user: User):
     _id = UserCollection.insert_one(dict(user))
-    added_User = user_list_serializer(UserCollection.find({"_id": _id.inserted_id}))
+    added_User = user_list_serializer(
+        UserCollection.find({"_id": _id.inserted_id}))
     return {"status": "ok", "data": added_User}
 
 
@@ -52,8 +53,8 @@ async def read_item(username: str, password: Union[str, None] = None, user_type:
         # return {"response":"Successful login"}
 
 
-@ngo_router.post("/addNgo")
-async def ngo_addition(ngo: Ngo):
+@ngo_router.post("/create_ngo")
+async def create_ngo(ngo: Ngo):
     _id = NgoCollection.insert_one(dict(ngo))
     added_Ngo = ngo_list_serializer(
         NgoCollection.find({"_id": _id.inserted_id}))
@@ -79,13 +80,20 @@ async def delete_ngo(id: str):
     return {"status": "ok", "data": []}
 
 
+@ngo_router.put("/ngos/{ngo_id}")
+async def update_ngo(ngo_id: str, ngo: Ngo):
+    result = NgoCollection.update_one({"_id": ngo_id}, {"$set": ngo.dict()})
+    return {"updated": result.modified_count}
+
+
 donor_router = APIRouter()
 
 
 @donor_router.post("/donors")
 async def create_donor(donor: Donor):
     _id = DonorsCollection.insert_one(dict(donor))
-    donor = donors_list_serializer(DonorsCollection.find({"id": _id.inserted_id}))
+    donor = donors_list_serializer(
+        DonorsCollection.find({"id": _id.inserted_id}))
     return {"status": "ok", "data": donor}
 
 
@@ -97,7 +105,8 @@ async def get_donors():
 
 @donor_router.get(f"/{id}/get_donor")
 async def get_donor(id: str):
-    donor = donors_list_serializer(DonorsCollection.find({"_id": ObjectId(id)}))
+    donor = donors_list_serializer(
+        DonorsCollection.find({"_id": ObjectId(id)}))
     return {"status": "ok", "data": donor}
 
 
@@ -109,7 +118,8 @@ async def delete_donor(id: str):
 
 @donor_router.put("/donors/{donor_id}")
 async def update_donor(donor_id: str, donor: Donor):
-    result = DonorsCollection.update_one({"_id": donor_id}, {"$set": donor.dict()})
+    result = DonorsCollection.update_one(
+        {"_id": donor_id}, {"$set": donor.dict()})
     return {"updated": result.modified_count}
 
 
@@ -138,7 +148,8 @@ async def get_aanganwadi(id: str):
 async def update_aanganwadi(id: str, aanganwadi: Aanganwadi):
     AanganwadiCollection.find_one_and_update({"_id": ObjectId(id)},
                                              {"$set": dict(aanganwadi)})
-    aanganwadi = aanganwadi_list_serializer(AanganwadiCollection.find({"_id": ObjectId(id)}))
+    aanganwadi = aanganwadi_list_serializer(
+        AanganwadiCollection.find({"_id": ObjectId(id)}))
     return {"status": "ok", "data": aanganwadi}
 
 

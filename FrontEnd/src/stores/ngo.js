@@ -23,7 +23,7 @@ export const useNgoStore = defineStore("ngo", {
     },
     async postNgo(newNgo) {
       try {
-        await axios.post("http://127.0.0.1:7000/addNgo", newNgo);
+        await axios.post("http://127.0.0.1:7000/create_ngo", newNgo);
       } catch (error) {
         alert(error);
         console.log(error);

@@ -3,3 +3,4 @@ python-multipart
 pymongo[srv]
 fastapi
 uvicorn
+pydantic[email]
