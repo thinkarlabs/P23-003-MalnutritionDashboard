@@ -25,6 +25,7 @@ class Ngo(BaseModel):
                 continue
             else:
                 raise ValueError("not accepted")
+        return ngoName
 
     @validator("contactPersonName")
     def name_validation(cls, contactPersonName):
@@ -39,9 +40,10 @@ class Ngo(BaseModel):
 
     @validator("contactPersonPhone")
     def phone_number_validation(cls, contactPersonPhone):
-        if not len(str(contactPersonPhone)) == 10:
+        if not len(contactPersonPhone) == 10:
             raise ValueError(
                 "This field should not be empty, and should not be less or greater than 10 digit")
+        return contactPersonPhone
 
     @validator("contactPersonPassword")
     def passsowrd_validation(cls, contactPersonPassword):
@@ -57,7 +59,7 @@ class Ngo(BaseModel):
 
     @validator("pincode")
     def pincode_validation(cls, pincode):
-        if not len(str(pincode)) == 6:
+        if not len(pincode) == 6:
             raise ValueError(
                 "This field should not be empty, less or greater than 6 digit")
         return pincode

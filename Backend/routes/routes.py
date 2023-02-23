@@ -67,7 +67,7 @@ async def get_ngos():
     return {"status": "ok", "data": ngos}
 
 
-@ngo_router.get(f"/{id}/get_ngo")
+@ngo_router.get("/get_ngo/{id}")
 async def get_ngo(id: str):
     ngo = ngo_list_serializer(
         NgoCollection.find({"_id": ObjectId(id)}))
