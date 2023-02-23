@@ -29,7 +29,7 @@ def test_create_ngo_with_wrong_phone_number():
         "location": "string",
         "pincode": "784115"
     })
-    assert response.status_code == 200
+    assert response.status_code == 422
 
 
 def test_create_ngo_with_wrong_url():
@@ -42,7 +42,7 @@ def test_create_ngo_with_wrong_url():
         "location": "string",
         "pincode": "784115"
     })
-    assert response.status_code == 200
+    assert response.status_code == 404
 
 
 def test_getNgos():
@@ -76,7 +76,7 @@ def test_Wrong_updateNgo():
         "contactPersonPassword": "string",
         "location": "string",
         "pincode": "7841156"})
-    assert response.status_code == 200
+    assert response.status_code == 422
 
 
 def test_deleteNgo():
