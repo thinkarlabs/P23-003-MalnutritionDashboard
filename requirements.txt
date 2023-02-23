@@ -4,3 +4,4 @@ pymongo[srv]
 fastapi
 uvicorn
 pydantic[email]
+pytest
