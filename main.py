@@ -11,7 +11,7 @@ from Backend.routes.routes import user_router
 
 from Backend.routes.routes import ngo_router, aanganwadi_router
 from Backend.routes.routes import donor_router
-
+from app.routes.routes import sign_router
 # from fastapi.templating import Jinja2Templates
 
 from pymongo import MongoClient
@@ -34,7 +34,7 @@ app.add_middleware(
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-
+app.include_router(sign_router)
 app.include_router(user_router)
 
 
