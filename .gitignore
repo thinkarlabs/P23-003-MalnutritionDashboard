@@ -4,3 +4,4 @@ penv
 .vs
 .vscode
 .vscode/*
+.idea
