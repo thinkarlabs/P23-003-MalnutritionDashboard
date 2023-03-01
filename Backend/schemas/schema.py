@@ -57,3 +57,18 @@ def aanganwadi_serializer(newAanganwadi) -> dict:
 
 def aanganwadi_list_serializer(aanganwadis) -> list:
     return [aanganwadi_serializer(aanganwadi) for aanganwadi in aanganwadis]
+
+
+def child_serializer(newChild) -> dict:
+    return {
+        "id": str(newChild["_id"]),
+        "childName": str(newChild["childName"]),
+        "motherName": str(newChild["motherName"]),
+        "child_age": str(newChild["child_age"]),
+        "gender": str(newChild["gender"]),
+        "isActive": bool(newChild["isActive"])
+    }
+
+
+def child_list_serializer(childs) -> list:
+    return [child_serializer(child) for child in childs]

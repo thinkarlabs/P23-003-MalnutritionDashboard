@@ -1,17 +1,19 @@
 from argparse import OPTIONAL
 from fastapi import APIRouter, Body
-from Backend.model.model import Ngo, User, Donor, Aanganwadi
-from Backend.config.database import NgoCollection, UserCollection, AanganwadiCollection
+from Backend.model.model import Ngo, User, Donor, Aanganwadi, Child
+from Backend.config.database import NgoCollection, UserCollection, AanganwadiCollection, ChildCollection
 from Backend.config.database import DonorsCollection
 from Backend.schemas.schema import ngo_list_serializer, user_list_serializer, donors_list_serializer
-from Backend.schemas.schema import aanganwadi_list_serializer
+from Backend.schemas.schema import aanganwadi_list_serializer, child_list_serializer
 from typing import Union
 from bson import ObjectId
 from fastapi import HTTPException
 
 user_router = APIRouter()
 ngo_router = APIRouter()
+donor_router = APIRouter()
 aanganwadi_router = APIRouter()
+child_router = APIRouter()
 
 
 @user_router.post("/create_user")
@@ -86,9 +88,6 @@ async def update_ngo(ngo_id: str, ngo: Ngo):
     return {"updated": result.modified_count}
 
 
-donor_router = APIRouter()
-
-
 @donor_router.post("/donors")
 async def create_donor(donor: Donor):
     _id = DonorsCollection.insert_one(dict(donor))
@@ -156,4 +155,39 @@ async def update_aanganwadi(id: str, aanganwadi: Aanganwadi):
 @aanganwadi_router.delete("/delete_aanganwadi/{id}")
 async def delete_aanganwadi(id: str):
     AanganwadiCollection.find_one_and_delete({"_id": ObjectId(id)})
+    return {"status": "ok", "data": []}
+
+
+@child_router.post("/add_child")
+async def add_child(child: Child):
+    _id = ChildCollection.insert_one(dict(child))
+    added_child = child_list_serializer(ChildCollection.find({"_id": _id.inserted_id}))
+    return {"status": "ok", "data": added_child}
+
+
+@child_router.get("/get_childs")
+async def get_childs():
+    childs = child_list_serializer(ChildCollection.find())
+    return {"status": "ok", "data": childs}
+
+
+@child_router.get(f"/{id}/get_child")
+async def get_child(id: str):
+    childs = child_list_serializer(
+        ChildCollection.find({"_id": ObjectId(id)}))
+    return {"status": "ok", "data": childs}
+
+
+@child_router.put("/updateChild")
+async def update_child(id: str, child: Child):
+    ChildCollection.find_one_and_update({"_id": ObjectId(id)},
+                                        {"$set": dict(child)})
+    childs = child_list_serializer(
+        ChildCollection.find({"_id": ObjectId(id)}))
+    return {"status": "ok", "data": childs}
+
+
+@child_router.delete("/deleteChild")
+async def delete_child(id: str):
+    ChildCollection.find_one_and_delete({"_id": ObjectId(id)})
     return {"status": "ok", "data": []}
