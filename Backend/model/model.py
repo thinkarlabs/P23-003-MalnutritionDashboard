@@ -80,3 +80,11 @@ class Donor(BaseModel):
     contactperson: str
     email: EmailStr
     phone: int
+
+
+class Child(BaseModel):
+    childName: str
+    motherName: str
+    child_age: str
+    gender: str
+    isActive: bool
