@@ -49,9 +49,9 @@ def aanganwadi_serializer(newAanganwadi) -> dict:
         "contactPersonName": str(newAanganwadi["contactPersonName"]),
         "contactPersonEmail": str(newAanganwadi["contactPersonEmail"]),
         "contactPersonPassword": str(newAanganwadi["contactPersonPassword"]),
-        "contactPersonPhone": int(newAanganwadi["contactPersonPhone"]),
+        "contactPersonPhone": str(newAanganwadi["contactPersonPhone"]),
         "taluka": str(newAanganwadi["taluka"]),
-        "pincode": int(newAanganwadi["pincode"])
+        "pincode": str(newAanganwadi["pincode"])
     }
 
 
