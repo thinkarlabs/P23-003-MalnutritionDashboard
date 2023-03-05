@@ -22,11 +22,8 @@ class ParameterValidator:
         return value
 
     def validate_phone_number(cls, value):
-        for i in value:
-            if i.isdigit():
-                continue
-            else:
-                raise ValueError("Only digit accept")
+        if not value.isalpha():
+                raise ValueError("Value should be 10 digit")
         return value
 
     def validate_password(cls, value):
@@ -35,27 +32,18 @@ class ParameterValidator:
         return value
 
     def validate_gender(cls, value):
-        for i in value:
-            if i.isalpha():
-                continue
-            else:
-                raise ValueError("Enter value properly")
+        if not value.isalpha():
+            raise ValueError("Value should be alphabet")
         return value
 
     def validate_pincode(cls, value):
-        for i in value:
-            if i.isdigit():
-                continue
-            else:
-                raise ValueError("Only digit accept")
+        if not value.isdigit():
+            raise ValueError("Value should be 6 digit")
         return value
 
     def validate_taluka(cls, value):
-        for i in value:
-            if i.isalpha():
-                continue
-            else:
-                raise ValueError("Check entered value properly")
+        if not value.isalpha():
+            raise ValueError("Value should be alphabet")
         return value
 
     def validate_location(cls, value):
