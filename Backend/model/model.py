@@ -1,6 +1,69 @@
 from pydantic import BaseModel, EmailStr, validator, Field
 
 
+class ParameterValidator:
+    def validate_name(cls, value):
+        if value.startswith(' '):
+            raise ValueError("Name can not start with space")
+        if value.endswith(' '):
+            raise ValueError("Name can not end with space")
+        if value.count(' ') > 2:
+            raise ValueError("Name must not contain more than Two space")
+        if not value.isalpha():
+            raise ValueError("Name should be alpha")
+        return value
+
+    def validate_age(cls, value):
+        for i in value:
+            if i.isdigit() and int(i) > 0:
+                continue
+            else:
+                raise ValueError("only digit accepted and value should be greater than zero")
+        return value
+
+    def validate_phone_number(cls, value):
+        for i in value:
+            if i.isdigit():
+                continue
+            else:
+                raise ValueError("Only digit accept")
+        return value
+
+    def validate_password(cls, value):
+        if len(value) == 0:
+            raise ValueError("This field should not be empty")
+        return value
+
+    def validate_gender(cls, value):
+        for i in value:
+            if i.isalpha():
+                continue
+            else:
+                raise ValueError("Enter value properly")
+        return value
+
+    def validate_pincode(cls, value):
+        for i in value:
+            if i.isdigit():
+                continue
+            else:
+                raise ValueError("Only digit accept")
+        return value
+
+    def validate_taluka(cls, value):
+        for i in value:
+            if i.isalpha():
+                continue
+            else:
+                raise ValueError("Check entered value properly")
+        return value
+
+    def validate_location(cls, value):
+        if len(value) == 0:
+            raise ValueError("This field should not be empty")
+        return value
+
+
 class User(BaseModel):
     username: str
     password: str
@@ -16,57 +79,13 @@ class Ngo(BaseModel):
     location: str = Field(...)
     pincode: str = Field(..., min_length=6, max_length=6)
 
-    @validator("ngoName")
-    def val(cls, ngoName):
-        for i in ngoName:
-            if i.isalpha():
-                continue
-            elif i == ' ':
-                continue
-            else:
-                raise ValueError("not accepted")
-        return ngoName
-
-    @validator("contactPersonName")
-    def name_validation(cls, contactPersonName):
-        for i in contactPersonName:
-            if i.isalpha():
-                continue
-            elif i == ' ':
-                continue
-            else:
-                raise ValueError("only alphabet acceptable")
-        return contactPersonName.title()
-
-    @validator("contactPersonPhone")
-    def phone_number_validation(cls, contactPersonPhone):
-        for i in contactPersonPhone:
-            if i.isdigit():
-                continue
-            else:
-                raise ValueError("Only digit accept")
-        return contactPersonPhone
-
-    @validator("contactPersonPassword")
-    def passsowrd_validation(cls, contactPersonPassword):
-        if len(contactPersonPassword) == 0:
-            raise ValueError("This field should not be empty")
-        return contactPersonPassword
-
-    @validator("location")
-    def location_validation(cls, location):
-        if len(location) == 0:
-            raise ValueError("This field should not be empty")
-        return location
-
-    @validator("pincode")
-    def pincode_validation(cls, pincode):
-        for i in pincode:
-            if i.isdigit():
-                continue
-            else:
-                raise ValueError("Only digit accept")
-        return pincode
+    _validate_ngo_name = validator('ngoName', allow_reuse=True)(ParameterValidator.validate_name)
+    _validate_contact_person_name = validator('contactPersonName', allow_reuse=True)(ParameterValidator.validate_name)
+    _validate_phone_number = validator('contactPersonPhone', allow_reuse=True)(ParameterValidator.
+                                                                               validate_phone_number)
+    _validate_password = validator('contactPersonPassword', allow_reuse=True)(ParameterValidator.validate_password)
+    _validate_location = validator('location', allow_reuse=True)(ParameterValidator.validate_location)
+    _validate_pincode = validator('pincode', allow_reuse=True)(ParameterValidator.validate_pincode)
 
 
 class Aanganwadi(BaseModel):
@@ -78,54 +97,13 @@ class Aanganwadi(BaseModel):
     taluka: str = Field(...)
     pincode: str = Field(..., min_length=6, max_length=6)
 
-    @validator("aanganwadiName")
-    def val(cls, aanganwadiName):
-        for i in aanganwadiName:
-            if i.isalpha():
-                continue
-            elif i == ' ':
-                continue
-            else:
-                raise ValueError("not accepted")
-        return aanganwadiName
-
-    @validator("contactPersonName")
-    def name_validation(cls, contactPersonName):
-        for i in contactPersonName:
-            if i.isalpha():
-                continue
-            elif i == ' ':
-                continue
-            else:
-                raise ValueError("only alphabet acceptable")
-        return contactPersonName.title()
-
-    @validator("contactPersonPhone")
-    def phone_number_validation(cls, contactPersonPhone):
-        for i in contactPersonPhone:
-            if i.isdigit():
-                continue
-            else:
-                raise ValueError("Only digit accept")
-        return contactPersonPhone
-
-    @validator("taluka")
-    def taluka_validation(cls, taluka):
-        for i in taluka:
-            if i.isalpha():
-                continue
-            else:
-                raise ValueError("Check entered value properly")
-        return taluka
-
-    @validator("pincode")
-    def pincode_validation(cls, pincode):
-        for i in pincode:
-            if i.isdigit():
-                continue
-            else:
-                raise ValueError("Only digit accept")
-        return pincode
+    _validate_aanganwadi_name = validator('aanganwadiName', allow_reuse=True)(ParameterValidator.validate_name)
+    _validate_contact_person_name = validator('contactPersonName', allow_reuse=True)(ParameterValidator.validate_name)
+    _validate_phone_number = validator('contactPersonPhone', allow_reuse=True)(ParameterValidator.
+                                                                               validate_phone_number)
+    _validate_password = validator('contactPersonPassword', allow_reuse=True)(ParameterValidator.validate_password)
+    _validate_taluka = validator('taluka', allow_reuse=True)(ParameterValidator.validate_taluka)
+    _validate_pincode = validator('pincode', allow_reuse=True)(ParameterValidator.validate_pincode)
 
 
 class Donor(BaseModel):
@@ -142,40 +120,7 @@ class Child(BaseModel):
     gender: str
     isActive: bool
 
-    @validator("childName")
-    def child_name_validation(cls, childName):
-        for i in childName:
-            if i.isalpha():
-                continue
-            elif i == ' ':
-                continue
-            else:
-                raise ValueError("not accepted")
-        return childName
-
-    @validator("motherName")
-    def mother_name_validation(cls, motherName):
-        for i in motherName:
-            if i.isalpha():
-                continue
-            elif i == ' ':
-                continue
-            else:
-                raise ValueError("not accepted")
-        return motherName
-
-    @validator("child_age")
-    def child_age_validation(cls, child_age):
-        for i in child_age:
-            if i.isdigit() and int(i) > 0:
-                continue
-            else:
-                raise ValueError("only digit accepted and value should be greater than zero")
-
-    @validator("gender")
-    def gender_validation(cls, gender):
-        for i in gender:
-            if i.isalpha():
-                continue
-            else:
-                raise ValueError("Enter value properly")
+    _validate_chils_name = validator('childName', allow_reuse=True)(ParameterValidator.validate_name)
+    _validate_mother_name = validator('motherName', allow_reuse=True)(ParameterValidator.validate_name)
+    _validate_child_age = validator('child_age', allow_reuse=True)(ParameterValidator.validate_age)
+    _validate_gender = validator('gender', allow_reuse=True)(ParameterValidator.validate_gender)
