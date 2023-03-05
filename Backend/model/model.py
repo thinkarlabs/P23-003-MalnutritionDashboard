@@ -22,7 +22,7 @@ class ParameterValidator:
         return value
 
     def validate_phone_number(cls, value):
-        if not value.isalpha():
+        if not value.isdigit():
                 raise ValueError("Value should be 10 digit")
         return value
 
