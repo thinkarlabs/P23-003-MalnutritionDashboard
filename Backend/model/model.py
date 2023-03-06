@@ -1,4 +1,40 @@
-from pydantic import BaseModel, EmailStr, validator
+from pydantic import BaseModel, EmailStr, validator, Field
+
+
+class ParameterValidator:
+    def validate_name(cls, value):
+        if value.startswith(' '):
+            raise ValueError("Name can not start with space")
+        if value.endswith(' '):
+            raise ValueError("Name can not end with space")
+        if value.count(' ') > 2:
+            raise ValueError("Name must not contain more than Two space")
+        if not value.isalpha():
+            raise ValueError("Name should be alpha")
+        return value
+
+    def validate_age(cls, value):
+        for i in value:
+            if i.isdigit() and int(i) > 0:
+                continue
+            else:
+                raise ValueError("only digit accepted and value should be greater than zero")
+        return value
+
+    def validate_is_digit(cls, value):
+        if not value.isdigit():
+                raise ValueError("Value should be digit")
+        return value
+
+    def validate_is_empty(cls, value):
+        if len(value) == 0:
+            raise ValueError("This field should not be empty")
+        return value
+
+    def validate_is_alpha(cls, value):
+        if not value.isalpha():
+            raise ValueError("Value should be alphabet")
+        return value
 
 
 class User(BaseModel):
@@ -8,71 +44,39 @@ class User(BaseModel):
 
 
 class Ngo(BaseModel):
-    ngoName: str
-    contactPersonName: str
-    contactPersonEmail: EmailStr
-    contactPersonPhone: str
-    contactPersonPassword: str
-    location: str
-    pincode: str
+    ngoName: str = Field(...)
+    contactPersonName: str = Field(...)
+    contactPersonEmail: EmailStr = Field(...)
+    contactPersonPhone: str = Field(..., min_length=10, max_length=10)
+    contactPersonPassword: str = Field(...)
+    location: str = Field(...)
+    pincode: str = Field(..., min_length=6, max_length=6)
 
-    @validator("ngoName")
-    def val(cls, ngoName):
-        for i in ngoName:
-            if i.isalpha():
-                continue
-            elif i == ' ':
-                continue
-            else:
-                raise ValueError("not accepted")
-        return ngoName
-
-    @validator("contactPersonName")
-    def name_validation(cls, contactPersonName):
-        for i in contactPersonName:
-            if i.isalpha():
-                continue
-            elif i == ' ':
-                continue
-            else:
-                raise ValueError("only alphabet acceptable")
-        return contactPersonName.title()
-
-    @validator("contactPersonPhone")
-    def phone_number_validation(cls, contactPersonPhone):
-        if not len(contactPersonPhone) == 10:
-            raise ValueError(
-                "This field should not be empty, and should not be less or greater than 10 digit")
-        return contactPersonPhone
-
-    @validator("contactPersonPassword")
-    def passsowrd_validation(cls, contactPersonPassword):
-        if len(contactPersonPassword) == 0:
-            raise ValueError("This field should not be empty")
-        return contactPersonPassword
-
-    @validator("location")
-    def location_validation(cls, location):
-        if len(location) == 0:
-            raise ValueError("This field should not be empty")
-        return location
-
-    @validator("pincode")
-    def pincode_validation(cls, pincode):
-        if not len(pincode) == 6:
-            raise ValueError(
-                "This field should not be empty, less or greater than 6 digit")
-        return pincode
+    _validate_ngo_name = validator('ngoName', allow_reuse=True)(ParameterValidator.validate_name)
+    _validate_contact_person_name = validator('contactPersonName', allow_reuse=True)(ParameterValidator.validate_name)
+    _validate_phone_number = validator('contactPersonPhone', allow_reuse=True)(ParameterValidator.
+                                                                               validate_is_digit)
+    _validate_password = validator('contactPersonPassword', allow_reuse=True)(ParameterValidator.validate_is_empty)
+    _validate_location = validator('location', allow_reuse=True)(ParameterValidator.validate_is_empty)
+    _validate_pincode = validator('pincode', allow_reuse=True)(ParameterValidator.validate_is_digit)
 
 
 class Aanganwadi(BaseModel):
-    aanganwadiName: str
-    contactPersonName: str
-    contactPersonEmail: EmailStr
-    contactPersonPhone: int
-    contactPersonPassword: str
-    taluka: str
-    pincode: int
+    aanganwadiName: str = Field(..., min_length=2)
+    contactPersonName: str = Field(...)
+    contactPersonEmail: EmailStr = Field(...)
+    contactPersonPhone: str = Field(..., min_length=10, max_length=10)
+    contactPersonPassword: str = Field(...)
+    taluka: str = Field(...)
+    pincode: str = Field(..., min_length=6, max_length=6)
+
+    _validate_aanganwadi_name = validator('aanganwadiName', allow_reuse=True)(ParameterValidator.validate_name)
+    _validate_contact_person_name = validator('contactPersonName', allow_reuse=True)(ParameterValidator.validate_name)
+    _validate_phone_number = validator('contactPersonPhone', allow_reuse=True)(ParameterValidator.
+                                                                               validate_is_digit)
+    _validate_password = validator('contactPersonPassword', allow_reuse=True)(ParameterValidator.validate_is_empty)
+    _validate_taluka = validator('taluka', allow_reuse=True)(ParameterValidator.validate_is_empty)
+    _validate_pincode = validator('pincode', allow_reuse=True)(ParameterValidator.validate_is_digit)
 
 
 class Donor(BaseModel):
@@ -85,6 +89,11 @@ class Donor(BaseModel):
 class Child(BaseModel):
     childName: str
     motherName: str
-    child_age: str
+    child_age: str = Field(..., min_length=1, max_length=2)
     gender: str
     isActive: bool
+
+    _validate_chils_name = validator('childName', allow_reuse=True)(ParameterValidator.validate_name)
+    _validate_mother_name = validator('motherName', allow_reuse=True)(ParameterValidator.validate_name)
+    _validate_child_age = validator('child_age', allow_reuse=True)(ParameterValidator.validate_age)
+    _validate_gender = validator('gender', allow_reuse=True)(ParameterValidator.validate_is_alpha)
