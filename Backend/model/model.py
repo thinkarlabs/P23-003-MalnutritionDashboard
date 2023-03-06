@@ -21,34 +21,19 @@ class ParameterValidator:
                 raise ValueError("only digit accepted and value should be greater than zero")
         return value
 
-    def validate_phone_number(cls, value):
+    def validate_is_digit(cls, value):
         if not value.isdigit():
-                raise ValueError("Value should be 10 digit")
+                raise ValueError("Value should be digit")
         return value
 
-    def validate_password(cls, value):
+    def validate_is_empty(cls, value):
         if len(value) == 0:
             raise ValueError("This field should not be empty")
         return value
 
-    def validate_gender(cls, value):
+    def validate_is_alpha(cls, value):
         if not value.isalpha():
             raise ValueError("Value should be alphabet")
-        return value
-
-    def validate_pincode(cls, value):
-        if not value.isdigit():
-            raise ValueError("Value should be 6 digit")
-        return value
-
-    def validate_taluka(cls, value):
-        if not value.isalpha():
-            raise ValueError("Value should be alphabet")
-        return value
-
-    def validate_location(cls, value):
-        if len(value) == 0:
-            raise ValueError("This field should not be empty")
         return value
 
 
@@ -70,10 +55,10 @@ class Ngo(BaseModel):
     _validate_ngo_name = validator('ngoName', allow_reuse=True)(ParameterValidator.validate_name)
     _validate_contact_person_name = validator('contactPersonName', allow_reuse=True)(ParameterValidator.validate_name)
     _validate_phone_number = validator('contactPersonPhone', allow_reuse=True)(ParameterValidator.
-                                                                               validate_phone_number)
-    _validate_password = validator('contactPersonPassword', allow_reuse=True)(ParameterValidator.validate_password)
-    _validate_location = validator('location', allow_reuse=True)(ParameterValidator.validate_location)
-    _validate_pincode = validator('pincode', allow_reuse=True)(ParameterValidator.validate_pincode)
+                                                                               validate_is_digit)
+    _validate_password = validator('contactPersonPassword', allow_reuse=True)(ParameterValidator.validate_is_empty)
+    _validate_location = validator('location', allow_reuse=True)(ParameterValidator.validate_is_empty)
+    _validate_pincode = validator('pincode', allow_reuse=True)(ParameterValidator.validate_is_digit)
 
 
 class Aanganwadi(BaseModel):
@@ -88,10 +73,10 @@ class Aanganwadi(BaseModel):
     _validate_aanganwadi_name = validator('aanganwadiName', allow_reuse=True)(ParameterValidator.validate_name)
     _validate_contact_person_name = validator('contactPersonName', allow_reuse=True)(ParameterValidator.validate_name)
     _validate_phone_number = validator('contactPersonPhone', allow_reuse=True)(ParameterValidator.
-                                                                               validate_phone_number)
-    _validate_password = validator('contactPersonPassword', allow_reuse=True)(ParameterValidator.validate_password)
-    _validate_taluka = validator('taluka', allow_reuse=True)(ParameterValidator.validate_taluka)
-    _validate_pincode = validator('pincode', allow_reuse=True)(ParameterValidator.validate_pincode)
+                                                                               validate_is_digit)
+    _validate_password = validator('contactPersonPassword', allow_reuse=True)(ParameterValidator.validate_is_empty)
+    _validate_taluka = validator('taluka', allow_reuse=True)(ParameterValidator.validate_is_empty)
+    _validate_pincode = validator('pincode', allow_reuse=True)(ParameterValidator.validate_is_digit)
 
 
 class Donor(BaseModel):
@@ -111,4 +96,4 @@ class Child(BaseModel):
     _validate_chils_name = validator('childName', allow_reuse=True)(ParameterValidator.validate_name)
     _validate_mother_name = validator('motherName', allow_reuse=True)(ParameterValidator.validate_name)
     _validate_child_age = validator('child_age', allow_reuse=True)(ParameterValidator.validate_age)
-    _validate_gender = validator('gender', allow_reuse=True)(ParameterValidator.validate_gender)
+    _validate_gender = validator('gender', allow_reuse=True)(ParameterValidator.validate_is_alpha)
