@@ -5,3 +5,4 @@ penv
 .vscode
 .vscode/*
 .idea
+.package-lock.json
