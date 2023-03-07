@@ -204,17 +204,17 @@ async def child_malnutrition_add(child: ChildMalnutrition, child_id: str):
     return {"status": "ok", "data": added_malnutrition_child}
 
 
-@child_malnutrition.get("/get_child_Malnutrition")
-async def get_childmalnutrition():
+@child_malnutrition.get("/get_child_Malnutritions")
+async def get_child_malnutritions():
     childs = child_malnutrition_list_serializer(ChildMalnutritionCollection.find())
     return {"status": "ok", "data": childs}
 
 
-@child_malnutrition.get(f"/{id}//get_particular_child_malnutrition")
-async def get_particular_child_malnutrition(id: str):
-    childs = child_malnutrition_list_serializer(
+@child_malnutrition.get(f"/{id}/get_child_malnutrition")
+async def get_child_malnutrition(id: str):
+    child = child_malnutrition_list_serializer(
         ChildMalnutritionCollection.find({"_id": ObjectId(id)}))
-    return {"status": "ok", "data": childs}
+    return {"status": "ok", "data": child}
 
 
 @child_malnutrition.put("/update_child_malnutrition")
