@@ -11,7 +11,7 @@ from fastapi.responses import HTMLResponse, FileResponse, RedirectResponse
 
 from Backend.routes.routes import user_router
 
-from Backend.routes.routes import ngo_router, aanganwadi_router, child_router
+from Backend.routes.routes import ngo_router, aanganwadi_router, child_router,child_malnutrition
 from Backend.routes.routes import donor_router
 
 from app.routes import sign_router
@@ -43,6 +43,7 @@ app.include_router(ngo_router)
 app.include_router(donor_router)
 app.include_router(aanganwadi_router)
 app.include_router(child_router)
+app.include_router(child_malnutrition)
 
 # app_templates = Jinja2Templates(directory="templates")
 
