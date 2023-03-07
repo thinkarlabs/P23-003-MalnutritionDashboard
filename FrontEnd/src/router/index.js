@@ -19,10 +19,12 @@ const router = createRouter({
     {
       path: "/addngo",
       name: "addngo",
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import("../views/AddNgoView.vue"),
+    },
+    {
+      path: "/kidsCheckUp",
+      name:"kidsCheckUp",
+      component: () => import("../views/kidsCheckUp.vue"),
     },
     {
       path: "/:catchAll(.*)*",

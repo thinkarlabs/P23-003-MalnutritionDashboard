@@ -1,3 +1,4 @@
+
 <template>
   <div class="container-md mt-5 p-3">
     <div id="x-contest" class="container-float">
