@@ -39,7 +39,6 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 app.include_router(sign_router)
 app.include_router(user_router)
-
 app.include_router(ngo_router)
 app.include_router(donor_router)
 app.include_router(aanganwadi_router)

@@ -103,9 +103,7 @@
   font-weight: 700;
   font-size: 17px;
 }
-/* .full-div {
-    width: 1280px;
-  } */
+
 @media (max-width: 600px) {
   .full-div {
     max-width: fit-content;
@@ -126,6 +124,7 @@ let dateObj = reactive({
   selectedDate: null,
   dateFormat: "dd/MMM/yyyy",
 });
+
 let stats = reactive([
   {
     stat_id: "001",
@@ -156,14 +155,17 @@ let newNgo = reactive({
   height: "",
   weight: "",
 });
+
 const formattedDate = computed(() => {
   console.log("date", dateObj.selectedDate);
   newNgo.stat_date = dateObj.selectedDate
     ? format(dateObj.selectedDate, dateObj.dateFormat)
     : "";
 });
+
 const postNgo = () => {
   console.log("vue", newNgo);
   stats.push(newNgo);
 };
+
 </script>
