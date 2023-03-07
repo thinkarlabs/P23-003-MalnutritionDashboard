@@ -1,5 +1,8 @@
-from pydantic import BaseModel, EmailStr, validator, Field
+from datetime import datetime
 
+
+from pydantic import BaseModel, EmailStr, validator, Field
+from bson import ObjectId
 
 class ParameterValidator:
     def validate_name(cls, value):
@@ -23,7 +26,7 @@ class ParameterValidator:
 
     def validate_is_digit(cls, value):
         if not value.isdigit():
-                raise ValueError("Value should be digit")
+            raise ValueError("Value should be digit")
         return value
 
     def validate_is_empty(cls, value):
@@ -93,7 +96,15 @@ class Child(BaseModel):
     gender: str
     isActive: bool
 
-    _validate_chils_name = validator('childName', allow_reuse=True)(ParameterValidator.validate_name)
+    _validate_child_name = validator('childName', allow_reuse=True)(ParameterValidator.validate_name)
     _validate_mother_name = validator('motherName', allow_reuse=True)(ParameterValidator.validate_name)
     _validate_child_age = validator('child_age', allow_reuse=True)(ParameterValidator.validate_age)
     _validate_gender = validator('gender', allow_reuse=True)(ParameterValidator.validate_is_alpha)
+
+
+class ChildMalnutrition(BaseModel):
+    date: datetime
+    malnutritionIndexCategory: str
+    height: float
+    weight: float
+    child_id: str

@@ -1,10 +1,10 @@
 from argparse import OPTIONAL
 from fastapi import APIRouter, Body
-from Backend.model.model import Ngo, User, Donor, Aanganwadi, Child
+from Backend.model.model import Ngo, User, Donor, Aanganwadi, Child, ChildMalnutrition
 from Backend.config.database import NgoCollection, UserCollection, AanganwadiCollection, ChildCollection
-from Backend.config.database import DonorsCollection
+from Backend.config.database import DonorsCollection, ChildMalnutritionCollection
 from Backend.schemas.schema import ngo_list_serializer, user_list_serializer, donors_list_serializer
-from Backend.schemas.schema import aanganwadi_list_serializer, child_list_serializer
+from Backend.schemas.schema import aanganwadi_list_serializer, child_list_serializer, child_malnutrition_list_serializer
 from typing import Union
 from bson import ObjectId
 from fastapi import HTTPException
@@ -14,6 +14,7 @@ ngo_router = APIRouter()
 donor_router = APIRouter()
 aanganwadi_router = APIRouter()
 child_router = APIRouter()
+child_malnutrition = APIRouter()
 
 
 @user_router.post("/create_user")
@@ -190,4 +191,42 @@ async def update_child(id: str, child: Child):
 @child_router.delete("/deleteChild")
 async def delete_child(id: str):
     ChildCollection.find_one_and_delete({"_id": ObjectId(id)})
+    return {"status": "ok", "data": []}
+
+
+@child_malnutrition.post("/childMalnutrion_Add")
+async def child_malnutrition_add(child: ChildMalnutrition, child_id: str):
+    if not ChildCollection.find_one({"_id": ObjectId(child_id)}):
+        raise HTTPException(status_code=404, detail="Child not found")
+    _id = ChildMalnutritionCollection.insert_one(dict(child))
+    added_malnutrition_child = child_malnutrition_list_serializer(ChildMalnutritionCollection.find(
+        {"_id": _id.inserted_id}))
+    return {"status": "ok", "data": added_malnutrition_child}
+
+
+@child_malnutrition.get("/get_child_Malnutritions")
+async def get_child_malnutritions():
+    childs = child_malnutrition_list_serializer(ChildMalnutritionCollection.find())
+    return {"status": "ok", "data": childs}
+
+
+@child_malnutrition.get(f"/{id}/get_child_malnutrition")
+async def get_child_malnutrition(id: str):
+    child = child_malnutrition_list_serializer(
+        ChildMalnutritionCollection.find({"_id": ObjectId(id)}))
+    return {"status": "ok", "data": child}
+
+
+@child_malnutrition.put("/update_child_malnutrition")
+async def update_child_malnutrition(id: str, childs: ChildMalnutrition):
+    ChildMalnutritionCollection.find_one_and_update({"_id": ObjectId(id)},
+                                                    {"$set": dict(childs)})
+    updated_value = child_malnutrition_list_serializer(
+        ChildMalnutritionCollection.find({"_id": ObjectId(id)}))
+    return {"status": "ok", "data": updated_value}
+
+
+@child_malnutrition.delete("/deleteChild_malnutrition")
+async def delete_child(id: str):
+    ChildMalnutritionCollection.find_one_and_delete({"_id": ObjectId(id)})
     return {"status": "ok", "data": []}
