@@ -1,10 +1,10 @@
 
 <template>
-  <div class="container-md mt-5 p-3">
+  <div class="container p-3" id ="main-Container">
     <div id="x-contest" class="container-float">
+      <form @submit.prevent="postNgo">
       <div class="row">
         <h3 class="float-start">Manage NGO</h3>
-        <form @submit.prevent="postNgo">
           <div class="col-12 my-2">
             <label for="exampleFormControlInput1">NGO Name</label>
             <input
@@ -105,18 +105,19 @@
               </router-link>
             </div>
           </div>
-        </form>
       </div>
+    </form>
     </div>
   </div>
 </template>
 
 <style>
-@media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
+#main-Container{
+  margin-top:-10rem
+}
+@media (max-width: 400px) {
+  #main-Container {
+    margin-top: 3rem;
   }
 }
 </style>
