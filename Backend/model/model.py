@@ -1,9 +1,7 @@
 from datetime import datetime
-
-
 from pydantic import BaseModel, EmailStr, validator, Field
 from bson import ObjectId
-
+from typing import Optional
 class ParameterValidator:
     def validate_name(cls, value):
         if value.startswith(' '):
@@ -108,3 +106,16 @@ class ChildMalnutrition(BaseModel):
     height: float
     weight: float
     child_id: str
+
+class Supplementary(BaseModel):
+    id: Optional[str] = Field(str(ObjectId()), alias="_id")
+    original_id: str
+    given_date: str
+    no_of_packs_given: int
+    supplementary_id: Optional[str] = None
+
+    class Config:
+        arbitrary_types_allowed = True
+        json_encoders = {
+            ObjectId: str
+        }

@@ -6,8 +6,8 @@ from Backend.config.database import DonorsCollection, ChildMalnutritionCollectio
 from Backend.schemas.schema import ngo_list_serializer, user_list_serializer, donors_list_serializer
 from Backend.schemas.schema import aanganwadi_list_serializer, child_list_serializer, child_malnutrition_list_serializer
 from typing import Union
-from bson import ObjectId
-from fastapi import HTTPException
+
+
 
 user_router = APIRouter()
 ngo_router = APIRouter()
@@ -230,3 +230,61 @@ async def update_child_malnutrition(id: str, childs: ChildMalnutrition):
 async def delete_child(id: str):
     ChildMalnutritionCollection.find_one_and_delete({"_id": ObjectId(id)})
     return {"status": "ok", "data": []}
+
+from fastapi import APIRouter, HTTPException
+from bson import ObjectId
+from typing import List
+from Backend.config.database import SupplementaryCollection
+from Backend.model.model import Supplementary
+supp_router = APIRouter()
+
+# Create Supplementary detail
+@supp_router.post('/supplementary/', response_model=Supplementary)
+def create_supplementary(supplementary: Supplementary):
+    supplementary_dict = supplementary.dict()
+    inserted_id = SupplementaryCollection.insert_one(supplementary_dict).inserted_id
+    supplementary.id = str(inserted_id)
+    return supplementary
+
+# Read all Supplementary details
+@supp_router.get('/supplementary/', response_model=List[Supplementary])
+def read_supplementary():
+    supplementary_list = []
+    for supplementary in SupplementaryCollection.find():
+        supplementary['id'] = str(supplementary['_id'])
+        del supplementary['_id']
+        supplementary_list.append(supplementary)
+    return supplementary_list
+
+# Read a single Supplementary detail
+@supp_router.get('/supplementary/{supplementary_id}', response_model=Supplementary)
+def read_single_supplementary(supplementary_id: str):
+    supplementary = SupplementaryCollection.find_one({'_id': ObjectId(supplementary_id)})
+    if supplementary:
+        supplementary['id'] = str(supplementary['_id'])
+        del supplementary['_id']
+        return supplementary
+    else:
+        raise HTTPException(status_code=404, detail='Supplementary detail not found')
+
+# Update a Supplementary detail
+@supp_router.put('/supplementary/{supplementary_id}', response_model=Supplementary)
+def update_supplementary(supplementary_id: str, supplementary: Supplementary):
+    updated_supplementary = supplementary.dict(exclude_unset=True)
+    result = SupplementaryCollection.update_one({'_id': ObjectId(supplementary_id)}, {'$set': updated_supplementary})
+    if result.modified_count == 1:
+        updated_supplementary['id'] = supplementary_id
+        return updated_supplementary
+    elif result.matched_count == 1:
+        raise HTTPException(status_code=422, detail='Nothing to update')
+    else:
+        raise HTTPException(status_code=404, detail='Supplementary detail not found')
+
+# Delete a Supplementary detail
+@supp_router.delete('/supplementary/{supplementary_id}')
+def delete_supplementary(supplementary_id: str):
+    result = SupplementaryCollection.delete_one({'_id': ObjectId(supplementary_id)})
+    if result.deleted_count == 1:
+        return {'message': 'Supplementary detail deleted successfully'}
+    else:
+        raise HTTPException(status_code=404, detail='Supplementary detail not found')
