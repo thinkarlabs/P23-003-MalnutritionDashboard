@@ -246,7 +246,6 @@ def create_supplementary(supplementary: Supplementary):
     supplementary.id = str(inserted_id)
     return supplementary
 
-
 # Read all Supplementary details
 @supp_router.get('/supplementary/', response_model=List[Supplementary])
 def read_supplementary():
@@ -256,7 +255,6 @@ def read_supplementary():
         del supplementary['_id']
         supplementary_list.append(supplementary)
     return supplementary_list
-
 
 # Read a single Supplementary detail
 @supp_router.get('/supplementary/{supplementary_id}', response_model=Supplementary)
@@ -268,7 +266,6 @@ def read_single_supplementary(supplementary_id: str):
         return supplementary
     else:
         raise HTTPException(status_code=404, detail='Supplementary detail not found')
-
 
 # Update a Supplementary detail
 @supp_router.put('/supplementary/{supplementary_id}', response_model=Supplementary)
@@ -283,7 +280,6 @@ def update_supplementary(supplementary_id: str, supplementary: Supplementary):
     else:
         raise HTTPException(status_code=404, detail='Supplementary detail not found')
 
-
 # Delete a Supplementary detail
 @supp_router.delete('/supplementary/{supplementary_id}')
 def delete_supplementary(supplementary_id: str):
@@ -292,13 +288,3 @@ def delete_supplementary(supplementary_id: str):
         return {'message': 'Supplementary detail deleted successfully'}
     else:
         raise HTTPException(status_code=404, detail='Supplementary detail not found')
-
-
-
-
-
-
-
-
-
-
