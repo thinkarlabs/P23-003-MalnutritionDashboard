@@ -6,8 +6,8 @@ from Backend.config.database import DonorsCollection, ChildMalnutritionCollectio
 from Backend.schemas.schema import ngo_list_serializer, user_list_serializer, donors_list_serializer
 from Backend.schemas.schema import aanganwadi_list_serializer, child_list_serializer, child_malnutrition_list_serializer
 from typing import Union
-from bson import ObjectId
-from fastapi import HTTPException
+
+
 
 user_router = APIRouter()
 ngo_router = APIRouter()
@@ -234,15 +234,9 @@ async def delete_child(id: str):
 from fastapi import APIRouter, HTTPException
 from bson import ObjectId
 from typing import List
-
 from Backend.config.database import SupplementaryCollection
-from Backend.models.model import Supplementary
-
-
-
-
+from Backend.model.model import Supplementary
 supp_router = APIRouter()
-
 
 # Create Supplementary detail
 @supp_router.post('/supplementary/', response_model=Supplementary)
@@ -298,6 +292,13 @@ def delete_supplementary(supplementary_id: str):
         return {'message': 'Supplementary detail deleted successfully'}
     else:
         raise HTTPException(status_code=404, detail='Supplementary detail not found')
+
+
+
+
+
+
+
 
 
 

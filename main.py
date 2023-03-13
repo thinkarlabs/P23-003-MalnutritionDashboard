@@ -13,7 +13,7 @@ from Backend.routes.routes import user_router
 
 from Backend.routes.routes import ngo_router, aanganwadi_router, child_router,child_malnutrition
 from Backend.routes.routes import donor_router
-
+from Backend.routes.routes import supp_router
 from app.routes import sign_router
 
 
@@ -44,7 +44,7 @@ app.include_router(donor_router)
 app.include_router(aanganwadi_router)
 app.include_router(child_router)
 app.include_router(child_malnutrition)
-
+app.include_router(supp_router)
 # app_templates = Jinja2Templates(directory="templates")
 
 CONNECTION_STRING = os.getenv('CONNECTION_STRING')
