@@ -1,11 +1,8 @@
-
 from app.model import User,Ngo
 from app.auth.jwt_handler import signJWT
 from app.auth.jwt_bearer import JWTBearer
 from fastapi import FastAPI, APIRouter, Depends,Response,status,Body
-
 sign_router = APIRouter()
-
 ngo_users=[
 {
     "id":1,
@@ -49,7 +46,6 @@ def user_signup(user: User = Body(default=None)):
     print("aftersignnup", users)
     return signJWT(user.username)
 
-
 # validating user credentials are matching or not
 def check_user(data: User):
     print("validating user", data)
@@ -59,7 +55,6 @@ def check_user(data: User):
         if data.username == user['username'] and data.password == user['password']:
             return True
     return False
-
 
 # User login to generate token
 @sign_router.post("/user/login", tags=["user"])
@@ -73,13 +68,11 @@ def user_login(response: Response, user: User = Body(default=None)):
     else:
         return {"error": "Invalid Login"}
 
-
 # Getting ngo users
 @sign_router.get("/get_ngo_users")
 async def get_users():
     print("All ngo details : ", ngo_users)
     return {"data": ngo_users}
-
 
 # Adding Ngo users after admin successful login
 @sign_router.post("/post_ngo_users", dependencies=[Depends(JWTBearer())])
@@ -88,7 +81,6 @@ def add_posts(ngo: Ngo):
     ngo.id = len(ngo_users) + 1
     ngo_users.append(ngo.dict())
     return {"info": "post added"}
-
 
 # Get Ngo by ID
 @sign_router.get("/ngo/{id}", )
@@ -101,4 +93,3 @@ def get_one_post(id: int):
         if ngo["id"] == id:
             print("ID matched")
             return {"data": ngo}
-
