@@ -81,9 +81,21 @@ def child_malnutrition_serializer(childMalnutrition) -> dict:
         "malnutritionIndexCategory": str(childMalnutrition["malnutritionIndexCategory"]),
         "height": str(childMalnutrition["height"]),
         "weight": str(childMalnutrition["weight"]),
-        "child_id": str(childMalnutrition["child_id"]),
+        "child_id": str(childMalnutrition["child_id"])
     }
 
 
 def child_malnutrition_list_serializer(childsMalnutrition) -> list:
     return [child_malnutrition_serializer(child) for child in childsMalnutrition]
+
+
+def supplement_serializer(supplement) -> dict:
+    return {
+        "id": str(supplement["_id"]),
+        "name": str(supplement["name"]),
+        "description": str(supplement["description"])
+    }
+
+
+def supplements_list_serializer(supplements) -> list:
+    return [supplement_serializer(supplementary) for supplementary in supplements]

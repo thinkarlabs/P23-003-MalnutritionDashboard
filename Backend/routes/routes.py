@@ -1,13 +1,12 @@
 from argparse import OPTIONAL
 from fastapi import APIRouter, Body
-from Backend.model.model import Ngo, User, Donor, Aanganwadi, Child, ChildMalnutrition
+from Backend.model.model import Ngo, User, Donor, Aanganwadi, Child, ChildMalnutrition, SupplementsDetail
 from Backend.config.database import NgoCollection, UserCollection, AanganwadiCollection, ChildCollection
-from Backend.config.database import DonorsCollection, ChildMalnutritionCollection
+from Backend.config.database import DonorsCollection, ChildMalnutritionCollection, SupplementDetailsCollection
 from Backend.schemas.schema import ngo_list_serializer, user_list_serializer, donors_list_serializer
+from Backend.schemas.schema import supplements_list_serializer
 from Backend.schemas.schema import aanganwadi_list_serializer, child_list_serializer, child_malnutrition_list_serializer
 from typing import Union
-
-
 
 user_router = APIRouter()
 ngo_router = APIRouter()
@@ -15,14 +14,15 @@ donor_router = APIRouter()
 aanganwadi_router = APIRouter()
 child_router = APIRouter()
 child_malnutrition = APIRouter()
+supplement_details = APIRouter()
 
 
 @user_router.post("/create_user")
 async def create_user(user: User):
     _id = UserCollection.insert_one(dict(user))
-    added_User = user_list_serializer(
+    added_user = user_list_serializer(
         UserCollection.find({"_id": _id.inserted_id}))
-    return {"status": "ok", "data": added_User}
+    return {"status": "ok", "data": added_user}
 
 
 @user_router.get("/get_users")
@@ -59,9 +59,9 @@ async def read_item(username: str, password: Union[str, None] = None, user_type:
 @ngo_router.post("/create_ngo")
 async def create_ngo(ngo: Ngo):
     _id = NgoCollection.insert_one(dict(ngo))
-    added_Ngo = ngo_list_serializer(
+    added_ngo = ngo_list_serializer(
         NgoCollection.find({"_id": _id.inserted_id}))
-    return {"status": "ok", "data": added_Ngo}
+    return {"status": "ok", "data": added_ngo}
 
 
 @ngo_router.get("/getNgos")
@@ -126,9 +126,9 @@ async def update_donor(donor_id: str, donor: Donor):
 @aanganwadi_router.post("/addAanganwadi")
 async def aanganwadi_addition(aanganwadi: Aanganwadi):
     _id = AanganwadiCollection.insert_one(dict(aanganwadi))
-    added_Aanganwadi = aanganwadi_list_serializer(
+    added_aanganwadi = aanganwadi_list_serializer(
         AanganwadiCollection.find({"_id": _id.inserted_id}))
-    return {"status": "ok", "data": added_Aanganwadi}
+    return {"status": "ok", "data": added_aanganwadi}
 
 
 @aanganwadi_router.get("/getAanganwadis")
@@ -231,12 +231,15 @@ async def delete_child(id: str):
     ChildMalnutritionCollection.find_one_and_delete({"_id": ObjectId(id)})
     return {"status": "ok", "data": []}
 
+
 from fastapi import APIRouter, HTTPException
 from bson import ObjectId
 from typing import List
 from Backend.config.database import SupplementaryCollection
 from Backend.model.model import Supplementary
+
 supp_router = APIRouter()
+
 
 # Create Supplementary detail
 @supp_router.post('/supplementary/', response_model=Supplementary)
@@ -245,6 +248,7 @@ def create_supplementary(supplementary: Supplementary):
     inserted_id = SupplementaryCollection.insert_one(supplementary_dict).inserted_id
     supplementary.id = str(inserted_id)
     return supplementary
+
 
 # Read all Supplementary details
 @supp_router.get('/supplementary/', response_model=List[Supplementary])
@@ -256,6 +260,7 @@ def read_supplementary():
         supplementary_list.append(supplementary)
     return supplementary_list
 
+
 # Read a single Supplementary detail
 @supp_router.get('/supplementary/{supplementary_id}', response_model=Supplementary)
 def read_single_supplementary(supplementary_id: str):
@@ -266,6 +271,7 @@ def read_single_supplementary(supplementary_id: str):
         return supplementary
     else:
         raise HTTPException(status_code=404, detail='Supplementary detail not found')
+
 
 # Update a Supplementary detail
 @supp_router.put('/supplementary/{supplementary_id}', response_model=Supplementary)
@@ -280,6 +286,7 @@ def update_supplementary(supplementary_id: str, supplementary: Supplementary):
     else:
         raise HTTPException(status_code=404, detail='Supplementary detail not found')
 
+
 # Delete a Supplementary detail
 @supp_router.delete('/supplementary/{supplementary_id}')
 def delete_supplementary(supplementary_id: str):
@@ -288,3 +295,61 @@ def delete_supplementary(supplementary_id: str):
         return {'message': 'Supplementary detail deleted successfully'}
     else:
         raise HTTPException(status_code=404, detail='Supplementary detail not found')
+
+
+@supplement_details.post('/add_supplement_details')
+def add_supplement_details(supplement: SupplementsDetail):
+    """
+    This function is create for add the supplement details.
+    :param supplement: A Pydantic model representing the supplement data to be created.
+    :return: Response status and newly created supplement data.
+    """
+    _id = SupplementDetailsCollection.insert_one(dict(supplement))
+    added_supplement = supplements_list_serializer(SupplementDetailsCollection.find({"_id": _id.inserted_id}))
+    return {"status": "ok", "data": added_supplement}
+
+
+@supplement_details.get('/get_supplements_details')
+async def get_supplements_details():
+    """
+    This function is create for get the supplement details.
+    :return: Response status and fetched all data from db
+    """
+    result = supplements_list_serializer(SupplementDetailsCollection.find())
+    return {"status": "ok", "data": result}
+
+
+@supplement_details.get(f'/{id}/get_supplement_details')
+async def get_supplement_details(id: str):
+    """
+    This function is create to retrieve particular supplement details.
+    :param id: id of the supplements to retrieve.
+    :return: Response status and a dictionary representing the supplement data in a custom format.
+    """
+    result = supplements_list_serializer(SupplementDetailsCollection.find({"_id": ObjectId(id)}))
+    return {"status": "ok", "data": result}
+
+
+@supplement_details.put('/update_supplement_details')
+async def update_supplement_details(id: str, supplement: SupplementsDetail):
+    """
+    This function is create to update the supplement details.
+    :param id: id of the supplement to be updated.
+    :param supplement: The pydantic model representing the updated supplement data.
+    :return: Response status and updated supplement data.
+    """
+    SupplementDetailsCollection.find_one_and_update({"_id": ObjectId(id)},
+                                                    {"$set": dict(supplement)})
+    updated_value = supplements_list_serializer(SupplementDetailsCollection.find({"_id": ObjectId(id)}))
+    return {"status": "ok", "data": updated_value}
+
+
+@supplement_details.delete('/delete_supplement_details')
+async def delete_supplement_details(id: str):
+    """
+    This function is create to delete the supplement details.
+    :param id: id of the supplement to be deleted.
+    :return: Response status.
+    """
+    SupplementDetailsCollection.find_one_and_delete({"_id": ObjectId(id)})
+    return {"status": "ok", "data": []}
