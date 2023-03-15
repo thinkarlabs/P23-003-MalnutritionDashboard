@@ -279,8 +279,8 @@ def read_single_supplementary(supplementary_id: str):
         del supplementary['_id']
         return supplementary
     else:
-        raise HTTPException(status_code=404, detail='Supplementary detail not found')
-
+        raise HTTPException(
+            status_code=404, detail='Supplementary detail not found')
 
 
 # Update a Supplementary detail
@@ -297,7 +297,8 @@ def update_supplementary(supplementary_id: str, supplementary: Supplementary):
     elif result.matched_count == 1:
         raise HTTPException(status_code=422, detail='Nothing to update')
     else:
-        raise HTTPException(status_code=404, detail='Supplementary detail not found')
+        raise HTTPException(
+            status_code=404, detail='Supplementary detail not found')
 
 
 # Delete a Supplementary detail
@@ -322,7 +323,8 @@ def add_supplement_details(supplement: SupplementsDetail):
     :return: Response status and newly created supplement data.
     """
     _id = SupplementDetailsCollection.insert_one(dict(supplement))
-    added_supplement = supplements_list_serializer(SupplementDetailsCollection.find({"_id": _id.inserted_id}))
+    added_supplement = supplements_list_serializer(
+        SupplementDetailsCollection.find({"_id": _id.inserted_id}))
     return {"status": "ok", "data": added_supplement}
 
 
@@ -343,7 +345,8 @@ async def get_supplement_details(id: str):
     :param id: id of the supplements to retrieve.
     :return: Response status and a dictionary representing the supplement data in a custom format.
     """
-    result = supplements_list_serializer(SupplementDetailsCollection.find({"_id": ObjectId(id)}))
+    result = supplements_list_serializer(
+        SupplementDetailsCollection.find({"_id": ObjectId(id)}))
     return {"status": "ok", "data": result}
 
 
@@ -357,65 +360,8 @@ async def update_supplement_details(id: str, supplement: SupplementsDetail):
     """
     SupplementDetailsCollection.find_one_and_update({"_id": ObjectId(id)},
                                                     {"$set": dict(supplement)})
-    updated_value = supplements_list_serializer(SupplementDetailsCollection.find({"_id": ObjectId(id)}))
-    return {"status": "ok", "data": updated_value}
-
-
-@supplement_details.delete('/delete_supplement_details')
-async def delete_supplement_details(id: str):
-    """
-    This function is create to delete the supplement details.
-    :param id: id of the supplement to be deleted.
-    :return: Response status.
-    """
-    SupplementDetailsCollection.find_one_and_delete({"_id": ObjectId(id)})
-    return {"status": "ok", "data": []}
-
-
-@supplement_details.post('/add_supplement_details')
-def add_supplement_details(supplement: SupplementsDetail):
-    """
-    This function is create for add the supplement details.
-    :param supplement: A Pydantic model representing the supplement data to be created.
-    :return: Response status and newly created supplement data.
-    """
-    _id = SupplementDetailsCollection.insert_one(dict(supplement))
-    added_supplement = supplements_list_serializer(SupplementDetailsCollection.find({"_id": _id.inserted_id}))
-    return {"status": "ok", "data": added_supplement}
-
-
-@supplement_details.get('/get_supplements_details')
-async def get_supplements_details():
-    """
-    This function is create for get the supplement details.
-    :return: Response status and fetched all data from db
-    """
-    result = supplements_list_serializer(SupplementDetailsCollection.find())
-    return {"status": "ok", "data": result}
-
-
-@supplement_details.get(f'/{id}/get_supplement_details')
-async def get_supplement_details(id: str):
-    """
-    This function is create to retrieve particular supplement details.
-    :param id: id of the supplements to retrieve.
-    :return: Response status and a dictionary representing the supplement data in a custom format.
-    """
-    result = supplements_list_serializer(SupplementDetailsCollection.find({"_id": ObjectId(id)}))
-    return {"status": "ok", "data": result}
-
-
-@supplement_details.put('/update_supplement_details')
-async def update_supplement_details(id: str, supplement: SupplementsDetail):
-    """
-    This function is create to update the supplement details.
-    :param id: id of the supplement to be updated.
-    :param supplement: The pydantic model representing the updated supplement data.
-    :return: Response status and updated supplement data.
-    """
-    SupplementDetailsCollection.find_one_and_update({"_id": ObjectId(id)},
-                                                    {"$set": dict(supplement)})
-    updated_value = supplements_list_serializer(SupplementDetailsCollection.find({"_id": ObjectId(id)}))
+    updated_value = supplements_list_serializer(
+        SupplementDetailsCollection.find({"_id": ObjectId(id)}))
     return {"status": "ok", "data": updated_value}
 
 
