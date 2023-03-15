@@ -3,11 +3,10 @@ import os
 import uvicorn
 from dotenv import load_dotenv
 
-from fastapi import FastAPI, Request,Form,Depends,Response
+from fastapi import FastAPI, Request, Form, Depends, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, FileResponse, RedirectResponse
-
 
 from Backend.routes.routes import user_router
 
@@ -22,8 +21,6 @@ from Backend.routes.routes import donor_router, supp_router
 from app.routes import sign_router
 
 
-
-
 # from fastapi.templating import Jinja2Templates
 
 from pymongo import MongoClient
@@ -34,7 +31,11 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:5173/"],
+    allow_origins=["http://localhost:5173", "http://localhost:5173/",
+                   "http://localhost:8080", "http://localhost:8080/",
+                   "http://127.0.0.1:8887", "http://127.0.0.1:8887/",
+                   "http://127.0.0.1:4173", "http://127.0.0.1:4173/",
+                   "http://localhost:7000", "http://localhost:7000/"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -57,13 +58,11 @@ CONNECTION_STRING = os.getenv('CONNECTION_STRING')
 # client = MongoClient(CONNECTION_STRING, serverSelectionTimeoutMS=5000)
 # db = client['<DB_NAME']
 
+
 @app.get("/")
 async def index(request: Request):
-  return FileResponse('static/index.html')
+    return FileResponse('static/index.html')
 
 
-
-#if __name__ == "__main__":
-    #uvicorn.run(app, host="127.0.0.1", port=7000)
-
-
+# if __name__ == "__main__":
+    # uvicorn.run(app, host="127.0.0.1", port=7000)

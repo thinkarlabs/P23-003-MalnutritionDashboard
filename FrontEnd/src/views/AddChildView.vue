@@ -1,0 +1,114 @@
+<template>
+  <main class="container-full">
+    <div id="x-main" class="container-fluid mt-5 p-3">
+      <div class="row">
+        <h3 class="">Manage Child Details</h3>
+        <form @submit.prevent="postchild">
+          <div class="mb-1 col-12">
+            <label for="exampleFormControlInput1" class="form-label">Childs Name</label>
+            <input
+              class="form-control"
+              type="string"
+              aria-label="..."
+              placeholder="Child name"
+              v-model="newchild.childName"
+            />
+          </div>
+
+          <div class="mb-1 col-12">
+            <label for="exampleFormControlInput1" class="form-label">Mother's Name</label>
+            <input
+              class="form-control"
+              type="string"
+              aria-label="..."
+              placeholder="Mothers name"
+              v-model="newchild.motherName"
+            />
+          </div>
+
+          <div class="mb-1 col-6">
+            <label for="exampleFormControlInput1" class="form-label">Age</label>
+            <input
+              class="form-control"
+              type="number"
+              aria-label="..."
+              placeholder="Child Age"
+              v-model="newchild.child_age"
+            />
+          </div>
+
+          <div class="mb-1 col-6">
+            <label for="exampleFormControlInput1" class="form-label">Gender</label>
+            <select id="level" class="form-select" @change="genderchangevalue($event)">
+              <option value="" selected>Gender</option>
+              <option value="L1" key="1">Male</option>
+              <option value="L1" key="2">Female</option>
+              <option value="L1" key="3">Other</option>
+            </select>
+          </div>
+
+          <div class="mt-2 col-12">
+            <div class="form-check float-end">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                v-model="newchild.isActive"
+                id="flexCheckDefault"
+              />
+              <label class="form-check-label" for="flexCheckDefault"> In-Active </label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6 p-0">
+              <router-link to="/ngos" custom v-slot="{ navigate }">
+                <button
+                  class="w-100 bg-primary text-light"
+                  data-nav="mob.childs"
+                  @click="navigate"
+                >
+                  Cancel
+                </button>
+              </router-link>
+            </div>
+            <div class="col-6 p-0">
+              <button
+                type="submit"
+                class="w-100 bg-primary text-light"
+                data-nav="mob.childs"
+                @click="navigate"
+                role="link"
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+</template>
+
+<script setup>
+import { ref, onMounted, computed, reactive } from "vue";
+import { usechildStore } from "../stores/child";
+import router from "../router";
+let newchild = reactive({
+  childName: "",
+  motherName: "",
+  child_age: "",
+  gender: 0,
+  isActive: false,
+});
+const store = usechildStore();
+
+const genderchangevalue = (event) => {
+  const selectedvalue = event.target.options[event.target.options.selectedIndex].text;
+  newchild.gender = selectedvalue;
+  console.log(selectedvalue);
+};
+
+const postchild = () => {
+  store.postchild(newchild);
+  return router.push("/ngos");
+};
+</script>
