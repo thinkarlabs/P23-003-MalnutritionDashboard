@@ -2,8 +2,20 @@ from datetime import datetime
 from pydantic import BaseModel, EmailStr, validator, Field
 from bson import ObjectId
 from typing import Optional
+
+
 class ParameterValidator:
+    """
+    This class created for parameter validation which is passed in model.
+    """
+
     def validate_name(cls, value):
+
+        """
+        This function is created for validate the name field.
+        :param value: taking value or parameter name from model classes
+        :return: After validating the parameter it returns the value(name)
+        """
         if value.startswith(' '):
             raise ValueError("Name can not start with space")
         if value.endswith(' '):
@@ -15,6 +27,12 @@ class ParameterValidator:
         return value
 
     def validate_age(cls, value):
+
+        """
+        This function is created for validate the age field.
+        :param value: taking value or parameter name from model classes
+        :return: After validating the parameter it returns the value(age)
+        """
         for i in value:
             if i.isdigit() and int(i) > 0:
                 continue
@@ -23,16 +41,35 @@ class ParameterValidator:
         return value
 
     def validate_is_digit(cls, value):
+
+        """
+        This function is created for validate the pincode, phone number field and the parameter which contain digit
+        value.
+        :param value: taking value or parameter name from model classes
+        :return: After validating the parameter it returns the value(pincode or phone-number)
+        """
         if not value.isdigit():
             raise ValueError("Value should be digit")
         return value
 
     def validate_is_empty(cls, value):
+
+        """
+        This function is created for validate the field value is it present or not.
+        :param value: taking value or parameter name from model classes
+        :return: After validating the parameter it returns the value
+        """
         if len(value) == 0:
             raise ValueError("This field should not be empty")
         return value
 
     def validate_is_alpha(cls, value):
+
+        """
+        This function is created for validate the field which value should be alphabet.
+        :param value:
+        :return:
+        """
         if not value.isalpha():
             raise ValueError("Value should be alphabet")
         return value
@@ -45,6 +82,9 @@ class User(BaseModel):
 
 
 class Ngo(BaseModel):
+    """
+    This Ngo class has created for storing the required Ngo field value in database.
+    """
     ngoName: str = Field(...)
     contactPersonName: str = Field(...)
     contactPersonEmail: EmailStr = Field(...)
@@ -63,6 +103,9 @@ class Ngo(BaseModel):
 
 
 class Aanganwadi(BaseModel):
+    """
+    This Aanganwadi class has created for storing the required Aanganwadi field value in database.
+    """
     aanganwadiName: str = Field(..., min_length=2)
     contactPersonName: str = Field(...)
     contactPersonEmail: EmailStr = Field(...)
@@ -81,6 +124,9 @@ class Aanganwadi(BaseModel):
 
 
 class Donor(BaseModel):
+    """
+    This Donor class has created for storing the required Donor field value in database.
+    """
     name: str
     contactperson: str
     email: EmailStr
@@ -88,6 +134,9 @@ class Donor(BaseModel):
 
 
 class Child(BaseModel):
+    """
+    This Child class has created for storing the required Child field value in database.
+    """
     childName: str
     motherName: str
     child_age: str = Field(..., min_length=1, max_length=2)
@@ -101,13 +150,20 @@ class Child(BaseModel):
 
 
 class ChildMalnutrition(BaseModel):
+    """
+    This ChildMalnutrition class has created for storing the required ChildMalnutrition field value in database.
+    """
     date: datetime
     malnutritionIndexCategory: str
     height: float
     weight: float
     child_id: str
 
+
 class Supplementary(BaseModel):
+    """
+    This Supplementary class has created for storing the required Supplementary field value in database.
+    """
     id: Optional[str] = Field(str(ObjectId()), alias="_id")
     original_id: str
     given_date: str
@@ -119,3 +175,12 @@ class Supplementary(BaseModel):
         json_encoders = {
             ObjectId: str
         }
+
+
+class SupplementsDetail(BaseModel):
+
+    """
+    This SupplementsDetail class has created for store the details about supplements in DB.
+    """
+    name: str = Field(...)
+    description: str

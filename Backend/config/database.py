@@ -12,5 +12,5 @@ AanganwadiCollection = db["Aanganwadi"]
 ChildCollection = db["Child"]
 ChildMalnutritionCollection = db["ChildMalnutrition"]
 SupplementaryCollection = db["Supplementary"]
-
+SupplementDetailsCollection = db["SupplementsDetails"]
 
