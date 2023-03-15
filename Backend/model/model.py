@@ -22,8 +22,9 @@ class ParameterValidator:
             raise ValueError("Name can not end with space")
         if value.count(' ') > 2:
             raise ValueError("Name must not contain more than Two space")
-        if not value.isalpha():
-            raise ValueError("Name should be alpha")
+        for i in value:
+            if i == " " or i.isalpha():
+                continue
         return value
 
     def validate_age(cls, value):

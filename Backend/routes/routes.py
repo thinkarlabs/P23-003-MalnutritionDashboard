@@ -13,7 +13,6 @@ from Backend.schemas.schema import supplements_list_serializer
 from Backend.schemas.schema import aanganwadi_list_serializer, child_list_serializer, child_malnutrition_list_serializer
 from typing import Union
 
-
 user_router = APIRouter()
 ngo_router = APIRouter()
 donor_router = APIRouter()
@@ -83,16 +82,18 @@ async def get_ngo(id: str):
     return {"status": "ok", "data": ngo}
 
 
+@ngo_router.put("/ngos/{ngo_id}")
+async def update_ngo(id: str, ngo: Ngo):
+    NgoCollection.find_one_and_update({"_id": ObjectId(id)},
+                                      {"$set": dict(ngo)})
+    updated_value = ngo_list_serializer(NgoCollection.find({"_id": ObjectId(id)}))
+    return {"status": "ok", "data": updated_value}
+
+
 @ngo_router.delete("/api/delete_ngo/{id}")
 async def delete_ngo(id: str):
     NgoCollection.find_one_and_delete({"_id": ObjectId(id)})
     return {"status": "ok", "data": []}
-
-
-@ngo_router.put("/api/ngos/{ngo_id}")
-async def update_ngo(ngo_id: str, ngo: Ngo):
-    result = NgoCollection.update_one({"_id": ngo_id}, {"$set": ngo.dict()})
-    return {"updated": result.modified_count}
 
 
 @donor_router.post("/api/donors")
@@ -238,6 +239,7 @@ async def update_child_malnutrition(id: str, childs: ChildMalnutrition):
 async def delete_child(id: str):
     ChildMalnutritionCollection.find_one_and_delete({"_id": ObjectId(id)})
     return {"status": "ok", "data": []}
+
 
 supp_router = APIRouter()
 
