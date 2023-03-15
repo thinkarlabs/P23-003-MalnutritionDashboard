@@ -1,13 +1,13 @@
-from Backend.model.model import Supplementary
-from Backend.config.database import SupplementaryCollection
+from Backend.model.model import Supplementary, Program
+from Backend.config.database import SupplementaryCollection, ProgramsCollection
 from typing import List
 from bson import ObjectId
 from fastapi import APIRouter, HTTPException
 from argparse import OPTIONAL
 from fastapi import APIRouter, Body
-from Backend.model.model import Ngo, User, Donor, Aanganwadi, Child, ChildMalnutrition, SupplementsDetail
+from Backend.model.model import Ngo, User, Donor, Aanganwadi, Child, ChildMalnutrition, SupplementsDetail, Program
 from Backend.config.database import NgoCollection, UserCollection, AanganwadiCollection, ChildCollection
-from Backend.config.database import DonorsCollection, ChildMalnutritionCollection, SupplementDetailsCollection
+from Backend.config.database import DonorsCollection, ChildMalnutritionCollection, SupplementDetailsCollection, ProgramsCollection
 from Backend.schemas.schema import ngo_list_serializer, user_list_serializer, donors_list_serializer
 from Backend.schemas.schema import supplements_list_serializer
 from Backend.schemas.schema import aanganwadi_list_serializer, child_list_serializer, child_malnutrition_list_serializer
@@ -20,6 +20,7 @@ aanganwadi_router = APIRouter()
 child_router = APIRouter()
 child_malnutrition = APIRouter()
 supplement_details = APIRouter()
+program_router=APIRouter()
 
 
 @user_router.post("/api/create_user")
@@ -376,3 +377,51 @@ async def delete_supplement_details(id: str):
     """
     SupplementDetailsCollection.find_one_and_delete({"_id": ObjectId(id)})
     return {"status": "ok", "data": []}
+
+@program_router.post("/programs", response_model=Program)
+async def create_program(program: Program):
+    program_dict = program.dict()
+    program_dict["donor"] = {"_id": ObjectId(program.donor.id), "name": program.donor.name}
+    program_dict["supplement"] = {"_id": ObjectId(program.supplement.id), "name": program.supplement.name}
+    result =ProgramsCollection.insert_one(program_dict)
+    program.id = str(result.inserted_id)
+    return program
+
+
+@program_router.get("/programs", response_model=List[Program])
+async def read_programs():
+    programs = []
+    for program_dict in ProgramsCollection.find():
+        program = Program.from_dict(program_dict)
+        programs.append(program)
+    return programs
+
+
+@program_router.get("/programs/{program_id}", response_model=Program)
+async def read_program(program_id: str):
+    program_dict = ProgramsCollection.find_one({"_id": ObjectId(program_id)})
+    if program_dict is None:
+        raise HTTPException(status_code=404, detail="Program not found")
+    program = Program.from_dict(program_dict)
+    return program
+
+
+@program_router.put("/programs/{program_id}", response_model=Program)
+async def update_program(program_id: str, program: Program):
+    program_dict = program.dict()
+    program_dict["donor"] = {"_id": ObjectId(program.donor.id), "name": program.donor.name}
+    program_dict["supplement"] = {"_id": ObjectId(program.supplement.id), "name": program.supplement.name}
+    result = ProgramsCollection.replace_one({"_id": ObjectId(program_id)}, program_dict)
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Program not found")
+    program.id = program_id
+    return program
+
+
+@program_router.delete("/programs/{program_id}")
+async def delete_program(program_id: str):
+    result = ProgramsCollection.delete_one({"_id": ObjectId(program_id)})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Program not found")
+    return {"message": "Program deleted successfully"}
+

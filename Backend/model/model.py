@@ -185,3 +185,32 @@ class SupplementsDetail(BaseModel):
     """
     name: str = Field(...)
     description: str
+
+class Donor(BaseModel):
+    id: str = Field(alias="_id")
+    name: str
+
+    class Config:
+        orm_mode = True
+
+
+class Supplement(BaseModel):
+    id: str = Field(alias="_id")
+    name: str
+
+    class Config:
+        orm_mode = True
+
+
+class Program(BaseModel):
+    id: str = Field(alias="_id")
+    code: str
+    donor: Donor
+    supplement: Supplement
+    from_date: datetime
+    to_date: datetime
+    notes: Optional[str] = None
+
+    class Config:
+        orm_mode = True
+
