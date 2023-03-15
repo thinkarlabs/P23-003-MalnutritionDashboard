@@ -22,9 +22,19 @@ const router = createRouter({
       component: () => import("../views/AddNgoView.vue"),
     },
     {
+      path: "/editngo/:id",
+      name: "editngo",
+      component: () => import("../views/EditNgoView.vue"),
+    },
+    {
       path: "/kidsCheckUp",
-      name:"kidsCheckUp",
+      name: "kidsCheckUp",
       component: () => import("../views/kidsCheckUp.vue"),
+    },
+    {
+      path: "/addchild",
+      name: "addchild",
+      component: () => import("../views/AddChildView.vue"),
     },
     {
       path: "/:catchAll(.*)*",

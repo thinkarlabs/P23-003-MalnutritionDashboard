@@ -5,3 +5,8 @@ penv
 .vscode
 .vscode/*
 .idea
+.idea/*
+dev-dist
+.dev-dist
+.FrontEnd/dev-dist
+.FrontEnd/dev-dist/*

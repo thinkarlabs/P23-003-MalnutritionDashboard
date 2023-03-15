@@ -50,7 +50,8 @@
             <button
               type="button"
               class="btn btn-primary float-end mx-2"
-              data-nav='admin.exercise.edit?memid="{{item.id}}"'
+              data-nav="admin.exercise.edit"
+              @click="editNgo(item.id)"
             >
               <i class="bi bi-pencil-square"></i>
             </button>
@@ -90,6 +91,10 @@ const deleteNgo = (id) => {
       ngos.value = store.fetchNgos();
     }
   });
+};
+const editNgo = (id) => {
+  console.log("edit clicked" + id);
+  router.push("editngo/" + id);
 };
 onMounted(() => {
   store.fetchNgos();

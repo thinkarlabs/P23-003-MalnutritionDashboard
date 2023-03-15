@@ -1,0 +1,43 @@
+import { defineStore } from "pinia";
+import { HTTP } from "../../http-common";
+
+export const usechildStore = defineStore("child", {
+  state: () => ({
+    childs: [],
+  }),
+  getters: {
+    getchilds(state) {
+      return state.childs;
+    },
+  },
+  actions: {
+    async fetchChilds() {
+      try {
+        const data = await HTTP.get("get_childs");
+        this.kids = data.data;
+      } catch (error) {
+        alert(error);
+        console.log(error);
+      }
+    },
+    async postchild(newChild) {
+      try {
+        debugger;
+        await HTTP.post("add_child", newChild);
+      } catch (error) {
+        alert(error);
+        console.log(error);
+      }
+    },
+    async deleteKid(id) {
+      try {
+        await HTTP.delete("deleteChild/" + id).then(() => {
+          this.fetchNgos();
+        });
+      } catch (error) {
+        alert(error);
+        console.log(error);
+      }
+    },
+  },
+});

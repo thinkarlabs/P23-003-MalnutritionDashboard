@@ -3,15 +3,15 @@
     <div id="x-contest" class="container-float">
       <div class="row">
         <h3 class="float-start">Manage NGO</h3>
-        <form @submit.prevent="postNgo">
+        <form @submit.prevent="updateNgo">
           <div class="col-12 my-2">
             <label for="exampleFormControlInput1">NGO Name</label>
             <input
               type="text"
               class="form-control"
               id="exampleFormControlInput1"
-              placeholder="NGO name"
-              v-model="newNgo.ngoName"
+              placeholder=""
+              v-model="updatedNgo.ngoName"
             />
           </div>
 
@@ -22,7 +22,7 @@
               class="form-control"
               id="exampleFormControlInput1"
               placeholder=""
-              v-model="newNgo.contactPersonName"
+              v-model="updatedNgo.contactPersonName"
             />
           </div>
 
@@ -33,7 +33,7 @@
               class="form-control"
               id="exampleFormControlInput1"
               placeholder=""
-              v-model="newNgo.contactPersonPhone"
+              v-model="updatedNgo.contactPersonPhone"
             />
           </div>
 
@@ -44,38 +44,33 @@
               class="form-control"
               id="exampleFormControlInput1"
               placeholder=""
-              v-model="newNgo.contactPersonEmail"
+              v-model="updatedNgo.contactPersonEmail"
             />
           </div>
 
           <div class="col-6 my-2">
             <label for="exampleFormControlInput1">Contact Person Password</label>
             <input
-              type="password"
               class="form-control"
               id="exampleFormControlInput1"
               placeholder=""
-              v-model="newNgo.contactPersonPassword"
+              v-model="updatedNgo.contactPersonPassword"
             />
           </div>
           <div class="col-6 my-2">
             <label for="exampleFormControlInput1">Location</label>
             <input
-              type="password"
               class="form-control"
               id="exampleFormControlInput1"
-              placeholder=""
-              v-model="newNgo.location"
+              v-model="updatedNgo.location"
             />
           </div>
           <div class="col-6 my-2">
             <label for="exampleFormControlInput1">Pincode</label>
             <input
-              type="password"
               class="form-control"
               id="exampleFormControlInput1"
-              placeholder=""
-              v-model="newNgo.pincode"
+              v-model="updatedNgo.pincode"
             />
           </div>
           <div class="row">
@@ -122,8 +117,11 @@
 <script setup>
 import { ref, onMounted, computed, reactive } from "vue";
 import { useNgoStore } from "../stores/ngo";
+import { useRoute } from "vue-router";
 import router from "../router";
-let newNgo = reactive({
+
+let updatedNgo = reactive({
+  id: "",
   ngoName: "",
   contactPersonName: "",
   contactPersonEmail: "",
@@ -132,10 +130,35 @@ let newNgo = reactive({
   location: "",
   pincode: 0,
 });
+
+const route = useRoute();
 const store = useNgoStore();
 
-const postNgo = () => {
-  store.postNgo(newNgo);
+updatedNgo = computed(() => {
+  if (store.ngo) {
+    return store.ngo;
+  } else {
+    return {
+      id: "",
+      ngoName: "",
+      contactPersonName: "",
+      contactPersonEmail: "",
+      contactPersonPhone: 0,
+      contactPersonPassword: "",
+      location: "",
+      pincode: 0,
+    };
+  }
+});
+onMounted(async () => {
+  console.log("Editing.... ");
+  console.log(route.params.id);
+  await store.getNgo(route.params.id);
+  console.log(store.ngo);
+});
+
+const updateNgo = async () => {
+  await store.updateNgo(updatedNgo);
   return router.push("/ngos");
 };
 </script>
