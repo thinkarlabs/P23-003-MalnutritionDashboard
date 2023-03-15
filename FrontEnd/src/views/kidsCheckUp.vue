@@ -1,27 +1,28 @@
 <template>
-  <div class="full-div container" style="width:1280px">
+  <div class="full-div container" style="width: 1280px">
     <div id="x-contest" class="container-fluid p-3">
-      <label for="exampleFormControlInput1" class="form-label"
-        >Record Details for <b> Roshini K N (F, 3yr 4mo) </b></label
-      >
       <form @submit.prevent="postNgo">
         <div class="row">
-          <h3 class="float-start">Manage NGO</h3>
+          <h3 class="form-label">
+            "Record Details for <b> Roshini K N (F, 3yr 4mo) </b>
+          </h3>
 
           <div class="mb-1 col-6">
-            <label for="exampleFormControlInput1" class="form-label">Select a date:</label>
-            <input class="form-control" type="date"
+            <label for="exampleFormControlInput1" class="form-label"
+              >Select a date:</label
+            >
+            <input
+              class="form-control"
+              type="date"
               v-model="dateObj.selectedDate"
               :format="dateObj.dateFormat"
               id="datepicker"
-            >
+            />
             <div>{{ formattedDate }}</div>
           </div>
 
           <div class="mb-1 col-6">
-            <label for="exampleFormControlInput1" class="form-label"
-              >Select Index</label
-            >
+            <label for="exampleFormControlInput1" class="form-label">Select Index</label>
             <select id="level" class="form-select" v-model="newNgo.index">
               <option selected>index</option>
               <option value="S">SAM</option>
@@ -53,10 +54,8 @@
             />
           </div>
           <div class="col-12 mt-2">
-            <button class="bg-primary text-light float-end" data-nav="">
-              Submit
-            </button>
-            <router-link to="/ngos" custom v-slot="{ navigate }">
+            <button class="bg-primary text-light float-end" data-nav="">Submit</button>
+            <router-link to="/ChildSupplementarySummaryView" custom v-slot="{ navigate }">
               <button
                 class="bg-primary text-light float-end me-2"
                 data-nav="mob.kids"
@@ -81,9 +80,7 @@
               <tbody v-for="item in stats">
                 <tr class="Row-styling">
                   <td class="col-2 align-self-start">{{ item.stat_date }}</td>
-                  <td>
-                    {{ item.height }}cms, {{ item.weight }}kg [{{ item.index }}]
-                  </td>
+                  <td>{{ item.height }}cms, {{ item.weight }}kg [{{ item.index }}]</td>
                 </tr>
               </tbody>
             </table>
@@ -167,5 +164,4 @@ const postNgo = () => {
   console.log("vue", newNgo);
   stats.push(newNgo);
 };
-
 </script>

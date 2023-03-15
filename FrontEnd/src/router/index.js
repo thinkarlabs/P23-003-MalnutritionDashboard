@@ -37,6 +37,11 @@ const router = createRouter({
       component: () => import("../views/AddChildView.vue"),
     },
     {
+      path: "/ChildSupplementarySummaryView",
+      name: "ChildSupplementarySummaryView",
+      component: () => import("../views/ChildSupplementarySummaryView.vue"),
+    },
+    {
       path: "/:catchAll(.*)*",
       name: "PageNotFound",
       component: PageNotFound,

@@ -5,7 +5,7 @@
         <h3 class="">Manage Child Details</h3>
         <form @submit.prevent="postchild">
           <div class="mb-1 col-12">
-            <label for="exampleFormControlInput1" class="form-label">Childs Name</label>
+            <label for="exampleFormControlInput1" class="form-label">Child's Name</label>
             <input
               class="form-control"
               type="string"
@@ -60,7 +60,11 @@
           </div>
           <div class="row">
             <div class="col-6 p-0">
-              <router-link to="/ngos" custom v-slot="{ navigate }">
+              <router-link
+                to="/ChildSupplementarySummaryView"
+                custom
+                v-slot="{ navigate }"
+              >
                 <button
                   class="w-100 bg-primary text-light"
                   data-nav="mob.childs"
@@ -107,8 +111,8 @@ const genderchangevalue = (event) => {
   console.log(selectedvalue);
 };
 
-const postchild = () => {
-  store.postchild(newchild);
-  return router.push("/ngos");
+const postchild = async () => {
+  await store.postchild(newchild);
+  return router.push("/ChildSupplementarySummaryView");
 };
 </script>
