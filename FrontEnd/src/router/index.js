@@ -27,7 +27,7 @@ const router = createRouter({
       component: () => import("../views/EditNgoView.vue"),
     },
     {
-      path: "/kidsCheckUp",
+      path: "/kidsCheckUp/:id",
       name: "kidsCheckUp",
       component: () => import("../views/kidsCheckUp.vue"),
     },
@@ -35,6 +35,11 @@ const router = createRouter({
       path: "/addchild",
       name: "addchild",
       component: () => import("../views/AddChildView.vue"),
+    },
+    {
+      path: "/editchild/:id",
+      name: "editchild",
+      component: () => import("../views/EditChildView.vue"),
     },
     {
       path: "/ChildSupplementarySummaryView",

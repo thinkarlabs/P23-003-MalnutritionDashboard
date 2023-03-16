@@ -88,7 +88,8 @@ async def get_ngo(id: str):
 async def update_ngo(id: str, ngo: Ngo):
     NgoCollection.find_one_and_update({"_id": ObjectId(id)},
                                       {"$set": dict(ngo)})
-    updated_value = ngo_list_serializer(NgoCollection.find({"_id": ObjectId(id)}))
+    updated_value = ngo_list_serializer(
+        NgoCollection.find({"_id": ObjectId(id)}))
     return {"status": "ok", "data": updated_value}
 
 
@@ -182,31 +183,31 @@ async def get_childs():
     return {"status": "ok", "data": childs}
 
 
-@child_router.get(f"/api/{id}/get_child")
+@child_router.get("/api/{id}/get_child")
 async def get_child(id: str):
     childs = child_list_serializer(
         ChildCollection.find({"_id": ObjectId(id)}))
     return {"status": "ok", "data": childs}
 
 
-@child_router.put("/api/updateChild")
+@child_router.put("/api/updatechild/{id}")
 async def update_child(id: str, child: Child):
     ChildCollection.find_one_and_update({"_id": ObjectId(id)},
                                         {"$set": dict(child)})
-    childs = child_list_serializer(
+    updated_child = child_list_serializer(
         ChildCollection.find({"_id": ObjectId(id)}))
-    return {"status": "ok", "data": childs}
+    return {"status": "ok", "data": updated_child}
 
 
-@child_router.delete("/api/deleteChild")
+@child_router.delete("/api/deletechild")
 async def delete_child(id: str):
     ChildCollection.find_one_and_delete({"_id": ObjectId(id)})
     return {"status": "ok", "data": []}
 
 
-@child_malnutrition.post("/childMalnutrion_Add")
+@child_malnutrition.post("/api/childMalnutrion_Add")
 async def child_malnutrition_add(child: ChildMalnutrition):
-    """
+     """
     This function is created for add the child malnutrition details basis on child id.
     :param child: A Pydantic model representing ChildMalnutrition data to be created.
     :return: Response status and newly created ChildMalnutrition data.
@@ -219,7 +220,7 @@ async def child_malnutrition_add(child: ChildMalnutrition):
     return {"status": "ok", "data": added_malnutrition_child}
 
 
-@child_malnutrition.get("/get_child_Malnutritions")
+@child_malnutrition.get("/api/get_child_Malnutritions")
 async def get_child_malnutritions():
     """
     This function is created for retrieve all child malnutrition data from db.
@@ -230,19 +231,19 @@ async def get_child_malnutritions():
     return {"status": "ok", "data": childs}
 
 
-@child_malnutrition.get(f"/{id}/get_child_malnutrition")
-async def get_child_malnutrition(id: str):
+@child_malnutrition.get("/api/{child_id}/get_child_malnutrition_stats")
+async def get_child_malnutrition_stats(child_id: str):
     """
     This function is create for get the particular child malnutrition data.
     :param id: id of the ChildMalnutrition to retrieve.
     :return: Response status and fetched particular data.
     """
     child = child_malnutrition_list_serializer(
-        ChildMalnutritionCollection.find({"_id": ObjectId(id)}))
+        ChildMalnutritionCollection.find({"child_id": str(child_id)}))
     return {"status": "ok", "data": child}
 
 
-@child_malnutrition.put("/update_child_malnutrition")
+@ child_malnutrition.put("/update_child_malnutrition")
 async def update_child_malnutrition(id: str, childs: ChildMalnutrition):
     """
     This function is create for update the child malnutrition details.
@@ -408,8 +409,10 @@ async def delete_supplement_details(id: str):
 @program_router.post("/programs", response_model=Program)
 async def create_program(program: Program):
     program_dict = program.dict()
-    program_dict["donor"] = {"_id": ObjectId(program.donor.id), "name": program.donor.name}
-    program_dict["supplement"] = {"_id": ObjectId(program.supplement.id), "name": program.supplement.name}
+    program_dict["donor"] = {"_id": ObjectId(
+        program.donor.id), "name": program.donor.name}
+    program_dict["supplement"] = {"_id": ObjectId(
+        program.supplement.id), "name": program.supplement.name}
     result = ProgramsCollection.insert_one(program_dict)
     program.id = str(result.inserted_id)
     return program
@@ -436,9 +439,12 @@ async def read_program(program_id: str):
 @program_router.put("/programs/{program_id}", response_model=Program)
 async def update_program(program_id: str, program: Program):
     program_dict = program.dict()
-    program_dict["donor"] = {"_id": ObjectId(program.donor.id), "name": program.donor.name}
-    program_dict["supplement"] = {"_id": ObjectId(program.supplement.id), "name": program.supplement.name}
-    result = ProgramsCollection.replace_one({"_id": ObjectId(program_id)}, program_dict)
+    program_dict["donor"] = {"_id": ObjectId(
+        program.donor.id), "name": program.donor.name}
+    program_dict["supplement"] = {"_id": ObjectId(
+        program.supplement.id), "name": program.supplement.name}
+    result = ProgramsCollection.replace_one(
+        {"_id": ObjectId(program_id)}, program_dict)
     if result.matched_count == 0:
         raise HTTPException(status_code=404, detail="Program not found")
     program.id = program_id
