@@ -7,7 +7,8 @@ from argparse import OPTIONAL
 from fastapi import APIRouter, Body
 from Backend.model.model import Ngo, User, Donor, Aanganwadi, Child, ChildMalnutrition, SupplementsDetail, Program
 from Backend.config.database import NgoCollection, UserCollection, AanganwadiCollection, ChildCollection
-from Backend.config.database import DonorsCollection, ChildMalnutritionCollection, SupplementDetailsCollection, ProgramsCollection
+from Backend.config.database import DonorsCollection, ChildMalnutritionCollection, SupplementDetailsCollection, \
+    ProgramsCollection
 from Backend.schemas.schema import ngo_list_serializer, user_list_serializer, donors_list_serializer
 from Backend.schemas.schema import supplements_list_serializer
 from Backend.schemas.schema import aanganwadi_list_serializer, child_list_serializer, child_malnutrition_list_serializer
@@ -20,7 +21,7 @@ aanganwadi_router = APIRouter()
 child_router = APIRouter()
 child_malnutrition = APIRouter()
 supplement_details = APIRouter()
-program_router=APIRouter()
+program_router = APIRouter()
 
 
 @user_router.post("/api/create_user")
@@ -204,8 +205,8 @@ async def delete_child(id: str):
 
 
 @child_malnutrition.post("/childMalnutrion_Add")
-async def child_malnutrition_add(child: ChildMalnutrition, child_id: str):
-    if not ChildCollection.find_one({"_id": ObjectId(child_id)}):
+async def child_malnutrition_add(child: ChildMalnutrition):
+    if not ChildCollection.find_one({"_id": ObjectId(child.child_id)}):
         raise HTTPException(status_code=404, detail="Child not found")
     _id = ChildMalnutritionCollection.insert_one(dict(child))
     added_malnutrition_child = child_malnutrition_list_serializer(ChildMalnutritionCollection.find(
@@ -378,12 +379,13 @@ async def delete_supplement_details(id: str):
     SupplementDetailsCollection.find_one_and_delete({"_id": ObjectId(id)})
     return {"status": "ok", "data": []}
 
+
 @program_router.post("/programs", response_model=Program)
 async def create_program(program: Program):
     program_dict = program.dict()
     program_dict["donor"] = {"_id": ObjectId(program.donor.id), "name": program.donor.name}
     program_dict["supplement"] = {"_id": ObjectId(program.supplement.id), "name": program.supplement.name}
-    result =ProgramsCollection.insert_one(program_dict)
+    result = ProgramsCollection.insert_one(program_dict)
     program.id = str(result.inserted_id)
     return program
 
@@ -424,4 +426,3 @@ async def delete_program(program_id: str):
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Program not found")
     return {"message": "Program deleted successfully"}
-
