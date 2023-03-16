@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 from pydantic import BaseModel, EmailStr, validator, Field
 from bson import ObjectId
 from typing import Optional
@@ -10,7 +10,6 @@ class ParameterValidator:
     """
 
     def validate_name(cls, value):
-
         """
         This function is created for validate the name field.
         :param value: taking value or parameter name from model classes
@@ -28,7 +27,6 @@ class ParameterValidator:
         return value
 
     def validate_age(cls, value):
-
         """
         This function is created for validate the age field.
         :param value: taking value or parameter name from model classes
@@ -38,11 +36,11 @@ class ParameterValidator:
             if i.isdigit() and int(i) > 0:
                 continue
             else:
-                raise ValueError("only digit accepted and value should be greater than zero")
+                raise ValueError(
+                    "only digit accepted and value should be greater than zero")
         return value
 
     def validate_is_digit(cls, value):
-
         """
         This function is created for validate the pincode, phone number field and the parameter which contain digit
         value.
@@ -54,7 +52,6 @@ class ParameterValidator:
         return value
 
     def validate_is_empty(cls, value):
-
         """
         This function is created for validate the field value is it present or not.
         :param value: taking value or parameter name from model classes
@@ -65,7 +62,6 @@ class ParameterValidator:
         return value
 
     def validate_is_alpha(cls, value):
-
         """
         This function is created for validate the field which value should be alphabet.
         :param value: taking value or parameter name from model classes
@@ -105,13 +101,18 @@ class Ngo(BaseModel):
     location: str = Field(...)
     pincode: str = Field(..., min_length=6, max_length=6)
 
-    _validate_ngo_name = validator('ngoName', allow_reuse=True)(ParameterValidator.validate_name)
-    _validate_contact_person_name = validator('contactPersonName', allow_reuse=True)(ParameterValidator.validate_name)
+    _validate_ngo_name = validator('ngoName', allow_reuse=True)(
+        ParameterValidator.validate_name)
+    _validate_contact_person_name = validator(
+        'contactPersonName', allow_reuse=True)(ParameterValidator.validate_name)
     _validate_phone_number = validator('contactPersonPhone', allow_reuse=True)(ParameterValidator.
                                                                                validate_is_digit)
-    _validate_password = validator('contactPersonPassword', allow_reuse=True)(ParameterValidator.validate_is_empty)
-    _validate_location = validator('location', allow_reuse=True)(ParameterValidator.validate_is_empty)
-    _validate_pincode = validator('pincode', allow_reuse=True)(ParameterValidator.validate_is_digit)
+    _validate_password = validator('contactPersonPassword', allow_reuse=True)(
+        ParameterValidator.validate_is_empty)
+    _validate_location = validator('location', allow_reuse=True)(
+        ParameterValidator.validate_is_empty)
+    _validate_pincode = validator('pincode', allow_reuse=True)(
+        ParameterValidator.validate_is_digit)
 
 
 class Aanganwadi(BaseModel):
@@ -126,13 +127,18 @@ class Aanganwadi(BaseModel):
     taluka: str = Field(...)
     pincode: str = Field(..., min_length=6, max_length=6)
 
-    _validate_aanganwadi_name = validator('aanganwadiName', allow_reuse=True)(ParameterValidator.validate_name)
-    _validate_contact_person_name = validator('contactPersonName', allow_reuse=True)(ParameterValidator.validate_name)
+    _validate_aanganwadi_name = validator(
+        'aanganwadiName', allow_reuse=True)(ParameterValidator.validate_name)
+    _validate_contact_person_name = validator(
+        'contactPersonName', allow_reuse=True)(ParameterValidator.validate_name)
     _validate_phone_number = validator('contactPersonPhone', allow_reuse=True)(ParameterValidator.
                                                                                validate_is_digit)
-    _validate_password = validator('contactPersonPassword', allow_reuse=True)(ParameterValidator.validate_is_empty)
-    _validate_taluka = validator('taluka', allow_reuse=True)(ParameterValidator.validate_is_empty)
-    _validate_pincode = validator('pincode', allow_reuse=True)(ParameterValidator.validate_is_digit)
+    _validate_password = validator('contactPersonPassword', allow_reuse=True)(
+        ParameterValidator.validate_is_empty)
+    _validate_taluka = validator('taluka', allow_reuse=True)(
+        ParameterValidator.validate_is_empty)
+    _validate_pincode = validator('pincode', allow_reuse=True)(
+        ParameterValidator.validate_is_digit)
 
 
 class Donor(BaseModel):
@@ -155,10 +161,14 @@ class Child(BaseModel):
     gender: str
     isActive: bool
 
-    _validate_child_name = validator('childName', allow_reuse=True)(ParameterValidator.validate_name)
-    _validate_mother_name = validator('motherName', allow_reuse=True)(ParameterValidator.validate_name)
-    _validate_child_age = validator('child_age', allow_reuse=True)(ParameterValidator.validate_age)
-    _validate_gender = validator('gender', allow_reuse=True)(ParameterValidator.validate_is_alpha)
+    _validate_child_name = validator('childName', allow_reuse=True)(
+        ParameterValidator.validate_name)
+    _validate_mother_name = validator('motherName', allow_reuse=True)(
+        ParameterValidator.validate_name)
+    _validate_child_age = validator('child_age', allow_reuse=True)(
+        ParameterValidator.validate_age)
+    _validate_gender = validator('gender', allow_reuse=True)(
+        ParameterValidator.validate_is_alpha)
 
 
 class ChildMalnutrition(BaseModel):
@@ -220,8 +230,8 @@ class Program(BaseModel):
     code: str
     donor: Donor
     supplement: Supplement
-    from_date: datetime
-    to_date: datetime
+    from_date: date
+    to_date: date
     notes: Optional[str] = None
 
     class Config:

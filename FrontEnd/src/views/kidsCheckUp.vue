@@ -1,11 +1,9 @@
 <template>
   <div class="full-div container" style="width: 1280px">
     <div id="x-contest" class="container-fluid p-3">
-      <form @submit.prevent="postNgo">
+      <form @submit.prevent="postMalnutritionDetail">
         <div class="row">
-          <h3 class="form-label">
-            "Record Details for <b> Roshini K N (F, 3yr 4mo) </b>
-          </h3>
+          <h3 class="form-label">Record Details for <b> Roshini K N (F, 3yr 4mo) </b></h3>
 
           <div class="mb-1 col-6">
             <label for="exampleFormControlInput1" class="form-label"
@@ -23,11 +21,16 @@
 
           <div class="mb-1 col-6">
             <label for="exampleFormControlInput1" class="form-label">Select Index</label>
-            <select id="level" class="form-select" v-model="newNgo.index">
-              <option selected>index</option>
-              <option value="S">SAM</option>
-              <option value="M">MAM</option>
-              <option value="N">Normal</option>
+            <select
+              id="level"
+              class="form-select"
+              @change="nutritionIndexchangevalue($event)"
+              v-bind:value="malnutritionDetail.malnutritionIndexCategory"
+            >
+              <option selected>Index</option>
+              <option value="SAM">SAM</option>
+              <option value="MAM">MAM</option>
+              <option value="Normal">Normal</option>
             </select>
           </div>
 
@@ -38,7 +41,7 @@
             <input
               class="form-control"
               type="number"
-              v-model="newNgo.height"
+              v-model="malnutritionDetail.height"
               aria-label="..."
             />
           </div>
@@ -49,12 +52,21 @@
             <input
               class="form-control"
               type="number"
-              v-model="newNgo.weight"
+              v-model="malnutritionDetail.weight"
               aria-label="..."
             />
           </div>
           <div class="col-12 mt-2">
-            <button class="bg-primary text-light float-end" data-nav="">Submit</button>
+            <button
+              class="bg-primary text-light float-end"
+              data-nav=""
+              @click="navigate"
+              type="submit"
+              role="link"
+            >
+              Submit
+            </button>
+
             <router-link to="/ChildSupplementarySummaryView" custom v-slot="{ navigate }">
               <button
                 class="bg-primary text-light float-end me-2"
@@ -66,7 +78,7 @@
               </button>
             </router-link>
           </div>
-          <div class="my-2 col-12">
+          <div class="my-2 col-12" v-if="isHistoryAvailable">
             <label for="exampleFormControlInput1" class="form-label"
               >Health Record History</label
             >
@@ -77,10 +89,14 @@
                   <th scope="col" id="tableRow">Stats</th>
                 </tr>
               </thead>
-              <tbody v-for="item in stats">
+              <tbody v-for="item in malnutritionstats">
                 <tr class="Row-styling">
-                  <td class="col-2 align-self-start">{{ item.stat_date }}</td>
-                  <td>{{ item.height }}cms, {{ item.weight }}kg [{{ item.index }}]</td>
+                  <td class="col-2 align-self-start">{{ item.date }}</td>
+                  <td>
+                    {{ item.height }}cms, {{ item.weight }}kg [{{
+                      item.malnutritionIndexCategory
+                    }}]
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -114,54 +130,73 @@
 <script setup>
 import { ref, onMounted, computed, reactive } from "vue";
 import router from "../router";
+import { useRoute } from "vue-router";
+import { useMalnutritionDetailStore } from "../stores/malnutritiondetail";
 import DatePicker from "vue3-datepicker";
 import { format } from "date-fns";
+
+const store = useMalnutritionDetailStore();
+const route = useRoute();
 
 let dateObj = reactive({
   selectedDate: null,
   dateFormat: "dd/MMM/yyyy",
 });
 
-let stats = reactive([
-  {
-    stat_id: "001",
-    stat_date: "12/Jan/2023",
-    height: "132",
-    weight: "34",
-    index: "M",
-  },
-  {
-    stat_id: "001",
-    stat_date: "16/Jan/2023",
-    height: "142",
-    weight: "43",
-    index: "N",
-  },
-  {
-    stat_id: "001",
-    stat_date: "27/Jan/2023",
-    height: "137",
-    weight: "23",
-    index: "S",
-  },
-]);
-let newNgo = reactive({
-  stat_id: "001",
-  stat_date: "",
-  index: "index",
+let malnutritionDetail = reactive({
+  malnutritionIndexCategory: "",
+  date: dateObj.selectedDate,
+  child_id: "",
   height: "",
   weight: "",
 });
 
-const formattedDate = computed(() => {
-  console.log("date", dateObj.selectedDate);
-  newNgo.stat_date = dateObj.selectedDate
-    ? format(dateObj.selectedDate, dateObj.dateFormat)
-    : "";
+let malnutritionstats = computed(() => {
+  if (store.currentChildMalnutrition.data) {
+    return store.currentChildMalnutrition.data;
+  } else {
+    return {
+      id: "",
+      malnutritionIndexCategory: "",
+      date: dateObj.selectedDate,
+      child_id: "",
+      height: "",
+      weight: "",
+    };
+  }
 });
 
-const postNgo = () => {
-  console.log("vue", newNgo);
-  stats.push(newNgo);
+const formattedDate = computed(() => {
+  console.log("date", dateObj.selectedDate);
+  malnutritionDetail.date = dateObj.selectedDate;
+  // malnutritionDetail.stat_date = dateObj.selectedDate
+  //   ? format(dateObj.selectedDate, dateObj.dateFormat)
+  //   : "";
+});
+
+const isHistoryAvailable = computed(() => {
+  return store.currentChildMalnutrition?.data?.length > 0;
+});
+
+onMounted(async () => {
+  console.log("Editing.... ");
+  console.log(route.params.id);
+  await store.getChildMalnutritionHistory(route.params.id);
+  console.log("got result for child malnutrtion status");
+  console.log(store.currentChildMalnutrition.data.data);
+});
+
+const nutritionIndexchangevalue = (event) => {
+  const selectedvalue = event.target.options[event.target.options.selectedIndex].text;
+  malnutritionDetail.malnutritionIndexCategory = selectedvalue;
+  console.log(selectedvalue);
+};
+
+const postMalnutritionDetail = async () => {
+  malnutritionDetail.child_id = route.params.id;
+  console.log("vue", malnutritionDetail);
+  await store.postNutritionStats(malnutritionDetail);
+  location.reload();
+  //return router.push("/kidscheckup/" + malnutritionDetail.child_id);
 };
 </script>

@@ -15,7 +15,9 @@
               <tr v-for="kidsummary of kidssummaries" :key="kidsummary.id">
                 <td>
                   <span data-nav="mob.kid.new" style="cursor: pointer">
-                    <u>{{ kidsummary.kid_name }} </u></span
+                    <u @click="editChild(kidsummary.id)"
+                      >{{ kidsummary.kid_name }}
+                    </u></span
                   >
                   <br />
                   {{ kidsummary.kid_pname }} <br />
@@ -27,7 +29,11 @@
                   {{ kidsummary.kid_statdate }}
                 </td>
                 <td class="col-1 align-self-start">
-                  <router-link to="/KidsCheckUp" custom v-slot="{ navigate }">
+                  <router-link
+                    :to="`/KidsCheckUp/${kidsummary.id}`"
+                    custom
+                    v-slot="{ navigate }"
+                  >
                     <i
                       class="bi bi-plus-circle-fill"
                       data-nav="mob.kid.stats"
@@ -58,9 +64,21 @@
 </template>
 
 <script setup>
+import { onMounted, computed } from "vue";
+import { useSupplmentarySummaryStore } from "../stores/SupplmentarySummary";
+import router from "../router";
+
+const store = useSupplmentarySummaryStore();
+
+const childSummaries = computed(() => {
+  return store.childSummaries.data;
+});
+const isSummaryDataAvailable = computed(() => {
+  return store.childSummaries?.data?.length > 0;
+});
 const kidssummaries = [
   {
-    id: 1,
+    id: "641150e25014ae42c9ddc8e8",
     kid_name: "Sunil Karanth",
     kid_gender: "M",
     kid_age: "4y 3m",
@@ -72,7 +90,7 @@ const kidssummaries = [
     kid_statdate: "02-Jan-2023",
   },
   {
-    id: 2,
+    id: "641151295014ae42c9ddc8ea",
     kid_name: "Roshini K N",
     kid_gender: "F",
     kid_age: "3y 2m",
@@ -84,7 +102,7 @@ const kidssummaries = [
     kid_statdate: "02-Jan-2023",
   },
   {
-    id: 3,
+    id: "6411ea5e79764ac25dc0ae82",
     kid_name: "Kavitha Das",
     kid_gender: "F",
     kid_age: "3y 11m",
@@ -96,4 +114,12 @@ const kidssummaries = [
     kid_statdate: "02-Jan-2023",
   },
 ];
+
+onMounted(() => {
+  store.fetchChildSummaries();
+});
+const editChild = (id) => {
+  console.log("edit clicked" + id);
+  router.push("EditChild/" + id);
+};
 </script>

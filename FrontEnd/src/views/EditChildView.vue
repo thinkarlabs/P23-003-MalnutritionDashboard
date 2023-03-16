@@ -2,8 +2,8 @@
   <main class="container-full">
     <div id="x-main" class="container-fluid mt-5 p-3">
       <div class="row">
-        <h3 class="">Add Child Details</h3>
-        <form @submit.prevent="postchild">
+        <h3 class="">Manage Child Details</h3>
+        <form @submit.prevent="updateChild">
           <div class="mb-1 col-12">
             <label for="exampleFormControlInput1" class="form-label">Child's Name</label>
             <input
@@ -11,7 +11,7 @@
               type="string"
               aria-label="..."
               placeholder="Child name"
-              v-model="newchild.childName"
+              v-model="currentchild.childName"
             />
           </div>
 
@@ -22,7 +22,7 @@
               type="string"
               aria-label="..."
               placeholder="Mothers name"
-              v-model="newchild.motherName"
+              v-model="currentchild.motherName"
             />
           </div>
 
@@ -33,14 +33,19 @@
               type="number"
               aria-label="..."
               placeholder="Child Age"
-              v-model="newchild.child_age"
+              v-model="currentchild.child_age"
             />
           </div>
 
           <div class="mb-1 col-6">
             <label for="exampleFormControlInput1" class="form-label">Gender</label>
-            <select id="level" class="form-select" @change="genderchangevalue($event)">
-              <option value="">Gender</option>
+            <select
+              id="level"
+              class="form-select"
+              @change="genderchangevalue($event)"
+              v-bind:value="currentchild.gender"
+            >
+              <option value="" selected>Gender</option>
               <option value="Male" key="1">Male</option>
               <option value="Female" key="2">Female</option>
               <option value="Other" key="3">Other</option>
@@ -52,7 +57,7 @@
               <input
                 class="form-check-input"
                 type="checkbox"
-                v-model="newchild.isActive"
+                v-model="currentchild.isActive"
                 id="flexCheckDefault"
               />
               <label class="form-check-label" for="flexCheckDefault"> In-Active </label>
@@ -95,24 +100,50 @@
 <script setup>
 import { ref, onMounted, computed, reactive } from "vue";
 import { usechildStore } from "../stores/child.js";
+import { useRoute } from "vue-router";
 import router from "../router";
-let newchild = reactive({
+
+const store = usechildStore();
+const route = useRoute();
+
+let currentchild = reactive({
   childName: "",
   motherName: "",
   child_age: "",
-  gender: 0,
+  gender: "",
   isActive: false,
 });
-const store = usechildStore();
+
+currentchild = computed(() => {
+  if (store.child) {
+    return store.child;
+  } else {
+    return {
+      id: "",
+      childName: "",
+      motherName: "",
+      child_age: "",
+      gender: "",
+      isActive: false,
+    };
+  }
+});
 
 const genderchangevalue = (event) => {
   const selectedvalue = event.target.options[event.target.options.selectedIndex].text;
-  newchild.gender = selectedvalue;
+  currentchild.gender = selectedvalue;
   console.log(selectedvalue);
 };
 
-const postchild = async () => {
-  await store.postchild(newchild);
+onMounted(async () => {
+  console.log("Editing.... ");
+  console.log(route.params.id);
+  await store.getChild(route.params.id);
+  console.log(store.child);
+});
+
+const updateChild = async () => {
+  await store.updateChild(currentchild);
   return router.push("/ChildSupplementarySummaryView");
 };
 </script>
