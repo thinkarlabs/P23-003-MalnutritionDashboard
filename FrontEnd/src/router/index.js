@@ -47,6 +47,21 @@ const router = createRouter({
       component: () => import("../views/ChildSupplementarySummaryView.vue"),
     },
     {
+      path: "/manageAanganwadi",
+      name: "manageAanganwadi",
+      component: () => import("../views/ManageAanganwadi.vue"),
+    },
+    {
+      path: "/aanganwadiList",
+      name: "aanganwadiList",
+      component: () => import("../views/AanganwadiList.vue"),
+    },
+    {
+      path: "/editAanganwadiPage/:id",
+      name: "aanganwadi-details",
+      component: () => import("../views/EditAanganwadi.vue")
+    },
+    {
       path: "/:catchAll(.*)*",
       name: "PageNotFound",
       component: PageNotFound,
