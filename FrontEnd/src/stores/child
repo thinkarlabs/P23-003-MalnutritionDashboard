@@ -22,7 +22,6 @@ export const usechildStore = defineStore("child", {
     },
     async postchild(newChild) {
       try {
-        debugger;
         await HTTP.post("add_child", newChild);
       } catch (error) {
         alert(error);

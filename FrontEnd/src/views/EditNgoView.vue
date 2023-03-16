@@ -1,9 +1,10 @@
 <template>
-  <div class="container-md mt-5 p-3">
-    <div id="x-contest" class="container-float">
-      <div class="row">
-        <h3 class="float-start">Manage NGO</h3>
-        <form @submit.prevent="updateNgo">
+  <div class="full-div container" style="width: 1280px">
+    <div id="x-contest" class="container-fluid p-3">
+      <form @submit.prevent="updateNgo">
+        <div class="row">
+          <h3 class="float-start">Manage NGO</h3>
+
           <div class="col-12 my-2">
             <label for="exampleFormControlInput1">NGO Name</label>
             <input
@@ -97,19 +98,28 @@
               </router-link>
             </div>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   </div>
 </template>
 
 <style>
-#main-Container {
-  margin-top: -10rem;
+#x-contest {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
 }
-@media (max-width: 400px) {
-  #main-Container {
-    margin-top: 3rem;
+#tableRow {
+  font-weight: 700;
+  font-size: 17px;
+}
+
+@media (max-width: 600px) {
+  .full-div {
+    max-width: fit-content;
+  }
+  .Row-styling {
+    border: none;
   }
 }
 </style>

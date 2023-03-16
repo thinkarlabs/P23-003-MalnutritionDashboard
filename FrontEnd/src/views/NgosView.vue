@@ -1,66 +1,89 @@
 <template>
-  <div class="row">
-    <div class="col-12 p-2">
-      <h3 class="float-start ps-2">NGOs</h3>
-      <router-link to="/addngo" custom v-slot="{ navigate }">
-        <button
-          type="button"
-          class="btn btn-primary float-end mx-2"
-          data-nav="admin.ngo.new"
-          @click="navigate"
-          role="link"
-        >
-          <i class="bi bi-plus-square"></i>
-        </button>
-      </router-link>
-    </div>
-
-    <table class="col-12 table table-striped" id="tbl_ch">
-      <thead class="table-dark">
-        <tr>
-          <th scope="col">NGO Name</th>
-          <th scope="col">Contact Person</th>
-          <th scope="col">Contact EMail</th>
-          <th scope="col">Contact Password</th>
-          <th scope="col">Contact Phone</th>
-          <th scope="col" class="text-center">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <div v-show="!isNgoAvailable">
-          <tr>
-            <td>No records available</td>
-          </tr>
+  <div class="full-div container" style="width: 1280px">
+    <div id="x-contest" class="container-fluid p-3">
+      <div class="row">
+        <div class="col-12 p-2">
+          <h3 class="float-start ps-2">NGOs</h3>
+          <router-link to="/addngo" custom v-slot="{ navigate }">
+            <button
+              type="button"
+              class="btn btn-primary float-end mx-2"
+              data-nav="admin.ngo.new"
+              @click="navigate"
+              role="link"
+            >
+              <i class="bi bi-plus-square"></i>
+            </button>
+          </router-link>
         </div>
-        <tr v-for="item of ngos" :key="item.id">
-          <td>{{ item.ngoName }}</td>
-          <td>{{ item.contactPersonName }}</td>
-          <td>{{ item.contactPersonEmail }}</td>
-          <td>{{ item.contactPersonPassword }}</td>
-          <td>{{ item.contactPersonPhone }}</td>
-          <td class="col-2">
-            <button
-              type="button"
-              class="btn btn-primary float-end mx-2"
-              data-nav="admin.exercise.del"
-              @click="deleteNgo(item.id)"
-            >
-              <i class="bi bi-trash"></i>
-            </button>
-            <button
-              type="button"
-              class="btn btn-primary float-end mx-2"
-              data-nav="admin.exercise.edit"
-              @click="editNgo(item.id)"
-            >
-              <i class="bi bi-pencil-square"></i>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+
+        <table class="col-12 table table-striped" id="tbl_ch">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">NGO Name</th>
+              <th scope="col">Contact Person</th>
+              <th scope="col">Contact EMail</th>
+              <th scope="col">Contact Password</th>
+              <th scope="col">Contact Phone</th>
+              <th scope="col" class="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <div v-show="!isNgoAvailable">
+              <tr>
+                <td>No records available</td>
+              </tr>
+            </div>
+            <tr v-for="item of ngos" :key="item.id">
+              <td>{{ item.ngoName }}</td>
+              <td>{{ item.contactPersonName }}</td>
+              <td>{{ item.contactPersonEmail }}</td>
+              <td>{{ item.contactPersonPassword }}</td>
+              <td>{{ item.contactPersonPhone }}</td>
+              <td class="col-2">
+                <button
+                  type="button"
+                  class="btn btn-primary float-end mx-2"
+                  data-nav="admin.exercise.del"
+                  @click="deleteNgo(item.id)"
+                >
+                  <i class="bi bi-trash"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary float-end mx-2"
+                  data-nav="admin.exercise.edit"
+                  @click="editNgo(item.id)"
+                >
+                  <i class="bi bi-pencil-square"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </template>
+<style>
+#x-contest {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+#tableRow {
+  font-weight: 700;
+  font-size: 17px;
+}
+
+@media (max-width: 600px) {
+  .full-div {
+    max-width: fit-content;
+  }
+  .Row-styling {
+    border: none;
+  }
+}
+</style>
 <script setup>
 import { onMounted, computed } from "vue";
 import { useNgoStore } from "../stores/ngo";
