@@ -68,19 +68,23 @@ class ParameterValidator:
 
         """
         This function is created for validate the field which value should be alphabet.
-        :param value:
-        :return:
+        :param value: taking value or parameter name from model classes
+        :return: After validating the parameter it returns the value
         """
         if not value.isalpha():
             raise ValueError("Value should be alphabet")
         return value
 
     def validate_date(cls, value):
+        """
+        This function is created for validate the date.
+        :param value: taking value or parameter name from model classes
+        :return: After validating the parameter it returns the value
+        """
         date_format = "%Y-%m-%d"
         if not datetime.strptime(value, date_format):
             raise ValueError("format not correct")
         return value
-
 
 
 class User(BaseModel):
