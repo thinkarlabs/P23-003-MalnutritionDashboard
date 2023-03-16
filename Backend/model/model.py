@@ -68,11 +68,22 @@ class ParameterValidator:
 
         """
         This function is created for validate the field which value should be alphabet.
-        :param value:
-        :return:
+        :param value: taking value or parameter name from model classes
+        :return: After validating the parameter it returns the value
         """
         if not value.isalpha():
             raise ValueError("Value should be alphabet")
+        return value
+
+    def validate_date(cls, value):
+        """
+        This function is created for validate the date.
+        :param value: taking value or parameter name from model classes
+        :return: After validating the parameter it returns the value
+        """
+        date_format = "%Y-%m-%d"
+        if not datetime.strptime(value, date_format):
+            raise ValueError("format not correct")
         return value
 
 
@@ -154,11 +165,13 @@ class ChildMalnutrition(BaseModel):
     """
     This ChildMalnutrition class has created for storing the required ChildMalnutrition field value in database.
     """
-    date: datetime
+    date: str
     malnutritionIndexCategory: str
     height: float
     weight: float
     child_id: str
+
+    _validate_date = validator('date', allow_reuse=True)(ParameterValidator.validate_date)
 
 
 class Supplementary(BaseModel):
@@ -179,12 +192,12 @@ class Supplementary(BaseModel):
 
 
 class SupplementsDetail(BaseModel):
-
     """
     This SupplementsDetail class has created for store the details about supplements in DB.
     """
     name: str = Field(...)
     description: str
+
 
 class Donor(BaseModel):
     id: str = Field(alias="_id")
@@ -213,4 +226,3 @@ class Program(BaseModel):
 
     class Config:
         orm_mode = True
-
