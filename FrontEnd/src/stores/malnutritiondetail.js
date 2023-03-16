@@ -36,6 +36,7 @@ export const useMalnutritionDetailStore = defineStore("malnutritiondetail", {
     async postNutritionStats(newNutritionStats) {
       try {
         await HTTP.post("childMalnutrion_Add", newNutritionStats);
+        //Todo: need to find another better solution
         // this.fetchNutritionStats();
       } catch (error) {
         alert(error);

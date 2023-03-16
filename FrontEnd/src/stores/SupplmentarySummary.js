@@ -17,6 +17,8 @@ export const useSupplmentarySummaryStore = defineStore("SupplmentarySummary", {
         const childMalnutritions = await HTTP.get("get_child_Malnutritions");
         console.log(childs.data.data);
         console.log(childMalnutritions.data.data);
+        //Todo: WIP checking in now for making sure other integrations are working fine
+
         // let filtered = childMalnutritions.filter(malnutrition =>        // filter jsondata
         // childs.every( child =>                // so every member of filter array
         //     child.value.includes(malnutrition[child.id])) )

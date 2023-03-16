@@ -169,6 +169,7 @@ let malnutritionstats = computed(() => {
 const formattedDate = computed(() => {
   console.log("date", dateObj.selectedDate);
   malnutritionDetail.date = dateObj.selectedDate;
+  //Todo: need to find whether we need this format later
   // malnutritionDetail.stat_date = dateObj.selectedDate
   //   ? format(dateObj.selectedDate, dateObj.dateFormat)
   //   : "";
@@ -197,6 +198,7 @@ const postMalnutritionDetail = async () => {
   console.log("vue", malnutritionDetail);
   await store.postNutritionStats(malnutritionDetail);
   location.reload();
+  //Todo: need to find another better solution
   //return router.push("/kidscheckup/" + malnutritionDetail.child_id);
 };
 </script>

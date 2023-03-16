@@ -22,7 +22,6 @@ child_router = APIRouter()
 child_malnutrition = APIRouter()
 supplement_details = APIRouter()
 program_router = APIRouter()
-program_router = APIRouter()
 
 
 @user_router.post("/api/create_user")
