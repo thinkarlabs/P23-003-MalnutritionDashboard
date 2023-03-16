@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import datetime
 from pydantic import BaseModel, EmailStr, validator, Field
 from bson import ObjectId
 from typing import Optional
@@ -181,7 +181,8 @@ class ChildMalnutrition(BaseModel):
     weight: float
     child_id: str
 
-    _validate_date = validator('date', allow_reuse=True)(ParameterValidator.validate_date)
+    _validate_date = validator('date', allow_reuse=True)(
+        ParameterValidator.validate_date)
 
 
 class Supplementary(BaseModel):
@@ -230,8 +231,8 @@ class Program(BaseModel):
     code: str
     donor: Donor
     supplement: Supplement
-    from_date: date
-    to_date: date
+    from_date: datetime
+    to_date: datetime
     notes: Optional[str] = None
 
     class Config:
