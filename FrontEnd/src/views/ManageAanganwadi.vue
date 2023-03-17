@@ -121,8 +121,7 @@
   
   const postAanganwadi = () => {
     store.postAanganwadi(aanganwadi);
-    alert("fetching the list");
-    return router.push("/api/aanganwadiList");
+    return router.push("/aanganwadiList");
   };
   </script>
   

@@ -59,6 +59,10 @@
         </tbody>
       </table>
     </div>
+
+
+    
+
   </template>
 
   <script setup>
@@ -66,7 +70,7 @@
   import { useAanganwadiStore } from "../stores/aanganwadi";
   import swal from "sweetalert";
   import router from "../router";
-  
+  const userUpdate= {};
   const store = useAanganwadiStore();
   
   const aanganwadies = computed(() => {
@@ -109,5 +113,7 @@
   onMounted(() => {
     store.fetchAanganwadies();
   });
-
+const editUser = (item)=> {
+            this.userUpdate = item
+        };
   </script>
