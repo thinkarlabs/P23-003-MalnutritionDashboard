@@ -59,10 +59,6 @@
         </tbody>
       </table>
     </div>
-
-
-    
-
   </template>
 
 
@@ -131,4 +127,5 @@ const editUser = (item)=> {
             this.userUpdate = item
         };
   </script>
+  
   

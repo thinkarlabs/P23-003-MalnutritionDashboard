@@ -90,17 +90,6 @@
         </div>
       </div>
     </div>
-    <div v-if="loading">Loading...</div>
-
-    <div
-      v-for="currency in info"
-      class="currency"
-    >
-      {{ currency.description }}:
-      <span class="lighten">
-        <span v-html="currency.symbol"></span>{{ currency.rate_float | currencydecimal }}
-      </span>
-    </div>
   </template>
   
   <style>
@@ -145,6 +134,5 @@
     store.updateAanganwadi(aanganwadi);
     return router.push("/aanganwadiList");
   };
-  
   </script>
   
