@@ -111,8 +111,8 @@
   let updatedAanganwadi = reactive({
     aanganwadiName: "",
     contactPersonName: "",
-    contactPersonEmail: "",
-    contactPersonPhone:"",
+    contactPersonPhone: 123,
+    contactPersonEmail:"",
     contactPersonPassword: "",
     taluka: "",
     coordinates: "",
