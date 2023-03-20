@@ -30,7 +30,7 @@ export const useAanganwadiStore = defineStore("aanganwadi", {
       }
     },
     async updateAanganwadi(newAanganwadi) {
-    console.log("EDITING Aanganwadi :: "+id);
+    console.log("EDITING Aanganwadi :: "+JSON.stringify(newAanganwadi));
       try {
         await axios
           .put("http://127.0.0.1:7000/api/updateAanganwadi/", newAanganwadi)

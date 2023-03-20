@@ -1,94 +1,93 @@
 <template>
-    <div class="container-md mt-5 p-3">
-      <div id="x-contest" class="container-float">
+  <div class="full-div container" style="width: 1280px">
+    <div id="x-contest" class="container-fluid p-3">
+      <form @submit.prevent="postNgo">
         <div class="row">
-          <h3 class="float-start">Manage Aanganwadi</h3>
-          <form @submit.prevent="postAanganwadi">
-            <div class="col-12 my-2">
-              <label for="exampleFormControlInput1">Aanganwadi Contact Person</label>
-              <input
-                type="text"
-                class="form-control"
-                id="exampleFormControlInput1"
-                placeholder="Contact Person"
-                v-model="aanganwadi.contactPersonName"
-              />
-            </div>
-  
-            <div class="col-6 my-2">
-              <label for="exampleFormControlInput1">Contact Phone</label>
-              <input
-                type="text"
-                class="form-control"
-                id="exampleFormControlInput1"
-                placeholder="Phone Number"
-                v-model="aanganwadi.contactPersonPhone"
-              />
-            </div>
-  
-            <div class="col-6 my-2">
-              <label for="exampleFormControlInput1">Password</label>
-              <input
-                type="password"
-                class="form-control"
-                id="exampleFormControlInput1"
-                placeholder="Password"
-                v-model="aanganwadi.contactPersonPassword"
-              />
-            </div>
-  
-            <div class="col-6 my-2">
-              <label for="exampleFormControlInput1">Location</label>
-              <input
-                type="text"
-                class="form-control"
-                id="exampleFormControlInput1"
-                placeholder="Aanganwadi Location"
-                v-model="aanganwadi.location"
-              />
-            </div>
-  
-            <div class="col-6 my-2">
-              <label for="exampleFormControlInput1"
-                >Latitude, Longitude Coordinates</label
+          <h3 class="float-start">Add Aanganwadi</h3>
+
+          <div class="col-12 my-2">
+            <label for="exampleFormControlInput1">Aanganwadi Contact Person</label>
+            <input
+              type="text"
+              class="form-control"
+              id="exampleFormControlInput1"
+              placeholder="Aanganwadi Contact Person"
+              v-model="aanganwadi.contactPersonName"
+            />
+          </div>
+
+          <div class="col-6 my-2">
+            <label for="exampleFormControlInput1">Contact Phone</label>
+            <input
+              type="text"
+              class="form-control"
+              id="exampleFormControlInput1"
+              placeholder="Phone Number"
+              v-model="aanganwadi.contactPersonPhone"
+            />
+          </div>
+
+          <div class="col-6 my-2">
+            <label for="exampleFormControlInput1">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="exampleFormControlInput1"
+              placeholder="Password"
+              v-model="aanganwadi.contactPersonPassword"
+            />
+          </div>
+
+          <div class="col-6 my-2">
+            <label for="exampleFormControlInput1">Location</label>
+            <input
+              type="text"
+              class="form-control"
+              id="exampleFormControlInput1"
+              placeholder="Location"
+              v-model="aanganwadi.location"
+            />
+          </div>
+
+          <div class="col-6 my-2">
+            <label for="exampleFormControlInput1">Latitude, Longitude Coordinates</label>
+            <input
+              type="text"
+              class="form-control"
+              id="exampleFormControlInput1"
+              placeholder="Latitude, Longitude Coordinates"
+              v-model="aanganwadi.coordinates"
+            />
+          </div>
+          <div class="row">
+            <div class="col-12 p-2">
+              <button
+                type="submit"
+                class="btn btn-primary float-end mx-2"
+                data-nav="admin.aanganwadis"
+                @click="navigate"
+                role="link"
               >
-              <input
-                type="text"
-                class="form-control"
-                id="exampleFormControlInput1"
-                placeholder="Latitude, Longitude Coordinates"
-                v-model="aanganwadi.coordinates"
-              />
-            </div>
-            <div class="row">
-              <div class="col-12 p-2">
+                Save
+              </button>
+              <router-link to="/aanganwadiList" custom v-slot="{ navigate }">
                 <button
-                  type="submit"
+                  type="button"
                   class="btn btn-primary float-end mx-2"
                   data-nav="admin.aanganwadis"
                   @click="navigate"
                   role="link"
                 >
-                  Save
+                  Cancel
                 </button>
-                <router-link to="/aanganwadiList" custom v-slot="{ navigate }">
-                  <button
-                    type="button"
-                    class="btn btn-primary float-end mx-2"
-                    data-nav="admin.aanganwadis"
-                    @click="navigate"
-                    role="link"
-                  >
-                    Cancel
-                  </button>
-                </router-link>
-              </div>
+              </router-link>
             </div>
-          </form>
+          </div>
         </div>
-      </div>
+      </form>
     </div>
-  </template>
+  </div>
+</template>
   
   <style>
   @media (min-width: 1024px) {
@@ -122,4 +121,3 @@
     return router.push("/aanganwadiList");
   };
   </script>
-  

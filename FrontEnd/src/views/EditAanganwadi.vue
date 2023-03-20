@@ -3,7 +3,7 @@
       <div id="x-contest" class="container-float">
         <div class="row">
           <h3 class="float-start">Edit Aanganwadi</h3>
-          <form @submit.prevent="updateAanganwadi">
+          <form @submit.prevent="updateAanganwadi(this)">
             <div class="col-12 my-2">
               <label for="exampleFormControlInput1">Aanganwadi Contact Person</label>
               <input
@@ -130,7 +130,7 @@
     console.log(JSON.stringify(store.getAanganwadi('640ebda1a8a7361eebae63bd')));
   });
   
-  const updateAanganwadi = () => {
+  const updateAanganwadi = (aanganwadi) => {
     store.updateAanganwadi(aanganwadi);
     return router.push("/aanganwadiList");
   };
