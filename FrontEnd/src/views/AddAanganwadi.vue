@@ -60,14 +60,12 @@
                 v-model="aanganwadi.coordinates"
               />
             </div>
-            
-            
             <div class="row">
               <div class="col-12 p-2">
                 <button
                   type="submit"
                   class="btn btn-primary float-end mx-2"
-                  data-nav="admin.ngos"
+                  data-nav="admin.aanganwadis"
                   @click="navigate"
                   role="link"
                 >
@@ -77,7 +75,7 @@
                   <button
                     type="button"
                     class="btn btn-primary float-end mx-2"
-                    data-nav="admin.ngos"
+                    data-nav="admin.aanganwadis"
                     @click="navigate"
                     role="link"
                   >
@@ -107,15 +105,15 @@
   import { useAanganwadiStore } from "../stores/aanganwadi";
   import router from "../router";
   let aanganwadi = reactive({
-    aanganwadiName: "Test",
+    aanganwadiName: "",
     contactPersonName: "",
     contactPersonPhone: 0,
-    contactPersonEmail:"dummy@hotmail.com",
+    contactPersonEmail:"",
     contactPersonPassword: "",
     location: "",
     //coordinates: "",
-    taluka:"Test Taluka",
-    pincode:616263
+    taluka:"",
+    pincode:0
   });
   const store = useAanganwadiStore();
   
@@ -124,5 +122,4 @@
     return router.push("/aanganwadiList");
   };
   </script>
-  
   

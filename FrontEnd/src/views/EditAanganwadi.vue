@@ -67,7 +67,7 @@
                 <button
                   type="submit"
                   class="btn btn-primary float-end mx-2"
-                  data-nav="admin.ngos"
+                  data-nav="admin.aanganwadis"
                   @click="navigate"
                   role="link"
                 >
@@ -77,7 +77,7 @@
                   <button
                     type="button"
                     class="btn btn-primary float-end mx-2"
-                    data-nav="admin.ngos"
+                    data-nav="admin.aanganwadis"
                     @click="navigate"
                     role="link"
                   >
@@ -110,13 +110,13 @@
   let dummyAanganwadi = reactive({
     aanganwadiName: "",
     contactPersonName: "",
-    contactPersonPhone: 123,
+    contactPersonPhone: 0,
     contactPersonEmail:"",
     contactPersonPassword: "",
     location: "",
     coordinates: "",
     taluka:"",
-    pincode:6162
+    pincode:0
   });
 
   const store = useAanganwadiStore();
@@ -135,4 +135,3 @@
     return router.push("/aanganwadiList");
   };
   </script>
-  

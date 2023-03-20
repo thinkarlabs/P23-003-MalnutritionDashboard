@@ -47,9 +47,9 @@ const router = createRouter({
       component: () => import("../views/ChildSupplementarySummaryView.vue"),
     },
     {
-      path: "/manageAanganwadi",
-      name: "manageAanganwadi",
-      component: () => import("../views/ManageAanganwadi.vue"),
+      path: "/addAanganwadi",
+      name: "addAanganwadi",
+      component: () => import("../views/AddAanganwadi.vue"),
     },
     {
       path: "/aanganwadiList",
