@@ -15,12 +15,15 @@
   },
   "dependencies": {
     "date-fns": "^2.29.3",
+    "leaflet": "^1.9.3",
+    "leaflet.markercluster": "^1.5.3",
     "pinia": "^2.0.28",
     "register-service-worker": "^1.7.2",
     "sweetalert": "^2.1.2",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6",
-    "vue3-datepicker": "^0.3.4"
+    "vue3-datepicker": "^0.3.4",
+    "vue3-leaflet": "^1.0.43"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.1.4",
