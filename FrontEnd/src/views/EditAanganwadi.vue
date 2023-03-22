@@ -113,6 +113,10 @@
     contactPersonName: "",
     contactPersonPhone: 123,
     contactPersonEmail:"",
+=======
+    contactPersonEmail: "",
+    contactPersonPhone:"",
+>>>>>>> 76be849 (Jaya's comments)
     contactPersonPassword: "",
     taluka: "",
     coordinates: "",
