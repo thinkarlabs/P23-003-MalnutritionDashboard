@@ -1,10 +1,12 @@
 import { defineStore } from "pinia";
 // Import axios to make HTTP requests
-import axios from "axios";
+
+import { HTTP } from "../../http-common";
 
 export const useAanganwadiStore = defineStore("aanganwadi", {
   state: () => ({
     aanganwadies: [],
+    currentAanganwadi: "",
   }),
   getters: {
     getAanganwadies(state) {
@@ -14,16 +16,17 @@ export const useAanganwadiStore = defineStore("aanganwadi", {
   actions: {
     async fetchAanganwadies() {
       try {
-        const data = await axios.get("http://127.0.0.1:7000/api/getAanganwadis");
+        const data = await HTTP.get("getAanganwadis");
         this.aanganwadies = data.data;
       } catch (error) {
         alert(error);
         console.log(error);
       }
     },
-    async postAanganwadi(newAanganwadi) {console.log("aanganwadi.js :: "+JSON.stringify(newAanganwadi));
+    async postAanganwadi(newAanganwadi) {
+      console.log("saving aanganwadi :: "+JSON.stringify(newAanganwadi));
       try {
-        await axios.post("http://127.0.0.1:7000/api/addAanganwadi", newAanganwadi);
+        await HTTP.post("addAanganwadi", newAanganwadi);
       } catch (error) {
         alert(error);
         console.log(error);
@@ -32,24 +35,20 @@ export const useAanganwadiStore = defineStore("aanganwadi", {
     async updateAanganwadi(newAanganwadi) {
     console.log("EDITING Aanganwadi :: "+JSON.stringify(newAanganwadi));
       try {
-        await axios
-          .put("http://127.0.0.1:7000/api/updateAanganwadi/", newAanganwadi)
-          .then(() => {
-            this.fetchAanganwadies();
-          });
+        await HTTP.put("updateAanganwadi/" , newAanganwadi.value.id,newAanganwadi);
       } catch (error) {
+        debugger;
         alert(error);
         console.log(error);
       }
+
     },
     
     async deleteAanganwadi(id) {
       try {
-        await axios
-          .delete("http://127.0.0.1:7000/api/delete_aanganwadi/" + id)
-          .then(() => {
-            this.fetchAanganwadies();
-          });
+        await HTTP.delete("delete_aanganwadi/" + id).then(() => {
+          this.fetchAanganwadies();
+        });
       } catch (error) {
         alert(error);
         console.log(error);
@@ -57,10 +56,9 @@ export const useAanganwadiStore = defineStore("aanganwadi", {
     },
     async getAanganwadi(id) {
       try {
-        const data = await axios.get("http://127.0.0.1:7000/api/"+id+"/get_aanganwadi/");
-        console.log(JSON.stringify(data));
-        this.aanganwadies = data.data;
-        return this.aanganwadies;
+        await HTTP.get(id + "/get_aanganwadi").then((response) => {
+          this.currentAanganwadi = response.data.data[0];
+        });
       } catch (error) {
         alert(error);
         console.log(error);

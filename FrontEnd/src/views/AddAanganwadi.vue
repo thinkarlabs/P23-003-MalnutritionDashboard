@@ -1,7 +1,7 @@
 <template>
   <div class="full-div container" style="width: 1280px">
     <div id="x-contest" class="container-fluid p-3">
-      <form @submit.prevent="postNgo">
+      <form @submit.prevent="postAanganwadi">
         <div class="row">
           <h3 class="float-start">Add Aanganwadi</h3>
 
@@ -104,15 +104,15 @@
   import { useAanganwadiStore } from "../stores/aanganwadi";
   import router from "../router";
   let aanganwadi = reactive({
-    aanganwadiName: "",
+    aanganwadiName: "Raashi Farzi Aanganwadi",
     contactPersonName: "",
     contactPersonPhone: 0,
-    contactPersonEmail:"",
+    contactPersonEmail:"raashi.khanna@hotmail.com",
     contactPersonPassword: "",
     location: "",
     //coordinates: "",
-    taluka:"",
-    pincode:0
+    taluka:"Ambarnath",
+    pincode:616362
   });
   const store = useAanganwadiStore();
   
