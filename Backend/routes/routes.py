@@ -104,7 +104,7 @@ async def create_donor(donor: Donor):
     _id = DonorsCollection.insert_one(dict(donor))
     donor = donors_list_serializer(
         DonorsCollection.find({"id": _id.inserted_id}))
-    return {"status": "ok", "data": donor}
+    return donor
 
 
 @donor_router.get("/api/getdonors")
@@ -287,7 +287,7 @@ def create_supplementary(supplementary: Supplementary):
 # Read all Supplementary details
 
 
-@supp_router.get('/supplementary/', response_model=List[Supplementary])
+@supp_router.get('/supplementaries/', response_model=List[Supplementary])
 def read_supplementary():
     supplementary_list = []
     for supplementary in SupplementaryCollection.find():

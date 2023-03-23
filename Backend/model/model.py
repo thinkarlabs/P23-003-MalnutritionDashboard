@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 from pydantic import BaseModel, EmailStr, validator, Field
 from bson import ObjectId
 from typing import Optional
@@ -202,7 +202,7 @@ class SupplementsDetail(BaseModel):
     description: str
 
 
-class Donor(BaseModel):
+class Donors(BaseModel):
     id: str = Field(alias="_id")
     name: str
 
@@ -219,12 +219,12 @@ class Supplement(BaseModel):
 
 
 class Program(BaseModel):
-    id: str = Field(alias="_id")
     code: str
-    donor: Donor
+    invite_code: str
+    donor: Donors
     supplement: Supplement
-    from_date: datetime
-    to_date: datetime
+    from_date: date
+    to_date: date
     notes: Optional[str] = None
 
     class Config:
