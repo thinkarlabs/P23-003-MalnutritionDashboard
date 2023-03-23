@@ -7,8 +7,7 @@ from argparse import OPTIONAL
 from fastapi import APIRouter, Body
 from Backend.model.model import Ngo, User, Donor, Aanganwadi, Child, ChildMalnutrition, SupplementsDetail, Program
 from Backend.config.database import NgoCollection, UserCollection, AanganwadiCollection, ChildCollection
-from Backend.config.database import DonorsCollection, ChildMalnutritionCollection, SupplementDetailsCollection, \
-    ProgramsCollection
+from Backend.config.database import DonorsCollection, ChildMalnutritionCollection, SupplementDetailsCollection,  ProgramsCollection
 from Backend.schemas.schema import ngo_list_serializer, user_list_serializer, donors_list_serializer
 from Backend.schemas.schema import supplements_list_serializer
 from Backend.schemas.schema import aanganwadi_list_serializer, child_list_serializer, child_malnutrition_list_serializer
@@ -103,7 +102,7 @@ async def delete_ngo(id: str):
 async def create_donor(donor: Donor):
     _id = DonorsCollection.insert_one(dict(donor))
     donor = donors_list_serializer(
-        DonorsCollection.find({"id": _id.inserted_id}))
+        DonorsCollection.find({"_id": _id.inserted_id}))
     return {"status": "ok", "data": donor}
 
 
@@ -287,7 +286,7 @@ def create_supplementary(supplementary: Supplementary):
 # Read all Supplementary details
 
 
-@supp_router.get('/supplementary/', response_model=List[Supplementary])
+@supp_router.get('/supplementaries/', response_model=List[Supplementary])
 def read_supplementary():
     supplementary_list = []
     for supplementary in SupplementaryCollection.find():
