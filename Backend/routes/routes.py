@@ -7,8 +7,7 @@ from argparse import OPTIONAL
 from fastapi import APIRouter, Body
 from Backend.model.model import Ngo, User, Donor, Aanganwadi, Child, ChildMalnutrition, SupplementsDetail, Program
 from Backend.config.database import NgoCollection, UserCollection, AanganwadiCollection, ChildCollection
-from Backend.config.database import DonorsCollection, ChildMalnutritionCollection, SupplementDetailsCollection, \
-    ProgramsCollection
+from Backend.config.database import DonorsCollection, ChildMalnutritionCollection, SupplementDetailsCollection,  ProgramsCollection
 from Backend.schemas.schema import ngo_list_serializer, user_list_serializer, donors_list_serializer
 from Backend.schemas.schema import supplements_list_serializer
 from Backend.schemas.schema import aanganwadi_list_serializer, child_list_serializer, child_malnutrition_list_serializer
