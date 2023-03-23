@@ -10,3 +10,5 @@ dev-dist
 .dev-dist
 .FrontEnd/dev-dist
 .FrontEnd/dev-dist/*
+.settings
+.project
