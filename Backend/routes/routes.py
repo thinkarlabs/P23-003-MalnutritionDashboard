@@ -207,7 +207,7 @@ async def delete_child(id: str):
 
 @child_malnutrition.post("/api/childMalnutrion_Add")
 async def child_malnutrition_add(child: ChildMalnutrition):
-     """
+    """
     This function is created for add the child malnutrition details basis on child id.
     :param child: A Pydantic model representing ChildMalnutrition data to be created.
     :return: Response status and newly created ChildMalnutrition data.
@@ -235,7 +235,7 @@ async def get_child_malnutritions():
 async def get_child_malnutrition_stats(child_id: str):
     """
     This function is create for get the particular child malnutrition data.
-    :param id: id of the ChildMalnutrition to retrieve.
+    :param child_id: child_id of the ChildMalnutrition to retrieve.
     :return: Response status and fetched particular data.
     """
     child = child_malnutrition_list_serializer(
