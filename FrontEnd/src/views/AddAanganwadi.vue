@@ -104,14 +104,14 @@
   import { useAanganwadiStore } from "../stores/aanganwadi";
   import router from "../router";
   let aanganwadi = reactive({
-    aanganwadiName: "Raashi Farzi Aanganwadi",
+    aanganwadiName: "",
     contactPersonName: "",
     contactPersonPhone: 0,
-    contactPersonEmail:"raashi.khanna@hotmail.com",
+    contactPersonEmail:"test@hotmail.com",
     contactPersonPassword: "",
     location: "",
-    //coordinates: "",
-    taluka:"Ambarnath",
+    coordinates: "61.62, 62.61",
+    taluka:"Karjat",
     pincode:616362
   });
   const store = useAanganwadiStore();

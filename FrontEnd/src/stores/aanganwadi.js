@@ -33,7 +33,7 @@ export const useAanganwadiStore = defineStore("aanganwadi", {
       }
     },
     async updateAanganwadi(newAanganwadi) {
-    console.log("EDITING Aanganwadi :: "+JSON.stringify(newAanganwadi));
+      console.log("Updating Aanganwadi with ID ::  "+newAanganwadi.value.id);
       try {
         await HTTP.put("updateAanganwadi/" , newAanganwadi.value.id,newAanganwadi);
       } catch (error) {

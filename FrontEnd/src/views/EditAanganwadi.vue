@@ -45,7 +45,7 @@
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="Location"
-              v-model="updatedAanganwadi.location"
+              v-model="updatedAanganwadi.taluka"
             />
           </div>
 
@@ -111,12 +111,8 @@
   let updatedAanganwadi = reactive({
     aanganwadiName: "",
     contactPersonName: "",
-    contactPersonPhone: 123,
-    contactPersonEmail:"",
-=======
     contactPersonEmail: "",
     contactPersonPhone:"",
->>>>>>> 76be849 (Jaya's comments)
     contactPersonPassword: "",
     taluka: "",
     coordinates: "",
@@ -139,7 +135,6 @@
         contactPersonPassword: "",
         taluka: "",
         coordinates: "",
-        taluka:"",
         pincode:0
       };
     }

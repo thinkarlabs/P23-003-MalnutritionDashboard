@@ -62,6 +62,21 @@ const router = createRouter({
       component: () => import("../views/EditAanganwadi.vue")
     },
     {
+      path: "/addSupplement",
+      name: "addSupplement",
+      component: () => import("../views/AddSupplement.vue"),
+    },
+    {
+      path: "/supplementList",
+      name: "supplementList",
+      component: () => import("../views/SupplementList.vue"),
+    },
+    {
+      path: "/editSupplement/:id",
+      name: "editSupplementPage",
+      component: () => import("../views/EditSupplement.vue")
+    },
+    {
       path: "/:catchAll(.*)*",
       name: "PageNotFound",
       component: PageNotFound,
