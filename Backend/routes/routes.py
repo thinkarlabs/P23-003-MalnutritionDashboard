@@ -147,7 +147,7 @@ async def get_aanganwadis():
     return {"status": "ok", "data": aanganwadis}
 
 
-@aanganwadi_router.get(f"/api/{id}/get_aanganwadi")
+@aanganwadi_router.get("/api/{id}/get_aanganwadi")
 async def get_aanganwadi(id: str):
     aanganwadi = aanganwadi_list_serializer(
         AanganwadiCollection.find({"_id": ObjectId(id)}))
