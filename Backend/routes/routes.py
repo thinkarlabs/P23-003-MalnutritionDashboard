@@ -103,8 +103,8 @@ async def delete_ngo(id: str):
 async def create_donor(donor: Donor):
     _id = DonorsCollection.insert_one(dict(donor))
     donor = donors_list_serializer(
-        DonorsCollection.find({"id": _id.inserted_id}))
-    return donor
+        DonorsCollection.find({"_id": _id.inserted_id}))
+    return {"status": "ok", "data": donor}
 
 
 @donor_router.get("/api/getdonors")
