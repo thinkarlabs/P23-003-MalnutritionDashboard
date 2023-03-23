@@ -45,13 +45,11 @@ def donors_list_serializer(donors) -> list:
 def aanganwadi_serializer(newAanganwadi) -> dict:
     return {
         "id": str(newAanganwadi["_id"]),
-        "aanganwadiName": str(newAanganwadi["aanganwadiName"]),
         "contactPersonName": str(newAanganwadi["contactPersonName"]),
-        "contactPersonEmail": str(newAanganwadi["contactPersonEmail"]),
         "contactPersonPassword": str(newAanganwadi["contactPersonPassword"]),
         "contactPersonPhone": str(newAanganwadi["contactPersonPhone"]),
-        "taluka": str(newAanganwadi["taluka"]),
-        "pincode": str(newAanganwadi["pincode"])
+        "location_coordinates": str(newAanganwadi["location_coordinates"]),
+        "location": str(newAanganwadi["location"])
     }
 
 

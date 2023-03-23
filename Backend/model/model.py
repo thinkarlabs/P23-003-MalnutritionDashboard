@@ -119,26 +119,18 @@ class Aanganwadi(BaseModel):
     """
     This Aanganwadi class has created for storing the required Aanganwadi field value in database.
     """
-    aanganwadiName: str = Field(..., min_length=2)
     contactPersonName: str = Field(...)
-    contactPersonEmail: EmailStr = Field(...)
     contactPersonPhone: str = Field(..., min_length=10, max_length=10)
     contactPersonPassword: str = Field(...)
-    taluka: str = Field(...)
-    pincode: str = Field(..., min_length=6, max_length=6)
+    location_coordinates: str = Field(...)
+    location: str = Field(...)
 
-    _validate_aanganwadi_name = validator(
-        'aanganwadiName', allow_reuse=True)(ParameterValidator.validate_name)
     _validate_contact_person_name = validator(
         'contactPersonName', allow_reuse=True)(ParameterValidator.validate_name)
     _validate_phone_number = validator('contactPersonPhone', allow_reuse=True)(ParameterValidator.
                                                                                validate_is_digit)
     _validate_password = validator('contactPersonPassword', allow_reuse=True)(
         ParameterValidator.validate_is_empty)
-    _validate_taluka = validator('taluka', allow_reuse=True)(
-        ParameterValidator.validate_is_empty)
-    _validate_pincode = validator('pincode', allow_reuse=True)(
-        ParameterValidator.validate_is_digit)
 
 
 class Donor(BaseModel):
