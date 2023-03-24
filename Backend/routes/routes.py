@@ -1,3 +1,5 @@
+import json
+
 from Backend.model.model import Supplementary, Program
 from Backend.config.database import SupplementaryCollection, ProgramsCollection
 from typing import List
@@ -5,12 +7,15 @@ from bson import ObjectId
 from fastapi import APIRouter, HTTPException
 from argparse import OPTIONAL
 from fastapi import APIRouter, Body
-from Backend.model.model import Ngo, User, Donor, Aanganwadi, Child, ChildMalnutrition, SupplementsDetail, Program
+from Backend.model.model import Ngo, User, Donor, Aanganwadi, Child, ChildMalnutrition, SupplementsDetail, Program, \
+    ProgramJoining
 from Backend.config.database import NgoCollection, UserCollection, AanganwadiCollection, ChildCollection
-from Backend.config.database import DonorsCollection, ChildMalnutritionCollection, SupplementDetailsCollection,  ProgramsCollection
+from Backend.config.database import DonorsCollection, ChildMalnutritionCollection, SupplementDetailsCollection, \
+    ProgramsCollection, ProgramJoiningCollection
 from Backend.schemas.schema import ngo_list_serializer, user_list_serializer, donors_list_serializer
 from Backend.schemas.schema import supplements_list_serializer
-from Backend.schemas.schema import aanganwadi_list_serializer, child_list_serializer, child_malnutrition_list_serializer
+from Backend.schemas.schema import aanganwadi_list_serializer, child_list_serializer, \
+    child_malnutrition_list_serializer, programjoining_list_serializer
 from typing import Union
 
 user_router = APIRouter()
@@ -21,6 +26,7 @@ child_router = APIRouter()
 child_malnutrition = APIRouter()
 supplement_details = APIRouter()
 program_router = APIRouter()
+program_joining = APIRouter()
 
 
 @user_router.post("/api/create_user")
@@ -242,7 +248,7 @@ async def get_child_malnutrition_stats(child_id: str):
     return {"status": "ok", "data": child}
 
 
-@ child_malnutrition.put("/update_child_malnutrition")
+@child_malnutrition.put("/update_child_malnutrition")
 async def update_child_malnutrition(id: str, childs: ChildMalnutrition):
     """
     This function is create for update the child malnutrition details.
@@ -456,3 +462,14 @@ async def delete_program(program_id: str):
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Program not found")
     return {"message": "Program deleted successfully"}
+
+
+@program_joining.post("/api/Add_program_joining")
+async def add_program_joining(programs: ProgramJoining):
+    result = ProgramsCollection.find_one({"invite_code": programs.invite_code})
+    if not result:
+        raise HTTPException(status_code=404, detail="Invalid invite code")
+    else:
+        _id = ProgramJoiningCollection.insert_one(dict(programs))
+        add_joining_details = programjoining_list_serializer(ProgramJoiningCollection.find({"_id": _id.inserted_id}))
+        return {"status": "ok", "data": add_joining_details}

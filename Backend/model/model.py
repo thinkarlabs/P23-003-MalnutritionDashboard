@@ -187,6 +187,9 @@ class Supplementary(BaseModel):
     no_of_packs_given: int
     supplementary_id: Optional[str] = None
 
+    _validate_given_date = validator('given_date', allow_reuse=True)(
+        ParameterValidator.validate_date)
+
     class Config:
         arbitrary_types_allowed = True
         json_encoders = {
@@ -223,9 +226,21 @@ class Program(BaseModel):
     invite_code: str
     donor: Donors
     supplement: Supplement
-    from_date: date
-    to_date: date
+    from_date: str
+    to_date: str
     notes: Optional[str] = None
+
+    _validate_from_date = validator('from_date', allow_reuse=True)(
+        ParameterValidator.validate_date)
+    _validate_to_date = validator('to_date', allow_reuse=True)(
+        ParameterValidator.validate_date)
 
     class Config:
         orm_mode = True
+
+
+class ProgramJoining(BaseModel):
+    invite_code: str
+    aanganwadi_id: str
+    program_id: str
+    isActive: bool
