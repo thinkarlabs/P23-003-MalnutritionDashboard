@@ -77,6 +77,21 @@ const router = createRouter({
       component: () => import("../views/EditSupplement.vue")
     },
     {
+      path: "/addDonor",
+      name: "addDonor",
+      component: () => import("../views/AddDonor.vue")
+    },
+    {
+      path: "/donorsList",
+      name: "donorsList",
+      component: () => import("../views/DonorsList.vue")
+    },
+    {
+      path: "/editDonor/:id",
+      name: "editDonor",
+      component: () => import("../views/EditDonor.vue")
+    },
+    {
       path: "/:catchAll(.*)*",
       name: "PageNotFound",
       component: PageNotFound,
