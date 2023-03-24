@@ -351,7 +351,7 @@ def delete_supplementary(supplementary_id: str):
             status_code=404, detail='Supplementary detail not found')
 
 
-@supplement_details.post('/add_supplement_details')
+@supplement_details.post('/api/add_supplement_details')
 def add_supplement_details(supplement: SupplementsDetail):
     """
     This function is create for add the supplement details.
@@ -364,7 +364,7 @@ def add_supplement_details(supplement: SupplementsDetail):
     return {"status": "ok", "data": added_supplement}
 
 
-@supplement_details.get('/get_supplements_details')
+@supplement_details.get('/api/get_supplements_details')
 async def get_supplements_details():
     """
     This function is create for get the supplement details.
@@ -374,7 +374,7 @@ async def get_supplements_details():
     return {"status": "ok", "data": result}
 
 
-@supplement_details.get(f'/{id}/get_supplement_details')
+@supplement_details.get('/api/{id}/get_supplement_details')
 async def get_supplement_details(id: str):
     """
     This function is create to retrieve particular supplement details.
@@ -386,7 +386,7 @@ async def get_supplement_details(id: str):
     return {"status": "ok", "data": result}
 
 
-@supplement_details.put('/update_supplement_details')
+@supplement_details.put('/api/update_supplement_details/{supplement_id}')
 async def update_supplement_details(id: str, supplement: SupplementsDetail):
     """
     This function is create to update the supplement details.
@@ -401,7 +401,7 @@ async def update_supplement_details(id: str, supplement: SupplementsDetail):
     return {"status": "ok", "data": updated_value}
 
 
-@supplement_details.delete('/delete_supplement_details')
+@supplement_details.delete('/api/delete_supplement_details/{id}')
 async def delete_supplement_details(id: str):
     """
     This function is create to delete the supplement details.
