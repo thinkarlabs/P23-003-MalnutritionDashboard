@@ -160,7 +160,7 @@ async def get_aanganwadi(id: str):
     return {"status": "ok", "data": aanganwadi}
 
 
-@aanganwadi_router.put("/api/updateAanganwadi")
+@aanganwadi_router.put("/api/updateAanganwadi/{id}")
 async def update_aanganwadi(id: str, aanganwadi: Aanganwadi):
     AanganwadiCollection.find_one_and_update({"_id": ObjectId(id)},
                                              {"$set": dict(aanganwadi)})
@@ -386,7 +386,7 @@ async def get_supplement_details(id: str):
     return {"status": "ok", "data": result}
 
 
-@supplement_details.put('/api/update_supplement_details/{supplement_id}')
+@supplement_details.put('/api/update_supplement_details/{id}')
 async def update_supplement_details(id: str, supplement: SupplementsDetail):
     """
     This function is create to update the supplement details.
