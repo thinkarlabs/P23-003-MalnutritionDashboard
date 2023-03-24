@@ -32,7 +32,7 @@ export const useDonorsStore = defineStore("donors", {
         console.log(error);
       }
     },
-    async postDonor(newDonor) {alert(newDonor.value);
+    async postDonor(newDonor) {
       try {
         await HTTP.post("donors", newDonor);
       } catch (error) {
