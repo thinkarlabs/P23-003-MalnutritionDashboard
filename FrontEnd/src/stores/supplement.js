@@ -41,7 +41,7 @@ export const useSupplementStore = defineStore("ngo", {
         console.log(error);
       }
     },
-    async updateSupplement(updatedSupplement) {alert(updatedSupplement.value.description);
+    async updateSupplement(updatedSupplement) {
       try {
         await HTTP.put("update_supplement_details/" + updatedSupplement.value.id, updatedSupplement.value);
       } catch (error) {
