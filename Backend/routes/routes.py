@@ -470,6 +470,20 @@ async def add_program_joining(programs: ProgramJoining):
     if not result:
         raise HTTPException(status_code=404, detail="Invalid invite code")
     else:
+        programs.program_id = str(result['_id'])
         _id = ProgramJoiningCollection.insert_one(dict(programs))
         add_joining_details = programjoining_list_serializer(ProgramJoiningCollection.find({"_id": _id.inserted_id}))
         return {"status": "ok", "data": add_joining_details}
+
+
+@program_joining.get("/api/{aanganwadi_id}/get_program_details")
+async def get_program_joining_details(aanganwadi_id: str):
+    list = []
+    result = programjoining_list_serializer(ProgramJoiningCollection.find({"aanganwadi_id": str(aanganwadi_id)}))
+    if result:
+        r = DonorsCollection.find_one({"_id": result.})
+        # list.append(SupplementsDetail.name)
+        list.append(DonorsCollection.find_one({"_id": result.}))
+        list.append(Program.from_date)
+        list.append(Program.to_date)
+    return {"status": "ok", "data": list}

@@ -224,8 +224,8 @@ class Supplement(BaseModel):
 class Program(BaseModel):
     code: str
     invite_code: str
-    donor: Donors
-    supplement: Supplement
+    donor_id: str
+    supplement_id: str
     from_date: str
     to_date: str
     notes: Optional[str] = None
@@ -242,5 +242,5 @@ class Program(BaseModel):
 class ProgramJoining(BaseModel):
     invite_code: str
     aanganwadi_id: str
-    program_id: str
-    isActive: bool
+    program_id: Optional[str] = None
+    isActive: Optional[bool] = True
