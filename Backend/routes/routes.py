@@ -1,5 +1,5 @@
-from Backend.model.model import Supplementary, Program
-from Backend.config.database import SupplementaryCollection, ProgramsCollection
+from Backend.model.model import SupplementaryPacks, AaganwadiSummary
+from Backend.config.database import SupplementaryCollection
 from typing import List
 from bson import ObjectId
 from fastapi import APIRouter, HTTPException
@@ -21,7 +21,7 @@ child_router = APIRouter()
 child_malnutrition = APIRouter()
 supplement_details = APIRouter()
 program_router = APIRouter()
-
+aaganwadi_summary = APIRouter()
 
 @user_router.post("/api/create_user")
 async def create_user(user: User):
@@ -274,8 +274,8 @@ supp_router = APIRouter()
 # Create Supplementary detail
 
 
-@supp_router.post('/supplementary/', response_model=Supplementary)
-def create_supplementary(supplementary: Supplementary):
+@supp_router.post('/supplementary/', response_model=SupplementaryPacks)
+def create_supplementary(supplementary: SupplementaryPacks):
     supplementary_dict = supplementary.dict()
     inserted_id = SupplementaryCollection.insert_one(
         supplementary_dict).inserted_id
@@ -286,7 +286,7 @@ def create_supplementary(supplementary: Supplementary):
 # Read all Supplementary details
 
 
-@supp_router.get('/supplementaries/', response_model=List[Supplementary])
+@supp_router.get('/supplementaries/', response_model=List[SupplementaryPacks])
 def read_supplementary():
     supplementary_list = []
     for supplementary in SupplementaryCollection.find():
@@ -299,7 +299,7 @@ def read_supplementary():
 # Read a single Supplementary detail
 
 
-@supp_router.get('/supplementary/{supplementary_id}', response_model=Supplementary)
+@supp_router.get('/supplementary/{supplementary_id}', response_model=SupplementaryPacks)
 def read_single_supplementary(supplementary_id: str):
     supplementary = SupplementaryCollection.find_one(
         {'_id': ObjectId(supplementary_id)})
@@ -315,8 +315,8 @@ def read_single_supplementary(supplementary_id: str):
 # Update a Supplementary detail
 
 
-@supp_router.put('/supplementary/{supplementary_id}', response_model=Supplementary)
-def update_supplementary(supplementary_id: str, supplementary: Supplementary):
+@supp_router.put('/supplementary/{supplementary_id}', response_model=SupplementaryPacks)
+def update_supplementary(supplementary_id: str, supplementary: SupplementaryPacks):
     updated_supplementary = supplementary.dict(exclude_unset=True)
     result = SupplementaryCollection.update_one(
         {'_id': ObjectId(supplementary_id)}, {'$set': updated_supplementary})
@@ -456,3 +456,32 @@ async def delete_program(program_id: str):
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Program not found")
     return {"message": "Program deleted successfully"}
+
+# FastAPI endpoint to retrieve the summary of an Aaganwadi program
+@aaganwadi_summary.get("/aaganwadi/summary/{aaganwadi_id}")
+async def get_aaganwadi_summary(aaganwadi_id: str):
+    # Query the MongoDB database for the Aaganwadi program summary
+    summary = AangawadiSummaryCollection.find_one({"_id": aaganwadi_id})
+
+    # If summary is None, return 0 for all categories
+    if summary is None:
+        return AaganwadiSummary()
+
+    # Calculate the change count compared to the last week
+    sam_change = summary.get("SAMCountThisWeek", 0) - summary.get("SAMCountLastWeek", 0)
+    mam_change = summary.get("MAMCountThisWeek", 0) - summary.get("MAMCountLastWeek", 0)
+    normal_change = summary.get("NormalCountThisWeek", 0) - summary.get("NormalCountLastWeek", 0)
+
+    # Initialize a new instance of the AaganwadiSummary class with the summary data
+    aaganwadi_summary = AaganwadiSummary(
+        TotalChildCount=summary.get("TotalChildCount", 0),
+        SAMCountThisWeek=summary.get("SAMCountThisWeek", 0),
+        MAMCountThisWeek=summary.get("MAMCountThisWeek", 0),
+        NormalCountThisWeek=summary.get("NormalCountThisWeek", 0),
+        SAMChangeCount=sam_change,
+        MAMChangeCount=mam_change,
+        NormalChangeCount=normal_change
+    )
+
+    # Return the AaganwadiSummary instance as the response
+    return aaganwadi_summary
