@@ -477,7 +477,6 @@ async def get_program_joining_details(aanganwadi_id: str):
     list_of_program_joining_summary = []
     program_joining_array = programjoining_list_serializer(
         ProgramJoiningCollection.find({"aanganwadi_id": str(aanganwadi_id)}))
-    print(program_joining_array)
     for entity in program_joining_array:
         program_id = entity["program_id"]
         program_details = program_list_serializer(ProgramsCollection.find({"_id": ObjectId(program_id)}))
