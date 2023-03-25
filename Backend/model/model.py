@@ -222,21 +222,25 @@ class Supplement(BaseModel):
 
 
 class Program(BaseModel):
+    title: str
     code: str
     invite_code: str
     donor_id: str
-    supplement_id: str
+    supplements_details_id: str
     from_date: str
     to_date: str
     notes: Optional[str] = None
 
+    _validate_title = validator('title', allow_reuse=True)(ParameterValidator.validate_is_empty)
+    _validate_code = validator('code', allow_reuse=True)(ParameterValidator.validate_is_empty)
+    _validate_invite_code = validator('invite_code', allow_reuse=True)(ParameterValidator.validate_is_empty)
+    _validate_donor_id = validator('donor_id', allow_reuse=True)(ParameterValidator.validate_is_empty)
+    _validate_supplements_details_id = validator('supplements_details_id', allow_reuse=True) \
+        (ParameterValidator.validate_is_empty)
     _validate_from_date = validator('from_date', allow_reuse=True)(
         ParameterValidator.validate_date)
     _validate_to_date = validator('to_date', allow_reuse=True)(
         ParameterValidator.validate_date)
-
-    class Config:
-        orm_mode = True
 
 
 class ProgramJoining(BaseModel):

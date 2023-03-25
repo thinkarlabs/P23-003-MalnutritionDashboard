@@ -99,19 +99,21 @@ def supplements_list_serializer(supplements) -> list:
     return [supplement_serializer(supplementary) for supplementary in supplements]
 
 
-# def program_serializer(program) -> dict:
-#     return {
-#         "id": str(program["_id"]),
-#         "invite_code": str(program["invite_code"]),
-#         "donor": str(program["donor"]),
-#         "supplement": str(program["supplement"]),
-#         "from_date": str(program["from_date"]),
-#         "to_date": str(program["to_date"])
-#     }
-#
-#
-# def program_list_serializer(programs) -> list:
-#     return [program_serializer(programs_list) for programs_list in programs]
+def program_serializer(program) -> dict:
+    return {
+        "id": str(program["_id"]),
+        "title": str(program["title"]),
+        "code": str(program["code"]),
+        "invite_code": str(program["invite_code"]),
+        "donor_id": str(program["donor_id"]),
+        "supplements_details_id": str(program["supplements_details_id"]),
+        "from_date": str(program["from_date"]),
+        "to_date": str(program["to_date"])
+    }
+
+
+def program_list_serializer(programs) -> list:
+    return [program_serializer(programs_list) for programs_list in programs]
 
 
 def programjoining_serializer(program_joining) -> dict:
