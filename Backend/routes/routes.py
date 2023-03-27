@@ -431,14 +431,14 @@ async def get_programs():
     return {"status": "ok", "data": programs}
 
 
-@program_router.get("/api/get_program/{program_id}")
+@program_router.get("/api/get_program/{id}")
 async def get_program(id: str):
     result = program_list_serializer(
         ProgramsCollection.find({"_id": ObjectId(id)}))
     return {"status": "ok", "data": result}
 
 
-@program_router.put("/api/update_program/{program_id}")
+@program_router.put("/api/update_program/{id}")
 async def update_program(id: str, program: Program):
     ProgramsCollection.find_one_and_update({"_id": ObjectId(id)},
                                            {"$set": dict(program)})
@@ -447,7 +447,7 @@ async def update_program(id: str, program: Program):
     return {"status": "ok", "data": updated_value}
 
 
-@program_router.delete("/api/delete_program/{program_id}")
+@program_router.delete("/api/delete_program/{id}")
 async def delete_program(id: str):
     ProgramsCollection.find_one_and_delete({"_id": ObjectId(id)})
     return {"status": "ok", "data": []}
@@ -465,14 +465,14 @@ async def add_program_joining(programs: ProgramJoining):
         return {"status": "ok", "data": add_joining_details}
 
 
-@program_joining.get("/api/get_programs_details")
+@program_joining.get("/api/get_programs_joining_details")
 async def get_programs():
     programs = programjoining_list_serializer(
         ProgramJoiningCollection.find())
     return {"status": "ok", "data": programs}
 
 
-@program_joining.get("/api/get_program_details/{aanganwadi_id}")
+@program_joining.get("/api/get_program_joining_details/{aanganwadi_id}")
 async def get_program_joining_details(aanganwadi_id: str):
     list_of_program_joining_summary = []
     program_joining_array = programjoining_list_serializer(
