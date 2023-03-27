@@ -3,7 +3,7 @@ from pymongo import MongoClient
 MongoClient()
 
 client = MongoClient(
-    "mongodb+srv://root:Emids123@cluster0.jwkiznj.mongodb.net/?retryWrites=true&w=majority")
+    "mongodb+srv://username:password@cluster0.cythueh.mongodb.net/?retryWrites=true&w=majority")
 db = client.Malnutrition
 NgoCollection = db["Ngo"]
 UserCollection = db["User"]
