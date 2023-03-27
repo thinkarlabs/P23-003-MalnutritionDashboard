@@ -50,7 +50,7 @@
 }
 </style>
 <script setup>
-import { LMap, LTileLayer, LMarker, LPopup } from 'vue3-leaflet';
+import { LMap, LTileLayer, LMarker, LPopup } from '@vue-leaflet/vue-leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
