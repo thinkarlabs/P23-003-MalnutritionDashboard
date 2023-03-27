@@ -132,11 +132,13 @@ async def delete_donor(id: str):
     return {"status": "ok", "data": []}
 
 
-@donor_router.put("/api/donors/{donor_id}")
-async def update_donor(donor_id: str, donor: Donor):
-    result = DonorsCollection.update_one(
-        {"_id": donor_id}, {"$set": donor.dict()})
-    return {"updated": result.modified_count}
+@donor_router.put("/api/donors/{id}")
+async def update_donor(id: str, donor: Donor):
+    DonorsCollection.find_one_and_update({"_id": ObjectId(id)},
+                                         {"$set": dict(donor)})
+    updated_data = donors_list_serializer(
+        DonorsCollection.find({"_id": ObjectId(id)}))
+    return {"status": "ok", "data": updated_data}
 
 
 @aanganwadi_router.post("/api/addAanganwadi")
@@ -418,6 +420,8 @@ async def add_program(program: Program):
     suplement_details = SupplementDetailsCollection.find_one({"_id": ObjectId(program.supplements_details_id)})
     if not donor_details and suplement_details:
         raise HTTPException(status_code=404, detail="input are missing")
+    program.donor_name = str(donor_details['name'])
+    program.supplement_name = str(suplement_details['name'])
     _id = ProgramsCollection.insert_one(dict(program))
     added_programs = program_list_serializer(ProgramsCollection.find(
         {"_id": _id.inserted_id}))
