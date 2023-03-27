@@ -225,10 +225,12 @@ class Program(BaseModel):
     title: str
     invite_code: str
     donor_id: str
+    donor_name: Optional[str] = None
     supplements_details_id: str
+    supplement_name: Optional[str] = None
     from_date: str
     to_date: str
-    notes: Optional[str] = None
+    notes: str
 
     _validate_title = validator('title', allow_reuse=True)(ParameterValidator.validate_is_empty)
     _validate_invite_code = validator('invite_code', allow_reuse=True)(ParameterValidator.validate_is_empty)

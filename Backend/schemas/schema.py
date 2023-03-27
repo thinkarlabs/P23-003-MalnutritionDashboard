@@ -105,9 +105,12 @@ def program_serializer(program) -> dict:
         "title": str(program["title"]),
         "invite_code": str(program["invite_code"]),
         "donor_id": str(program["donor_id"]),
+        "donor_name": str(program["donor_name"]),
         "supplements_details_id": str(program["supplements_details_id"]),
+        "supplement_name": str(program["supplement_name"]),
         "from_date": str(program["from_date"]),
-        "to_date": str(program["to_date"])
+        "to_date": str(program["to_date"]),
+        "notes": str(program["notes"])
     }
 
 
