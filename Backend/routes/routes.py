@@ -420,7 +420,6 @@ async def add_program(program: Program):
     suplement_details = SupplementDetailsCollection.find_one({"_id": ObjectId(program.supplements_details_id)})
     if not donor_details and suplement_details:
         raise HTTPException(status_code=404, detail="input are missing")
-    print(str(donor_details['name']))
     program.donor_name = str(donor_details['name'])
     program.supplement_name = str(suplement_details['name'])
     _id = ProgramsCollection.insert_one(dict(program))
