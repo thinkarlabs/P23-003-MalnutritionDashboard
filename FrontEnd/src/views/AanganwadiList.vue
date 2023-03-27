@@ -36,8 +36,8 @@
           <tr v-for="item of aanganwadies" :key="item.id">
             <td>{{ item.contactPersonName }}</td>
             <td>{{ item.contactPersonPhone }}</td>
-            <td>{{ item.taluka }}</td>
-            <td>{{ item.pincode }}</td>
+            <td>{{ item.location }}</td>
+            <td>{{ item.location_coordinates }}</td>
             <td class="col-2">
               <button
                 type="button"

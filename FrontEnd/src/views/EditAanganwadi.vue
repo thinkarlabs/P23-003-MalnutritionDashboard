@@ -56,7 +56,7 @@
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="Latitude, Longitude Coordinates"
-              v-model="updatedAanganwadi.coordinates"
+              v-model="updatedAanganwadi.location_coordinates"
             />
           </div>
           <div class="row">
@@ -114,7 +114,7 @@
     contactPersonEmail: "",
     contactPersonPhone:"",
     contactPersonPassword: "",
-    coordinates: "",
+    location_coordinates: "",
     location:"",
     pincode:0
   });
@@ -133,7 +133,7 @@
         contactPersonPhone:"",
         contactPersonPassword: "",
         location: "",
-        coordinates: "",
+        location_coordinates: "",
         pincode:0
       };
     }

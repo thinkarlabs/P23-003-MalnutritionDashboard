@@ -56,7 +56,7 @@
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="Latitude, Longitude Coordinates"
-              v-model="aanganwadi.coordinates"
+              v-model="aanganwadi.location_coordinates"
             />
           </div>
           <div class="row">
@@ -110,8 +110,7 @@
     contactPersonEmail:"",
     contactPersonPassword: "",
     location: "",
-    coordinates: "",
-    taluka:"",
+    location_coordinates: "",
     pincode:0
   });
   const store = useAanganwadiStore();
