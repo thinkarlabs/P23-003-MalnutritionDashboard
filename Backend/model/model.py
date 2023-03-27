@@ -1,4 +1,4 @@
-from datetime import datetime, date
+from datetime import datetime
 from pydantic import BaseModel, EmailStr, validator, Field
 from bson import ObjectId
 from typing import Optional
@@ -223,7 +223,6 @@ class Supplement(BaseModel):
 
 class Program(BaseModel):
     title: str
-    code: str
     invite_code: str
     donor_id: str
     supplements_details_id: str
@@ -232,7 +231,6 @@ class Program(BaseModel):
     notes: Optional[str] = None
 
     _validate_title = validator('title', allow_reuse=True)(ParameterValidator.validate_is_empty)
-    _validate_code = validator('code', allow_reuse=True)(ParameterValidator.validate_is_empty)
     _validate_invite_code = validator('invite_code', allow_reuse=True)(ParameterValidator.validate_is_empty)
     _validate_donor_id = validator('donor_id', allow_reuse=True)(ParameterValidator.validate_is_empty)
     _validate_supplements_details_id = validator('supplements_details_id', allow_reuse=True) \

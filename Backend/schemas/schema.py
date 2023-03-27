@@ -103,7 +103,6 @@ def program_serializer(program) -> dict:
     return {
         "id": str(program["_id"]),
         "title": str(program["title"]),
-        "code": str(program["code"]),
         "invite_code": str(program["invite_code"]),
         "donor_id": str(program["donor_id"]),
         "supplements_details_id": str(program["supplements_details_id"]),
