@@ -1,4 +1,6 @@
 <template>
+  <div class="full-div container" style="width: 1280px">
+    <div id="x-contest" class="container-fluid p-3">
     <div class="row">
       <div class="col-12 p-2">
         <h3 class="float-start ps-2">All Aanganwadies</h3>
@@ -15,7 +17,7 @@
         </router-link>
       </div>
   
-      <table class="col-12 table table-striped" id="tbl_ch" width="100%">
+      <table class="col-12 table table-striped" id="tbl_ch">
         <thead class="table-dark">
           <tr>
             <th scope="col">Contact Person</th>
@@ -34,8 +36,8 @@
           <tr v-for="item of aanganwadies" :key="item.id">
             <td>{{ item.contactPersonName }}</td>
             <td>{{ item.contactPersonPhone }}</td>
-            <td>{{ item.taluka }}</td>
-            <td>{{ item.pincode }}</td>
+            <td>{{ item.location }}</td>
+            <td>{{ item.location_coordinates }}</td>
             <td class="col-2">
               <button
                 type="button"
@@ -58,9 +60,29 @@
           </tr>
         </tbody>
       </table>
+      </div>
     </div>
-  </template>
+  </div>
+</template>
+<style>
+#x-contest {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+#tableRow {
+  font-weight: 700;
+  font-size: 17px;
+}
 
+@media (max-width: 600px) {
+  .full-div {
+    max-width: fit-content;
+  }
+  .Row-styling {
+    border: none;
+  }
+}
+</style>
   <script setup>
   import { onMounted, computed } from "vue";
   import { useAanganwadiStore } from "../stores/aanganwadi";

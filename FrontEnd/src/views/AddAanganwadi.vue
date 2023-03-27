@@ -56,7 +56,7 @@
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="Latitude, Longitude Coordinates"
-              v-model="aanganwadi.coordinates"
+              v-model="aanganwadi.location_coordinates"
             />
           </div>
           <div class="row">
@@ -104,15 +104,14 @@
   import { useAanganwadiStore } from "../stores/aanganwadi";
   import router from "../router";
   let aanganwadi = reactive({
-    aanganwadiName: "Raashi Farzi Aanganwadi",
+    aanganwadiName: "",
     contactPersonName: "",
     contactPersonPhone: 0,
-    contactPersonEmail:"raashi.khanna@hotmail.com",
+    contactPersonEmail:"",
     contactPersonPassword: "",
     location: "",
-    //coordinates: "",
-    taluka:"Ambarnath",
-    pincode:616362
+    location_coordinates: "",
+    pincode:0
   });
   const store = useAanganwadiStore();
   

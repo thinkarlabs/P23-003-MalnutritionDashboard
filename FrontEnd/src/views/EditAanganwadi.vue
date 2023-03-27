@@ -56,7 +56,7 @@
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="Latitude, Longitude Coordinates"
-              v-model="updatedAanganwadi.coordinates"
+              v-model="updatedAanganwadi.location_coordinates"
             />
           </div>
           <div class="row">
@@ -114,9 +114,8 @@
     contactPersonEmail: "",
     contactPersonPhone:"",
     contactPersonPassword: "",
-    taluka: "",
-    coordinates: "",
-    taluka:"",
+    location_coordinates: "",
+    location:"",
     pincode:0
   });
 
@@ -133,9 +132,8 @@
         contactPersonEmail: "",
         contactPersonPhone:"",
         contactPersonPassword: "",
-        taluka: "",
-        coordinates: "",
-        taluka:"",
+        location: "",
+        location_coordinates: "",
         pincode:0
       };
     }
@@ -152,3 +150,4 @@
     return router.push("/aanganwadiList");
   };
   </script>
+  
