@@ -45,7 +45,7 @@
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="Location"
-              v-model="updatedAanganwadi.taluka"
+              v-model="updatedAanganwadi.location"
             />
           </div>
 
@@ -114,9 +114,8 @@
     contactPersonEmail: "",
     contactPersonPhone:"",
     contactPersonPassword: "",
-    taluka: "",
     coordinates: "",
-    taluka:"",
+    location:"",
     pincode:0
   });
 
@@ -133,7 +132,7 @@
         contactPersonEmail: "",
         contactPersonPhone:"",
         contactPersonPassword: "",
-        taluka: "",
+        location: "",
         coordinates: "",
         pincode:0
       };
