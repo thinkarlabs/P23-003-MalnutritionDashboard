@@ -1,3 +1,5 @@
+import json
+
 from Backend.model.model import Supplementary, Program
 from Backend.config.database import SupplementaryCollection, ProgramsCollection
 from typing import List
@@ -5,12 +7,16 @@ from bson import ObjectId
 from fastapi import APIRouter, HTTPException
 from argparse import OPTIONAL
 from fastapi import APIRouter, Body
-from Backend.model.model import Ngo, User, Donor, Aanganwadi, Child, ChildMalnutrition, SupplementsDetail, Program
+from Backend.model.model import Ngo, User, Donor, Aanganwadi, Child, ChildMalnutrition, SupplementsDetail, Program, \
+    ProgramJoining
 from Backend.config.database import NgoCollection, UserCollection, AanganwadiCollection, ChildCollection
-from Backend.config.database import DonorsCollection, ChildMalnutritionCollection, SupplementDetailsCollection,  ProgramsCollection
-from Backend.schemas.schema import ngo_list_serializer, user_list_serializer, donors_list_serializer
+from Backend.config.database import DonorsCollection, ChildMalnutritionCollection, SupplementDetailsCollection, \
+    ProgramsCollection, ProgramJoiningCollection
+from Backend.schemas.schema import ngo_list_serializer, user_list_serializer, donors_list_serializer, \
+    program_list_serializer
 from Backend.schemas.schema import supplements_list_serializer
-from Backend.schemas.schema import aanganwadi_list_serializer, child_list_serializer, child_malnutrition_list_serializer
+from Backend.schemas.schema import aanganwadi_list_serializer, child_list_serializer, \
+    child_malnutrition_list_serializer, programjoining_list_serializer
 from typing import Union
 
 user_router = APIRouter()
@@ -21,6 +27,7 @@ child_router = APIRouter()
 child_malnutrition = APIRouter()
 supplement_details = APIRouter()
 program_router = APIRouter()
+program_joining = APIRouter()
 
 
 @user_router.post("/api/create_user")
@@ -230,19 +237,19 @@ async def get_child_malnutritions():
     return {"status": "ok", "data": childs}
 
 
-@child_malnutrition.get("/api/{child_id}/get_child_malnutrition_stats")
-async def get_child_malnutrition_stats(child_id: str):
+@child_malnutrition.get("/api/{id}/get_child_malnutrition_stats")
+async def get_child_malnutrition_stats(id: str):
     """
     This function is create for get the particular child malnutrition data.
-    :param child_id: child_id of the ChildMalnutrition to retrieve.
+    :param id: id of the ChildMalnutrition to retrieve.
     :return: Response status and fetched particular data.
     """
     child = child_malnutrition_list_serializer(
-        ChildMalnutritionCollection.find({"child_id": str(child_id)}))
+        ChildMalnutritionCollection.find({"_id": ObjectId(id)}))
     return {"status": "ok", "data": child}
 
 
-@ child_malnutrition.put("/update_child_malnutrition")
+@child_malnutrition.put("/update_child_malnutrition")
 async def update_child_malnutrition(id: str, childs: ChildMalnutrition):
     """
     This function is create for update the child malnutrition details.
@@ -405,54 +412,88 @@ async def delete_supplement_details(id: str):
     return {"status": "ok", "data": []}
 
 
-@program_router.post("/programs", response_model=Program)
-async def create_program(program: Program):
-    program_dict = program.dict()
-    program_dict["donor"] = {"_id": ObjectId(
-        program.donor.id), "name": program.donor.name}
-    program_dict["supplement"] = {"_id": ObjectId(
-        program.supplement.id), "name": program.supplement.name}
-    result = ProgramsCollection.insert_one(program_dict)
-    program.id = str(result.inserted_id)
-    return program
+@program_router.post("/api/add_program")
+async def add_program(program: Program):
+    donor_details = DonorsCollection.find_one({"_id": ObjectId(program.donor_id)})
+    suplement_details = SupplementDetailsCollection.find_one({"_id": ObjectId(program.supplements_details_id)})
+    if not donor_details and suplement_details:
+        raise HTTPException(status_code=404, detail="input are missing")
+    _id = ProgramsCollection.insert_one(dict(program))
+    added_programs = program_list_serializer(ProgramsCollection.find(
+        {"_id": _id.inserted_id}))
+    return {"status": "ok", "data": added_programs}
 
 
-@program_router.get("/programs", response_model=List[Program])
-async def read_programs():
-    programs = []
-    for program_dict in ProgramsCollection.find():
-        program = Program.from_dict(program_dict)
-        programs.append(program)
-    return programs
+@program_router.get("/api/get_programs")
+async def get_programs():
+    programs = program_list_serializer(
+        ProgramsCollection.find())
+    return {"status": "ok", "data": programs}
 
 
-@program_router.get("/programs/{program_id}", response_model=Program)
-async def read_program(program_id: str):
-    program_dict = ProgramsCollection.find_one({"_id": ObjectId(program_id)})
-    if program_dict is None:
-        raise HTTPException(status_code=404, detail="Program not found")
-    program = Program.from_dict(program_dict)
-    return program
+@program_router.get("/api/get_program/{id}")
+async def get_program(id: str):
+    result = program_list_serializer(
+        ProgramsCollection.find({"_id": ObjectId(id)}))
+    return {"status": "ok", "data": result}
 
 
-@program_router.put("/programs/{program_id}", response_model=Program)
-async def update_program(program_id: str, program: Program):
-    program_dict = program.dict()
-    program_dict["donor"] = {"_id": ObjectId(
-        program.donor.id), "name": program.donor.name}
-    program_dict["supplement"] = {"_id": ObjectId(
-        program.supplement.id), "name": program.supplement.name}
-    result = ProgramsCollection.replace_one(
-        {"_id": ObjectId(program_id)}, program_dict)
-    if result.matched_count == 0:
-        raise HTTPException(status_code=404, detail="Program not found")
-    program.id = program_id
-    return program
+@program_router.put("/api/update_program/{id}")
+async def update_program(id: str, program: Program):
+    ProgramsCollection.find_one_and_update({"_id": ObjectId(id)},
+                                           {"$set": dict(program)})
+    updated_value = program_list_serializer(
+        ProgramsCollection.find({"_id": ObjectId(id)}))
+    return {"status": "ok", "data": updated_value}
 
 
-@program_router.delete("/programs/{program_id}")
-async def delete_program(program_id: str):
-    result = ProgramsCollection.delete_one({"_id": ObjectId(program_id)})
-    if result.deleted_count == 0:
-        raise HTTPException(status_code=404, detail="Program not found")
-    return {"message": "Program deleted successfully"}
+@program_router.delete("/api/delete_program/{id}")
+async def delete_program(id: str):
+    ProgramsCollection.find_one_and_delete({"_id": ObjectId(id)})
+    return {"status": "ok", "data": []}
+
+
+@program_joining.post("/api/Add_program_joining")
+async def add_program_joining(programs: ProgramJoining):
+    result = ProgramsCollection.find_one({"invite_code": programs.invite_code})
+    if not result:
+        raise HTTPException(status_code=404, detail="Invalid invite code")
+    else:
+        programs.program_id = str(result['_id'])
+        _id = ProgramJoiningCollection.insert_one(dict(programs))
+        add_joining_details = programjoining_list_serializer(ProgramJoiningCollection.find({"_id": _id.inserted_id}))
+        return {"status": "ok", "data": add_joining_details}
+
+
+@program_joining.get("/api/get_programs_joining_details")
+async def get_programs():
+    programs = programjoining_list_serializer(
+        ProgramJoiningCollection.find())
+    return {"status": "ok", "data": programs}
+
+
+@program_joining.get("/api/get_program_joining_details/{aanganwadi_id}")
+async def get_program_joining_details(aanganwadi_id: str):
+    list_of_program_joining_summary = []
+    program_joining_array = programjoining_list_serializer(
+        ProgramJoiningCollection.find({"aanganwadi_id": str(aanganwadi_id)}))
+    for entity in program_joining_array:
+        program_id = entity["program_id"]
+        program_details = program_list_serializer(ProgramsCollection.find({"_id": ObjectId(program_id)}))
+        if entity["invite_code"] == program_details[0]["invite_code"]:
+            id = entity["id"]
+            list_of_program_joining_summary.append(id)
+            donor_id = program_details[0]["donor_id"]
+            donor_details = donors_list_serializer(DonorsCollection.find({"_id": ObjectId(donor_id)}))
+            donor_name = donor_details[0]["name"]
+            list_of_program_joining_summary.append(donor_name)
+            supplement_detail_id = program_details[0]["supplements_details_id"]
+            supplement_detail = supplements_list_serializer(SupplementDetailsCollection.find
+                                                            ({"_id": ObjectId(supplement_detail_id)}))
+            supplement_name = supplement_detail[0]["name"]
+            list_of_program_joining_summary.append(supplement_name)
+            from_date = program_details[0]["from_date"]
+            list_of_program_joining_summary.append(from_date)
+            to_date = program_details[0]["to_date"]
+            list_of_program_joining_summary.append(to_date)
+    return {"status": "ok", "data": list_of_program_joining_summary}
