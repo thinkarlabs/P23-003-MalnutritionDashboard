@@ -1,7 +1,7 @@
 <template>
     <div class="full-div container" style="width: 1280px">
       <div id="x-contest" class="container-fluid p-3">
-        <form @submit.prevent="updateNgo">
+        <form @submit.prevent="updateSupplement">
           <div class="row">
             <h3 class="float-start">Update Supplement</h3>
   
@@ -110,7 +110,7 @@
     console.log(store.supplement);
   });
   
-  const updateNgo = async () => {
+  const updateSupplement = async () => {
     await store.updateSupplement(updatedSupplement);
     return router.push("/supplementList");
   };

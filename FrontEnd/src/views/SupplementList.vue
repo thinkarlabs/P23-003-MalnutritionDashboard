@@ -31,7 +31,7 @@
                   <td>No records available</td>
                 </tr>
               </div>
-              <tr v-for="item of ngos" :key="item.id">
+              <tr v-for="item of supplements" :key="item.id">
                 <td>{{ item.name }}</td>
                 <td>{{ item.description }}</td>
                 <td class="col-2">
@@ -86,7 +86,7 @@
   
   const store = useSupplementStore();
   
-  const ngos = computed(() => {
+  const supplements = computed(() => {
     return store.supplements.data;
   });
   const isSupplementsAvailable = computed(() => {
@@ -105,7 +105,7 @@
         swal("Supplement has been deleted!", {
           icon: "success",
         });
-        ngos.value = store.fetchSupplements();
+        supplements.value = store.fetchSupplements();
       }
     });
   };

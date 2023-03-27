@@ -107,12 +107,12 @@
     aanganwadiName: "",
     contactPersonName: "",
     contactPersonPhone: 0,
-    contactPersonEmail:"test@hotmail.com",
+    contactPersonEmail:"",
     contactPersonPassword: "",
     location: "",
-    coordinates: "61.62, 62.61",
-    taluka:"Karjat",
-    pincode:616362
+    coordinates: "",
+    taluka:"",
+    pincode:0
   });
   const store = useAanganwadiStore();
   
