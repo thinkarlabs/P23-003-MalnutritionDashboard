@@ -109,7 +109,7 @@
         swal("Donor has been deleted!", {
           icon: "success",
         });
-        ngos.value = store.fetchDonors();
+        donors.value = store.fetchDonors();
       }
     });
   };

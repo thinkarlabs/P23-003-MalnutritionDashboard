@@ -119,7 +119,7 @@ async def get_donors():
     return {"status": "ok", "data": donors}
 
 
-@donor_router.get(f"/api/{id}/get_donor")
+@donor_router.get("/api/{id}/get_donor")
 async def get_donor(id: str):
     donor = donors_list_serializer(
         DonorsCollection.find({"_id": ObjectId(id)}))
