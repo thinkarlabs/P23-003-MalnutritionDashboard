@@ -19,7 +19,7 @@
                       >{{ kidsummary.kid_name }}
                     </u></span
                   >
-                  <br />
+                  <br />  
                   {{ kidsummary.kid_pname }} <br />
                   {{ kidsummary.kid_gender }}, {{ kidsummary.kid_age }}
                 </td>

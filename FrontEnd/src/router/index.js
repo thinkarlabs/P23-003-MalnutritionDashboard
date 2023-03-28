@@ -92,6 +92,21 @@ const router = createRouter({
       component: () => import("../views/EditDonor.vue")
     },
     {
+      path: "/program",
+      name: "Program",
+      component: () => import("../views/Program.vue"),
+    },
+    {
+      path: "/programlist",
+      name: "programlist",
+      component: () => import("../views/programlist.vue"),
+    },
+    {
+      path: "/editProgram/:id",
+      name: "program-edit",
+      component: () => import("../views/EditProgram.vue")
+    },
+    {
       path: "/:catchAll(.*)*",
       name: "PageNotFound",
       component: PageNotFound,
