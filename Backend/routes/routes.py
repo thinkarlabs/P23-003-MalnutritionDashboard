@@ -1,22 +1,18 @@
-import json
-
-from Backend.model.model import Supplementary, Program
-from Backend.config.database import SupplementaryCollection, ProgramsCollection
+from Backend.model.model import SupplementaryPacks, AaganwadiSummary
+from Backend.config.database import SupplementaryCollection
 from typing import List
 from bson import ObjectId
 from fastapi import APIRouter, HTTPException
-from argparse import OPTIONAL
-from fastapi import APIRouter, Body
 from Backend.model.model import Ngo, User, Donor, Aanganwadi, Child, ChildMalnutrition, SupplementsDetail, Program, \
     ProgramJoining
 from Backend.config.database import NgoCollection, UserCollection, AanganwadiCollection, ChildCollection
 from Backend.config.database import DonorsCollection, ChildMalnutritionCollection, SupplementDetailsCollection, \
-    ProgramsCollection, ProgramJoiningCollection
+    ProgramsCollection, ProgramJoiningCollection, AangawadiSummaryCollection
 from Backend.schemas.schema import ngo_list_serializer, user_list_serializer, donors_list_serializer, \
     program_list_serializer
 from Backend.schemas.schema import supplements_list_serializer
 from Backend.schemas.schema import aanganwadi_list_serializer, child_list_serializer, \
-    child_malnutrition_list_serializer, programjoining_list_serializer
+    child_malnutrition_list_serializer, programjoining_list_serializer, supplementaryPacks_list_serializer
 from typing import Union
 
 user_router = APIRouter()
@@ -28,6 +24,8 @@ child_malnutrition = APIRouter()
 supplement_details = APIRouter()
 program_router = APIRouter()
 program_joining = APIRouter()
+
+aaganwadi_summary = APIRouter()
 
 
 @user_router.post("/api/create_user")
@@ -251,7 +249,7 @@ async def get_child_malnutrition_stats(id: str):
     return {"status": "ok", "data": child}
 
 
-@child_malnutrition.put("/update_child_malnutrition")
+@child_malnutrition.put("/api/update_child_malnutrition")
 async def update_child_malnutrition(id: str, childs: ChildMalnutrition):
     """
     This function is create for update the child malnutrition details.
@@ -283,74 +281,49 @@ supp_router = APIRouter()
 # Create Supplementary detail
 
 
-@supp_router.post('/supplementary/', response_model=Supplementary)
-def create_supplementary(supplementary: Supplementary):
-    supplementary_dict = supplementary.dict()
-    inserted_id = SupplementaryCollection.insert_one(
-        supplementary_dict).inserted_id
-    supplementary.id = str(inserted_id)
-    return supplementary
+@supp_router.post('/api/add_supplement_pack/')
+async def add_supplement_pack(supplementary: SupplementaryPacks):
+    _id = SupplementaryCollection.insert_one(dict(supplementary))
+    add_supplementary = supplementaryPacks_list_serializer(
+        SupplementaryCollection.find({"_id": _id.inserted_id}))
+    return {"status": "ok", "data": add_supplementary}
 
 
 # Read all Supplementary details
 
-
-@supp_router.get('/supplementaries/', response_model=List[Supplementary])
-def read_supplementary():
-    supplementary_list = []
-    for supplementary in SupplementaryCollection.find():
-        supplementary['id'] = str(supplementary['_id'])
-        del supplementary['_id']
-        supplementary_list.append(supplementary)
-    return supplementary_list
+@supp_router.get('/api/get_all_supplemet_packs/')
+async def get_all_supplemet_packs():
+    supplementaries = supplementaryPacks_list_serializer(SupplementaryCollection.find())
+    return {"status": "ok", "data": supplementaries}
 
 
 # Read a single Supplementary detail
 
 
-@supp_router.get('/supplementary/{supplementary_id}', response_model=Supplementary)
-def read_single_supplementary(supplementary_id: str):
-    supplementary = SupplementaryCollection.find_one(
-        {'_id': ObjectId(supplementary_id)})
-    if supplementary:
-        supplementary['id'] = str(supplementary['_id'])
-        del supplementary['_id']
-        return supplementary
-    else:
-        raise HTTPException(
-            status_code=404, detail='Supplementary detail not found')
+@supp_router.get('/api/get_supplement_pack/{supplementary_id}')
+async def get_supplement_pack(supplementary_id: str):
+    supplementary = supplementaryPacks_list_serializer(
+        SupplementaryCollection.find({"_id": ObjectId(supplementary_id)}))
+    return {"status": "ok", "data": supplementary}
 
 
 # Update a Supplementary detail
 
-
-@supp_router.put('/supplementary/{supplementary_id}', response_model=Supplementary)
-def update_supplementary(supplementary_id: str, supplementary: Supplementary):
-    updated_supplementary = supplementary.dict(exclude_unset=True)
-    result = SupplementaryCollection.update_one(
-        {'_id': ObjectId(supplementary_id)}, {'$set': updated_supplementary})
-    if result.modified_count == 1:
-        updated_supplementary['id'] = supplementary_id
-        return updated_supplementary
-    elif result.matched_count == 1:
-        raise HTTPException(status_code=422, detail='Nothing to update')
-    else:
-        raise HTTPException(
-            status_code=404, detail='Supplementary detail not found')
+@supp_router.put('/api/update_supplement_pack/{supplementary_id}')
+async def update_supplement_pack(supplementary_id: str, supplementary: SupplementaryPacks):
+    SupplementaryCollection.find_one_and_update({"_id": ObjectId(supplementary_id)},
+                                                {"$set": dict(supplementary)})
+    updated_supplementary = supplementaryPacks_list_serializer(
+        SupplementaryCollection.find({"_id": ObjectId(supplementary_id)}))
+    return {"status": "ok", "data": updated_supplementary}
 
 
 # Delete a Supplementary detail
 
-
-@supp_router.delete('/supplementary/{supplementary_id}')
-def delete_supplementary(supplementary_id: str):
-    result = SupplementaryCollection.delete_one(
-        {'_id': ObjectId(supplementary_id)})
-    if result.deleted_count == 1:
-        return {'message': 'Supplementary detail deleted successfully'}
-    else:
-        raise HTTPException(
-            status_code=404, detail='Supplementary detail not found')
+@supp_router.delete('/api/delete_supplement_pack/{supplementary_id}')
+def delete_supplement_pack(supplementary_id: str):
+    result = SupplementaryCollection.find_one_and_delete({"_id": ObjectId(supplementary_id)})
+    return {"message": "supplementary deleted successfully"}
 
 
 @supplement_details.post('/api/add_supplement_details')
@@ -483,21 +456,46 @@ async def get_program_joining_details(aanganwadi_id: str):
         ProgramJoiningCollection.find({"aanganwadi_id": str(aanganwadi_id)}))
     for entity in program_joining_array:
         program_id = entity["program_id"]
+        id = entity["id"]
+        list_of_program_joining_summary.append(id)
         program_details = program_list_serializer(ProgramsCollection.find({"_id": ObjectId(program_id)}))
-        if entity["invite_code"] == program_details[0]["invite_code"]:
-            id = entity["id"]
-            list_of_program_joining_summary.append(id)
-            donor_id = program_details[0]["donor_id"]
-            donor_details = donors_list_serializer(DonorsCollection.find({"_id": ObjectId(donor_id)}))
-            donor_name = donor_details[0]["name"]
+        if len(program_details) > 0:
+            donor_name = program_details[0]["donor_name"]
             list_of_program_joining_summary.append(donor_name)
-            supplement_detail_id = program_details[0]["supplements_details_id"]
-            supplement_detail = supplements_list_serializer(SupplementDetailsCollection.find
-                                                            ({"_id": ObjectId(supplement_detail_id)}))
-            supplement_name = supplement_detail[0]["name"]
+            supplement_name = program_details[0]["supplement_name"]
             list_of_program_joining_summary.append(supplement_name)
             from_date = program_details[0]["from_date"]
             list_of_program_joining_summary.append(from_date)
             to_date = program_details[0]["to_date"]
             list_of_program_joining_summary.append(to_date)
     return {"status": "ok", "data": list_of_program_joining_summary}
+
+
+# FastAPI endpoint to retrieve the summary of an Aaganwadi program
+@aaganwadi_summary.get("/aaganwadi/summary/{aaganwadi_id}")
+async def get_aaganwadi_summary(aaganwadi_id: str):
+    # Query the MongoDB database for the Aaganwadi program summary
+    summary = AangawadiSummaryCollection.find_one({"_id": aaganwadi_id})
+
+    # If summary is None, return 0 for all categories
+    if summary is None:
+        return AaganwadiSummary()
+
+    # Calculate the change count compared to the last week
+    sam_change = summary.get("SAMCountThisWeek", 0) - summary.get("SAMCountLastWeek", 0)
+    mam_change = summary.get("MAMCountThisWeek", 0) - summary.get("MAMCountLastWeek", 0)
+    normal_change = summary.get("NormalCountThisWeek", 0) - summary.get("NormalCountLastWeek", 0)
+
+    # Initialize a new instance of the AaganwadiSummary class with the summary data
+    aaganwadi_summary = AaganwadiSummary(
+        TotalChildCount=summary.get("TotalChildCount", 0),
+        SAMCountThisWeek=summary.get("SAMCountThisWeek", 0),
+        MAMCountThisWeek=summary.get("MAMCountThisWeek", 0),
+        NormalCountThisWeek=summary.get("NormalCountThisWeek", 0),
+        SAMChangeCount=sam_change,
+        MAMChangeCount=mam_change,
+        NormalChangeCount=normal_change
+    )
+
+    # Return the AaganwadiSummary instance as the response
+    return aaganwadi_summary

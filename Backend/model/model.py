@@ -177,18 +177,16 @@ class ChildMalnutrition(BaseModel):
         ParameterValidator.validate_date)
 
 
-class Supplementary(BaseModel):
+class SupplementaryPacks(BaseModel):
     """
     This Supplementary class has created for storing the required Supplementary field value in database.
     """
-    id: Optional[str] = Field(str(ObjectId()), alias="_id")
-    original_id: str
+    program_joining_id: str
     given_date: str
     no_of_packs_given: int
-    supplementary_id: Optional[str] = None
-
-    _validate_given_date = validator('given_date', allow_reuse=True)(
-        ParameterValidator.validate_date)
+    _validate_program_joining_id = validator('program_joining_id', allow_reuse=True) \
+        (ParameterValidator.validate_is_empty)
+    _validate_given_date = validator('given_date', allow_reuse=True)(ParameterValidator.validate_date)
 
     class Config:
         arbitrary_types_allowed = True
@@ -203,22 +201,6 @@ class SupplementsDetail(BaseModel):
     """
     name: str = Field(...)
     description: str
-
-
-class Donors(BaseModel):
-    id: str = Field(alias="_id")
-    name: str
-
-    class Config:
-        orm_mode = True
-
-
-class Supplement(BaseModel):
-    id: str = Field(alias="_id")
-    name: str
-
-    class Config:
-        orm_mode = True
 
 
 class Program(BaseModel):
@@ -248,3 +230,14 @@ class ProgramJoining(BaseModel):
     aanganwadi_id: str
     program_id: Optional[str] = None
     isActive: Optional[bool] = True
+
+
+# Pydantic model for the Aaganwadi summary
+class AaganwadiSummary(BaseModel):
+    TotalChildCount: Optional[int] = 0
+    SAMCountThisWeek: Optional[int] = 0
+    MAMCountThisWeek: Optional[int] = 0
+    NormalCountThisWeek: Optional[int] = 0
+    SAMChangeCount: Optional[int] = 0
+    MAMChangeCount: Optional[int] = 0
+    NormalChangeCount: Optional[int] = 0
