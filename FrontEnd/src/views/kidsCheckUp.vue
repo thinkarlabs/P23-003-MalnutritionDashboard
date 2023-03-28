@@ -91,7 +91,9 @@
               </thead>
               <tbody v-for="item in malnutritionstats">
                 <tr class="Row-styling">
-                  <td class="col-2 align-self-start">{{ item.date }}</td>
+                  <td class="col-2 align-self-start">
+                    {{ displayFormatDate(item.date) }}
+                  </td>
                   <td>
                     {{ item.height }}cms, {{ item.weight }}kg [{{
                       item.malnutritionIndexCategory
@@ -128,12 +130,9 @@
 </style>
 
 <script setup>
-import { ref, onMounted, computed, reactive } from "vue";
-import router from "../router";
+import { onMounted, computed, reactive } from "vue";
 import { useRoute } from "vue-router";
 import { useMalnutritionDetailStore } from "../stores/malnutritiondetail";
-import DatePicker from "vue3-datepicker";
-import { format } from "date-fns";
 
 const store = useMalnutritionDetailStore();
 const route = useRoute();
@@ -166,13 +165,19 @@ let malnutritionstats = computed(() => {
   }
 });
 
+const displayFormatDate = (currentDate) => {
+  return new Date(currentDate)
+    .toLocaleDateString("en-GB", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    })
+    .replace(/ /g, "-");
+};
+
 const formattedDate = computed(() => {
-  console.log("date", dateObj.selectedDate);
+  console.log("selected date", dateObj.selectedDate);
   malnutritionDetail.date = dateObj.selectedDate;
-  //Todo: need to find whether we need this format later
-  // malnutritionDetail.stat_date = dateObj.selectedDate
-  //   ? format(dateObj.selectedDate, dateObj.dateFormat)
-  //   : "";
 });
 
 const isHistoryAvailable = computed(() => {
@@ -195,7 +200,7 @@ const nutritionIndexchangevalue = (event) => {
 
 const postMalnutritionDetail = async () => {
   malnutritionDetail.child_id = route.params.id;
-  console.log("vue", malnutritionDetail);
+  console.log("added malnutritiondetails", malnutritionDetail);
   await store.postNutritionStats(malnutritionDetail);
   location.reload();
   //Todo: need to find another better solution

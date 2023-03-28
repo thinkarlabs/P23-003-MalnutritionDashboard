@@ -7,6 +7,11 @@ const router = createRouter({
   history: createWebHistory("/"),
   routes: [
     {
+      path: "/login",
+      name: "loginweb",
+      component: () => import("../views/LoginWebView.vue"),
+    },
+    {
       path: "/",
       name: "dashboard",
       component: DashboardView,
@@ -52,14 +57,24 @@ const router = createRouter({
       component: () => import("../views/AddAanganwadi.vue"),
     },
     {
-      path: "/aanganwadiList",
+      path: "/aanganwadis",
       name: "aanganwadiList",
       component: () => import("../views/AanganwadiList.vue"),
     },
     {
       path: "/editAanganwadiPage/:id",
       name: "aanganwadi-details",
-      component: () => import("../views/EditAanganwadi.vue")
+      component: () => import("../views/EditAanganwadi.vue"),
+    },
+    {
+      path: "/programssummary",
+      name: "programssummaryview",
+      component: () => import("../views/ProgramsSummaryView.vue"),
+    },
+    {
+      path: "/SupplementSupply/:program_joining_id",
+      name: "SupplementSupplyView",
+      component: () => import("../views/SupplementSupplyView.vue"),
     },
     {
       path: "/addSupplement",
@@ -74,22 +89,22 @@ const router = createRouter({
     {
       path: "/editSupplement/:id",
       name: "editSupplementPage",
-      component: () => import("../views/EditSupplement.vue")
+      component: () => import("../views/EditSupplement.vue"),
     },
     {
       path: "/addDonor",
       name: "addDonor",
-      component: () => import("../views/AddDonor.vue")
+      component: () => import("../views/AddDonor.vue"),
     },
     {
       path: "/donorsList",
       name: "donorsList",
-      component: () => import("../views/DonorsList.vue")
+      component: () => import("../views/DonorsList.vue"),
     },
     {
       path: "/editDonor/:id",
       name: "editDonor",
-      component: () => import("../views/EditDonor.vue")
+      component: () => import("../views/EditDonor.vue"),
     },
     {
       path: "/program",
@@ -104,7 +119,7 @@ const router = createRouter({
     {
       path: "/editProgram/:id",
       name: "program-edit",
-      component: () => import("../views/EditProgram.vue")
+      component: () => import("../views/EditProgram.vue"),
     },
     {
       path: "/:catchAll(.*)*",

@@ -37,7 +37,6 @@ export const useAanganwadiStore = defineStore("aanganwadi", {
       try {
         await HTTP.put("updateAanganwadi/" + newAanganwadi.value.id,newAanganwadi.value);
       } catch (error) {
-        debugger;
         alert(error);
         console.log(error);
       }

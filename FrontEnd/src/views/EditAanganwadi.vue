@@ -70,7 +70,7 @@
               >
                 Save
               </button>
-              <router-link to="/aanganwadiList" custom v-slot="{ navigate }">
+              <router-link to="/aanganwadis" custom v-slot="{ navigate }">
                 <button
                   type="button"
                   class="btn btn-primary float-end mx-2"
@@ -88,66 +88,65 @@
     </div>
   </div>
 </template>
-  
-  <style>
-  @media (min-width: 1024px) {
-    .about {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-    }
+
+<style>
+@media (min-width: 1024px) {
+  .about {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
   }
-  </style>
-  
-  <script setup>
-  import { ref, onMounted, computed, reactive } from "vue";
-  import { useAanganwadiStore } from "../stores/aanganwadi";
-  import router from "../router";
-  import axios from "axios";
-  import { useRoute } from "vue-router";
+}
+</style>
 
-  const route = useRoute();
+<script setup>
+import { ref, onMounted, computed, reactive } from "vue";
+import { useAanganwadiStore } from "../stores/aanganwadi";
+import router from "../router";
+import axios from "axios";
+import { useRoute } from "vue-router";
 
-  let updatedAanganwadi = reactive({
-    aanganwadiName: "",
-    contactPersonName: "",
-    contactPersonEmail: "",
-    contactPersonPhone:"",
-    contactPersonPassword: "",
-    location_coordinates: "",
-    location:"",
-    pincode:0
-  });
+const route = useRoute();
 
-  const store = useAanganwadiStore();
+let updatedAanganwadi = reactive({
+  aanganwadiName: "",
+  contactPersonName: "",
+  contactPersonEmail: "",
+  contactPersonPhone: "",
+  contactPersonPassword: "",
+  location_coordinates: "",
+  location: "",
+  pincode: 0,
+});
 
-  updatedAanganwadi = computed(() => {
-    if(store.currentAanganwadi){
-      return store.currentAanganwadi;
-    }else{
-      return{
-        id: "",
-        aanganwadiName: "",
-        contactPersonName: "",
-        contactPersonEmail: "",
-        contactPersonPhone:"",
-        contactPersonPassword: "",
-        location: "",
-        location_coordinates: "",
-        pincode:0
-      };
-    }
-  });
-  
-  onMounted(async () => {
-    console.log("Aanganwadi ID :: "+route.params.id);
-    await store.getAanganwadi(route.params.id);
-    console.log(store.currentAanganwadi);
-  });
-  
-  const updateAanganwadi = async () => {
-    await store.updateAanganwadi(updatedAanganwadi);
-    return router.push("/aanganwadiList");
-  };
-  </script>
-  
+const store = useAanganwadiStore();
+
+updatedAanganwadi = computed(() => {
+  if (store.currentAanganwadi) {
+    return store.currentAanganwadi;
+  } else {
+    return {
+      id: "",
+      aanganwadiName: "",
+      contactPersonName: "",
+      contactPersonEmail: "",
+      contactPersonPhone: "",
+      contactPersonPassword: "",
+      location: "",
+      location_coordinates: "",
+      pincode: 0,
+    };
+  }
+});
+
+onMounted(async () => {
+  console.log("Aanganwadi ID :: " + route.params.id);
+  await store.getAanganwadi(route.params.id);
+  console.log(store.currentAanganwadi);
+});
+
+const updateAanganwadi = async () => {
+  await store.updateAanganwadi(updatedAanganwadi);
+  return router.push("/aanganwadis");
+};
+</script>
