@@ -1,6 +1,6 @@
 <template>
-<div class="full-div container" style="width: 1280px">
-<div id='x-main' class="container-fluid mt-5 p-3">
+  <div class="full-div container" style="width: 1280px">
+    <div id="x-contest" class="container-fluid p-3">
       <form @submit.prevent="postMalnutritionDetail">
         <div class="row">
           <h3 class="form-label">Record Details for <b> Roshini K N (F, 3yr 4mo) </b></h3>
