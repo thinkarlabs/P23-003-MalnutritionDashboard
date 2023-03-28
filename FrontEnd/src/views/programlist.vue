@@ -19,14 +19,14 @@ const editProgram = (id) => {
 const deleteProgram = (id) => {
   swal({
     title: "Are you sure?",
-    text: "Once deleted, you will not be able to recover this Aanganwadi!",
+    text: "Once deleted, you will not be able to recover this Program!",
     icon: "warning",
     buttons: true,
     dangerMode: true,
   }).then((willDelete) => {
     if (willDelete) {
       store.deleteProgram(id);
-      swal("Aanganwadi has been deleted!", {
+      swal("Program has been deleted!", {
         icon: "success",
       });
     }
