@@ -7,8 +7,8 @@ export const useProgramStore = defineStore("program", {
   state: () => ({
     programs: [],
     currentprogram: "",
-    supplement:[],
-    donor:[]
+    supplement: [],
+    donor: [],
   }),
   getters: {
     getProgram(state) {
@@ -18,7 +18,7 @@ export const useProgramStore = defineStore("program", {
   actions: {
     async fetchProgram() {
       try {
-        const data = await HTTP.get("api/get_programs");
+        const data = await HTTP.get("get_programs");
         this.programs = data.data;
       } catch (error) {
         alert(error);
@@ -27,7 +27,7 @@ export const useProgramStore = defineStore("program", {
     },
     async createProgram(createProgram) {
       try {
-        await HTTP.post("api/add_program", createProgram);
+        await HTTP.post("add_program", createProgram);
       } catch (error) {
         alert(error);
         console.log(error);
@@ -35,18 +35,19 @@ export const useProgramStore = defineStore("program", {
     },
     async updatingProgram(updProgram) {
       try {
-        console.log("bye",updProgram.value);
-        await HTTP.put("api/update_program/" + updProgram.value.id, updProgram.value);
+        await HTTP.put(
+          "update_program/" + updProgram.value.id,
+          updProgram.value
+        );
       } catch (error) {
         alert(error);
         console.log(error);
       }
-
     },
 
     async deleteProgram(id) {
       try {
-        await HTTP.delete("api/delete_program/" + id).then(() => {
+        await HTTP.delete("delete_program/" + id).then(() => {
           this.fetchProgram();
         });
       } catch (error) {
@@ -56,9 +57,8 @@ export const useProgramStore = defineStore("program", {
     },
     async fetchProgramById(id) {
       try {
-        await HTTP.get("api/get_program/" + id).then((response) => {
+        await HTTP.get("get_program/" + id).then((response) => {
           this.currentprogram = response.data.data[0];
-          console.log("Store",this.currentprogram);
         });
       } catch (error) {
         alert(error);
@@ -67,10 +67,9 @@ export const useProgramStore = defineStore("program", {
     },
     async fetchSupplement() {
       try {
-         const response = await HTTP.get("api/get_supplements_details")
+        const response = await HTTP.get("get_supplements_details");
         this.supplement = response.data;
-        console.log("333",this.supplement)
-
+        console.log("333", this.supplement);
       } catch (error) {
         alert(error);
         console.log(error);
@@ -78,15 +77,13 @@ export const useProgramStore = defineStore("program", {
     },
     async fecthDonor() {
       try {
-        await HTTP.get("api/getdonors").then((response) => {
-          console.log("331",response.data)
+        await HTTP.get("getdonors").then((response) => {
           this.donor = response.data;
         });
       } catch (error) {
         alert(error);
         console.log(error);
       }
-    }
+    },
   },
-
 });

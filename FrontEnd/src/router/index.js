@@ -62,6 +62,36 @@ const router = createRouter({
       component: () => import("../views/EditAanganwadi.vue")
     },
     {
+      path: "/addSupplement",
+      name: "addSupplement",
+      component: () => import("../views/AddSupplement.vue"),
+    },
+    {
+      path: "/supplementList",
+      name: "supplementList",
+      component: () => import("../views/SupplementList.vue"),
+    },
+    {
+      path: "/editSupplement/:id",
+      name: "editSupplementPage",
+      component: () => import("../views/EditSupplement.vue")
+    },
+    {
+      path: "/addDonor",
+      name: "addDonor",
+      component: () => import("../views/AddDonor.vue")
+    },
+    {
+      path: "/donorsList",
+      name: "donorsList",
+      component: () => import("../views/DonorsList.vue")
+    },
+    {
+      path: "/editDonor/:id",
+      name: "editDonor",
+      component: () => import("../views/EditDonor.vue")
+    },
+    {
       path: "/program",
       name: "Program",
       component: () => import("../views/Program.vue"),

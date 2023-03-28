@@ -1,5 +1,5 @@
 <template>
-<main class="container-full">
+<div class="full-div container" style="width: 1280px">
 <div id='x-main' class="container-fluid mt-5 p-3">
       <form @submit.prevent="postMalnutritionDetail">
         <div class="row">
@@ -104,7 +104,7 @@
         </div>
       </form>
     </div>
-  </main>
+  </div>
 </template>
 
 <style>
@@ -117,6 +117,14 @@
   font-size: 17px;
 }
 
+@media (max-width: 600px) {
+  .full-div {
+    max-width: fit-content;
+  }
+  .Row-styling {
+    border: none;
+  }
+}
 </style>
 
 <script setup>
