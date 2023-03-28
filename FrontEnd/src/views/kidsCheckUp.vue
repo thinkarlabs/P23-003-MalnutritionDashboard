@@ -1,6 +1,6 @@
 <template>
-  <div class="full-div container" style="width: 1280px">
-    <div id="x-contest" class="container-fluid p-3">
+<main class="container-full">
+<div id='x-main' class="container-fluid mt-5 p-3">
       <form @submit.prevent="postMalnutritionDetail">
         <div class="row">
           <h3 class="form-label">Record Details for <b> Roshini K N (F, 3yr 4mo) </b></h3>
@@ -104,7 +104,7 @@
         </div>
       </form>
     </div>
-  </div>
+  </main>
 </template>
 
 <style>
@@ -117,14 +117,6 @@
   font-size: 17px;
 }
 
-@media (max-width: 600px) {
-  .full-div {
-    max-width: fit-content;
-  }
-  .Row-styling {
-    border: none;
-  }
-}
 </style>
 
 <script setup>

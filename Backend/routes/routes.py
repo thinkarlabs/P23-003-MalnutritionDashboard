@@ -211,7 +211,7 @@ async def delete_child(id: str):
     return {"status": "ok", "data": []}
 
 
-@child_malnutrition.post("/api/childMalnutrion_Add")
+@child_malnutrition.post("/childMalnutrion_Add")
 async def child_malnutrition_add(child: ChildMalnutrition):
     """
     This function is created for add the child malnutrition details basis on child id.

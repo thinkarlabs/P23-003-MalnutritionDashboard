@@ -17,7 +17,7 @@ from Backend.routes.routes import ngo_router, aanganwadi_router, child_router, c
 from Backend.routes.routes import donor_router, supp_router, program_router
 
 
-from app.routes import sign_router
+# from app.routes import sign_router
 
 
 # from fastapi.templating import Jinja2Templates
@@ -42,7 +42,7 @@ app.add_middleware(
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-app.include_router(sign_router)
+# app.include_router(sign_router)
 app.include_router(user_router)
 app.include_router(ngo_router)
 app.include_router(donor_router)
