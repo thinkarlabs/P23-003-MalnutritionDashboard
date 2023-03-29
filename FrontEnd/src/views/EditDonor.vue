@@ -41,6 +41,7 @@
           <div class="col-6 my-2">
             <label for="exampleFormControlInput1">Phone No</label>
             <input
+              type="number"
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="Phone Number"
@@ -124,7 +125,7 @@ updatedDonor = computed(() => {
       name: "",
       contactperson: "",
       email: "",
-      phone: 0,
+      phone: "",
     };
   }
 });

@@ -11,7 +11,7 @@
               type="text"
               class="form-control"
               id="exampleFormControlInput1"
-              placeholder=""
+              placeholder="Ngo Name"
               v-model="updatedNgo.ngoName"
             />
           </div>
@@ -22,7 +22,7 @@
               type="text"
               class="form-control"
               id="exampleFormControlInput1"
-              placeholder=""
+              placeholder="Contact Person Name"
               v-model="updatedNgo.contactPersonName"
             />
           </div>
@@ -30,10 +30,10 @@
           <div class="col-6 my-2">
             <label for="exampleFormControlInput1">Contact Person Phone</label>
             <input
-              type="text"
+              type="number"
               class="form-control"
               id="exampleFormControlInput1"
-              placeholder=""
+              placeholder="Contact Person Phone"
               v-model="updatedNgo.contactPersonPhone"
             />
           </div>
@@ -44,7 +44,7 @@
               type="text"
               class="form-control"
               id="exampleFormControlInput1"
-              placeholder=""
+              placeholder="Contact Person Email"
               v-model="updatedNgo.contactPersonEmail"
             />
           </div>
@@ -52,25 +52,30 @@
           <div class="col-6 my-2">
             <label for="exampleFormControlInput1">Contact Person Password</label>
             <input
+              type="password"
               class="form-control"
               id="exampleFormControlInput1"
-              placeholder=""
+              placeholder="Password"
               v-model="updatedNgo.contactPersonPassword"
             />
           </div>
           <div class="col-6 my-2">
             <label for="exampleFormControlInput1">Location</label>
             <input
+              type="text"
               class="form-control"
               id="exampleFormControlInput1"
+              placeholder="Location"
               v-model="updatedNgo.location"
             />
           </div>
           <div class="col-6 my-2">
             <label for="exampleFormControlInput1">Pincode</label>
             <input
+              type="number"
               class="form-control"
               id="exampleFormControlInput1"
+              placeholder="pincode"
               v-model="updatedNgo.pincode"
             />
           </div>
@@ -153,10 +158,10 @@ updatedNgo = computed(() => {
       ngoName: "",
       contactPersonName: "",
       contactPersonEmail: "",
-      contactPersonPhone: 0,
+      contactPersonPhone: "",
       contactPersonPassword: "",
       location: "",
-      pincode: 0,
+      pincode: "",
     };
   }
 });

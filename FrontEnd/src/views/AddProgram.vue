@@ -113,7 +113,7 @@ const addProgram = () => {
                 type="text"
                 class="form-control"
                 id="exampleFormControlInput1"
-                placeholder=""
+                placeholder="Title"
                 v-model="createProgram.title"
               />
             </div>
@@ -124,7 +124,7 @@ const addProgram = () => {
                 type="date"
                 class="form-control"
                 id="exampleFormControlInput1"
-                placeholder=""
+                placeholder="From Date"
                 v-model="createProgram.from_date"
               />
             </div>
@@ -134,7 +134,7 @@ const addProgram = () => {
                 type="date"
                 class="form-control"
                 id="exampleFormControlInput1"
-                placeholder=""
+                placeholder="To Date"
                 v-model="createProgram.to_date"
               />
             </div>
@@ -166,7 +166,7 @@ const addProgram = () => {
                 type="text"
                 class="form-control"
                 id="exampleFormControlInput1"
-                placeholder=""
+                placeholder="Invite Code"
                 v-model="createProgram.invite_code"
               />
             </div>

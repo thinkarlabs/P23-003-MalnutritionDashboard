@@ -41,7 +41,7 @@
           <div class="col-6 my-2">
             <label for="exampleFormControlInput1">Phone No</label>
             <input
-              type="text"
+              type="number"
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="Phone Number"
@@ -107,7 +107,7 @@ let newDonor = reactive({
   name: "",
   contactperson: "",
   email: "",
-  phone: 0,
+  phone: "",
 });
 const store = useDonorsStore();
 

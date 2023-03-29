@@ -19,7 +19,7 @@
           <div class="col-6 my-2">
             <label for="exampleFormControlInput1">Contact Phone</label>
             <input
-              type="text"
+              type="number"
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="Phone Number"
@@ -106,7 +106,7 @@ import router from "../router";
 let aanganwadi = reactive({
   aanganwadiName: "",
   contactPersonName: "",
-  contactPersonPhone: 0,
+  contactPersonPhone: "",
   contactPersonEmail: "",
   contactPersonPassword: "",
   location: "",
