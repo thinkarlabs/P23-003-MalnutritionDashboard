@@ -1,6 +1,6 @@
 <template>
   <div class="full-div container" style="width: 1280px">
-    <div id="x-contest" class="container-fluid mt-5 p-0">
+    <div id="x-contest" class="container-fluid p-3">
       <div class="row">
         <div class="col-12 m-0">
           <table class="table table-hover">

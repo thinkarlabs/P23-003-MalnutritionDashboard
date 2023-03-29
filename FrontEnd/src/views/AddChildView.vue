@@ -1,6 +1,6 @@
 <template>
-  <main class="container-full">
-    <div id="x-main" class="container-fluid mt-5 p-3">
+  <main class="full-div container" style="width: 1280px">
+    <div id="x-contest" class="container-fluid p-3">
       <div class="row">
         <h3 class="">Add Child Details</h3>
         <form @submit.prevent="postchild">

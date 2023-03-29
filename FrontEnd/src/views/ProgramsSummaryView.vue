@@ -1,6 +1,6 @@
 <template>
-  <div class="container-full">
-    <div id="x-main" class="container-fluid mt-5 p-0" style="min-height: 500px">
+  <div class="full-div container" style="width: 1280px">
+    <div id="x-contest" class="container-fluid p-3">
       <div class="card rounded-3 shadow-sm" style="background-color: #afeeee">
         <div class="card-header">
           <h4 class="my-0 fw-normal">47 Children</h4>

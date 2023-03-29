@@ -35,8 +35,6 @@ export const useSupplmentarySummaryStore = defineStore("SupplmentarySummary", {
 
           let filteredChildMalnutritions = childMalnutritions.data.data.find(
             (element) => {
-              // console.log("element" + JSON.stringify(element));
-              // console.log("modifed element id" + loadedChildren[i].id);
               return element.child_id == loadedChildren[i].id;
             }
           );
