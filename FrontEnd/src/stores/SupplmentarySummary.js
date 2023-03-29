@@ -16,7 +16,6 @@ export const useSupplmentarySummaryStore = defineStore("SupplmentarySummary", {
         const childs = await HTTP.get("get_childs");
         const childMalnutritions = await HTTP.get("get_child_Malnutritions");
         console.log(childs.data.data);
-        //let loadedChildren = JSON.parse(childs.data.data);
         let loadedChildren = childs.data.data;
         let modifedChildren = [];
 
