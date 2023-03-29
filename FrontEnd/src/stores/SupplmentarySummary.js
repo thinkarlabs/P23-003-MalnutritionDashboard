@@ -31,7 +31,17 @@ export const useSupplmentarySummaryStore = defineStore("SupplmentarySummary", {
           }
           loadedChildren[i].gender = sex;
           loadedChildren[i].motherName = parentName;
-
+          console.log("withoutsorting");
+          console.log(childMalnutritions);
+          let sortedChildMalnutritions = childMalnutritions.data.data.sort(
+            (a, b) => {
+              if (new Date(a.date) > new Date(b.date)) {
+                return -1;
+              }
+            }
+          );
+          console.log("withsorting");
+          console.log(sortedChildMalnutritions);
           let filteredChildMalnutritions = childMalnutritions.data.data.find(
             (element) => {
               return element.child_id == loadedChildren[i].id;

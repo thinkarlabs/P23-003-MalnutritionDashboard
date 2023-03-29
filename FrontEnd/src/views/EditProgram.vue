@@ -88,7 +88,7 @@ const updatingProgram = async () => {
                 type="text"
                 class="form-control"
                 id="exampleFormControlInput1"
-                placeholder=""
+                placeholder="Title"
                 v-model="currentProgram.title"
               />
             </div>
@@ -99,7 +99,7 @@ const updatingProgram = async () => {
                 type="date"
                 class="form-control"
                 id="exampleFormControlInput1"
-                placeholder=""
+                placeholder="From Date"
                 v-model="currentProgram.from_date"
               />
             </div>
@@ -109,7 +109,7 @@ const updatingProgram = async () => {
                 type="date"
                 class="form-control"
                 id="exampleFormControlInput1"
-                placeholder=""
+                placeholder="To Date"
                 v-model="currentProgram.to_date"
               />
             </div>
@@ -145,7 +145,7 @@ const updatingProgram = async () => {
                 type="text"
                 class="form-control"
                 id="exampleFormControlInput1"
-                placeholder=""
+                placeholder="Invite Code"
                 v-model="currentProgram.invite_code"
               />
             </div>

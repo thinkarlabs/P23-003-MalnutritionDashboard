@@ -43,25 +43,37 @@
         </tbody>
       </table>
       <div class="table table-hover">
-        <div class="col-8 p-0">
-          <input
-            class="w-100"
-            type="text"
-            v-model="updatedJoiningCode.invite_code"
-            aria-label="..."
-            placeholder="Program Invite Code"
-          />
-        </div>
-        <div class="col-4 p-0">
-          <button class="w-100 bg-primary text-light" data-nav="" @click="joinProgram()">
-            Join
-          </button>
-        </div>
+        <table class="table table-hover">
+          <tr>
+            <td class="col-5">
+              <input
+                class="w-80"
+                type="text"
+                v-model="updatedJoiningCode.invite_code"
+                aria-label="..."
+                placeholder="Program Invite Code"
+              />
+            </td>
+            <td style="padding-left: 5px" class="col-4">
+              <button
+                class="w-100 bg-primary text-light"
+                data-nav=""
+                @click="joinProgram()"
+              >
+                Join
+              </button>
+            </td>
+          </tr>
+        </table>
       </div>
     </div>
   </main>
 </template>
-
+<style>
+#x-main {
+  width: auto;
+}
+</style>
 <script setup>
 import { onMounted, computed, reactive } from "vue";
 import { useProgramSummaryStore } from "../stores/programsummary";
@@ -70,7 +82,8 @@ import router from "../router";
 const store = useProgramSummaryStore();
 
 let updatedJoiningCode = reactive({
-  aanganwadi_id: "64218dc533d73ceb3c76e454",
+  //Todo: Hardcoded value will be removed once login flow & base pages are implemented
+  aanganwadi_id: "6423cc62f8b5a84041e29c27",
   invite_code: "",
   program_joining_id: "",
   isActive: "True",
@@ -90,8 +103,9 @@ onMounted(async () => {
   await store.fetchProgramSummaries(updatedJoiningCode.aanganwadi_id);
 });
 
-const joinProgram = () => {
+const joinProgram = async () => {
   console.log("updatedJoiningCode" + JSON.stringify(updatedJoiningCode));
-  store.postProgramJoining(updatedJoiningCode);
+  await store.postProgramJoining(updatedJoiningCode);
+  await store.fetchProgramSummaries(updatedJoiningCode.aanganwadi_id);
 };
 </script>

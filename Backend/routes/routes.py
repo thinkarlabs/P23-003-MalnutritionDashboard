@@ -88,12 +88,12 @@ async def get_ngo(id: str):
     return {"status": "ok", "data": ngo}
 
 
-@ngo_router.put("/ngos/{ngo_id}")
-async def update_ngo(id: str, ngo: Ngo):
-    NgoCollection.find_one_and_update({"_id": ObjectId(id)},
+@ngo_router.put("/api/ngos/{ngo_id}")
+async def update_ngo(ngo_id: str, ngo: Ngo):
+    NgoCollection.find_one_and_update({"_id": ObjectId(ngo_id)},
                                       {"$set": dict(ngo)})
     updated_value = ngo_list_serializer(
-        NgoCollection.find({"_id": ObjectId(id)}))
+        NgoCollection.find({"_id": ObjectId(ngo_id)}))
     return {"status": "ok", "data": updated_value}
 
 

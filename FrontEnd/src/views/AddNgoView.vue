@@ -22,7 +22,7 @@
               type="text"
               class="form-control"
               id="exampleFormControlInput1"
-              placeholder=""
+              placeholder="Contact Person Name"
               v-model="newNgo.contactPersonName"
             />
           </div>
@@ -30,10 +30,10 @@
           <div class="col-6 my-2">
             <label for="exampleFormControlInput1">Contact Person Phone</label>
             <input
-              type="text"
+              type="number"
               class="form-control"
               id="exampleFormControlInput1"
-              placeholder=""
+              placeholder="Contact Person Phone"
               v-model="newNgo.contactPersonPhone"
             />
           </div>
@@ -44,7 +44,7 @@
               type="text"
               class="form-control"
               id="exampleFormControlInput1"
-              placeholder=""
+              placeholder="Contact Person Email"
               v-model="newNgo.contactPersonEmail"
             />
           </div>
@@ -55,27 +55,27 @@
               type="password"
               class="form-control"
               id="exampleFormControlInput1"
-              placeholder=""
+              placeholder="Password"
               v-model="newNgo.contactPersonPassword"
             />
           </div>
           <div class="col-6 my-2">
             <label for="exampleFormControlInput1">Location</label>
             <input
-              type="password"
+              type="text"
               class="form-control"
               id="exampleFormControlInput1"
-              placeholder=""
+              placeholder="Location"
               v-model="newNgo.location"
             />
           </div>
           <div class="col-6 my-2">
             <label for="exampleFormControlInput1">Pincode</label>
             <input
-              type="password"
+              type="number"
               class="form-control"
               id="exampleFormControlInput1"
-              placeholder=""
+              placeholder="pincode"
               v-model="newNgo.pincode"
             />
           </div>
@@ -137,10 +137,10 @@ let newNgo = reactive({
   ngoName: "",
   contactPersonName: "",
   contactPersonEmail: "",
-  contactPersonPhone: 0,
+  contactPersonPhone: "",
   contactPersonPassword: "",
   location: "",
-  pincode: 0,
+  pincode: "",
 });
 const store = useNgoStore();
 
