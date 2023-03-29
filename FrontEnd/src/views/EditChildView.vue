@@ -65,11 +65,7 @@
           </div>
           <div class="row">
             <div class="col-6 p-0">
-              <router-link
-                to="/ChildSupplementarySummaryView"
-                custom
-                v-slot="{ navigate }"
-              >
+              <router-link to="/childsupplementarysummary" custom v-slot="{ navigate }">
                 <button
                   class="w-100 bg-primary text-light"
                   data-nav="mob.childs"
@@ -144,6 +140,6 @@ onMounted(async () => {
 
 const updateChild = async () => {
   await store.updateChild(currentchild);
-  return router.push("/ChildSupplementarySummaryView");
+  return router.push("/childsupplementarysummary");
 };
 </script>

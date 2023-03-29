@@ -49,7 +49,7 @@ onMounted(async () => {
 
 const updatingProgram = async () => {
   await store.updatingProgram(currentProgram);
-  return router.push("/programlist");
+  return router.push("/programs");
 };
 </script>
 
@@ -60,7 +60,7 @@ const updatingProgram = async () => {
         <div class="row">
           <div class="col-12 p-2">
             <h3 class="float-start">Updating Program</h3>
-            <router-link to="/programlist" custom v-slot="{ navigate }">
+            <router-link to="/programs" custom v-slot="{ navigate }">
               <button
                 type="button"
                 class="btn btn-primary float-end mx-2"

@@ -60,11 +60,7 @@
           </div>
           <div class="row">
             <div class="col-6 p-0">
-              <router-link
-                to="/ChildSupplementarySummaryView"
-                custom
-                v-slot="{ navigate }"
-              >
+              <router-link to="/childsupplementarysummary" custom v-slot="{ navigate }">
                 <button
                   class="w-100 bg-primary text-light"
                   data-nav="mob.childs"
@@ -113,6 +109,6 @@ const genderchangevalue = (event) => {
 
 const postchild = async () => {
   await store.postchild(newchild);
-  return router.push("/ChildSupplementarySummaryView");
+  return router.push("/childsupplementarysummary");
 };
 </script>

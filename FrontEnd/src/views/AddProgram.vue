@@ -74,7 +74,7 @@ const addProgram = () => {
   createProgram["supplements_details_id"] = idObject.suppId;
   createProgram["donor_id"] = idObject.donorId;
   store.createProgram(createProgram);
-  return router.push("/programlist");
+  return router.push("/programs");
 };
 </script>
 
@@ -85,7 +85,7 @@ const addProgram = () => {
         <div class="row">
           <div class="col-12 p-2">
             <h3 class="float-start">Add Program</h3>
-            <router-link to="/programlist" custom v-slot="{ navigate }">
+            <router-link to="/programs" custom v-slot="{ navigate }">
               <button
                 type="button"
                 class="btn btn-primary float-end mx-2"

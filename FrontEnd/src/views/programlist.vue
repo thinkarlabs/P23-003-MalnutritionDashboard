@@ -14,7 +14,7 @@ const isProgramsAvailable = computed(() => {
 });
 
 const editProgram = (id) => {
-  router.replace({ path: "/editProgram/" + id });
+  router.replace({ path: "/editprogram/" + id });
 };
 const deleteProgram = (id) => {
   swal({

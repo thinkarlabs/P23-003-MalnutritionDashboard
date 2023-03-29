@@ -67,7 +67,7 @@
               Submit
             </button>
 
-            <router-link to="/ChildSupplementarySummaryView" custom v-slot="{ navigate }">
+            <router-link to="/childsupplementarysummary" custom v-slot="{ navigate }">
               <button
                 class="bg-primary text-light float-end me-2"
                 data-nav="mob.kids"

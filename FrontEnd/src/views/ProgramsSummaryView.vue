@@ -84,7 +84,7 @@ const isProgramSummaryAvailable = computed(() => {
 });
 const editProgramJoiningSupplies = (program_joining_id) => {
   console.log("edit clicked" + program_joining_id);
-  router.push("SupplementSupply/" + program_joining_id);
+  router.push("supplementsupply/" + program_joining_id);
 };
 onMounted(async () => {
   await store.fetchProgramSummaries(updatedJoiningCode.aanganwadi_id);
