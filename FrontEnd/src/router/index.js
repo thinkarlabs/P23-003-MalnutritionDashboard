@@ -107,9 +107,9 @@ const router = createRouter({
       component: () => import("../views/EditDonor.vue"),
     },
     {
-      path: "/program",
+      path: "/addprogram",
       name: "Program",
-      component: () => import("../views/Program.vue"),
+      component: () => import("../views/AddProgram.vue"),
     },
     {
       path: "/programlist",
