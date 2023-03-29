@@ -82,6 +82,7 @@ import router from "../router";
 const store = useProgramSummaryStore();
 
 let updatedJoiningCode = reactive({
+  //Todo: Hardcoded value will be removed once login flow & base pages are implemented
   aanganwadi_id: "6423cc62f8b5a84041e29c27",
   invite_code: "",
   program_joining_id: "",
