@@ -90,7 +90,7 @@
 
 <script setup>
 import { ref, onMounted, computed, reactive } from "vue";
-import { usechildStore } from "../stores/child.js";
+import { useChildStore } from "../stores/child.js";
 import router from "../router";
 let newchild = reactive({
   childName: "",
@@ -99,7 +99,7 @@ let newchild = reactive({
   gender: 0,
   isActive: false,
 });
-const store = usechildStore();
+const store = useChildStore();
 
 const genderchangevalue = (event) => {
   const selectedvalue = event.target.options[event.target.options.selectedIndex].text;

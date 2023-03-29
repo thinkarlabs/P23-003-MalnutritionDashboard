@@ -3,7 +3,13 @@
     <div id="x-contest" class="container-fluid p-3">
       <form @submit.prevent="postMalnutritionDetail">
         <div class="row">
-          <h3 class="form-label">Record Details for <b> Roshini K N (F, 3yr 4mo) </b></h3>
+          <h3 class="form-label">
+            Record Details for
+            <b>
+              {{ childDetails.childName }} ({{ childDetails.gender.substr(0, 1) }},
+              {{ childDetails.child_age }}yrs)
+            </b>
+          </h3>
 
           <div class="mb-1 col-6">
             <label for="exampleFormControlInput1" class="form-label"
@@ -133,8 +139,10 @@
 import { onMounted, computed, reactive } from "vue";
 import { useRoute } from "vue-router";
 import { useMalnutritionDetailStore } from "../stores/malnutritiondetail";
+import { useChildStore } from "../stores/child";
 
 const store = useMalnutritionDetailStore();
+const childStore = useChildStore();
 const route = useRoute();
 
 let dateObj = reactive({
@@ -165,6 +173,21 @@ let malnutritionstats = computed(() => {
   }
 });
 
+let childDetails = computed(() => {
+  if (childStore.child) {
+    return childStore.child;
+  } else {
+    return {
+      id: "",
+      childName: "",
+      motherName: "",
+      child_age: "",
+      gender: "",
+      isActive: "",
+    };
+  }
+});
+
 const displayFormatDate = (currentDate) => {
   return new Date(currentDate)
     .toLocaleDateString("en-GB", {
@@ -187,7 +210,9 @@ const isHistoryAvailable = computed(() => {
 onMounted(async () => {
   console.log("Editing.... ");
   console.log(route.params.id);
+  await childStore.getChild(route.params.id);
   await store.getChildMalnutritionHistory(route.params.id);
+  console.log("childDetails " + childDetails.childName);
   console.log("got result for child malnutrtion status");
   console.log(store.currentChildMalnutrition.data.data);
 });
