@@ -3,7 +3,13 @@
     <div id="x-contest" class="container-fluid p-3">
       <form @submit.prevent="postMalnutritionDetail">
         <div class="row">
-          <h3 class="form-label">Record Details for <b> Roshini K N (F, 3yr 4mo) </b></h3>
+          <h3 class="form-label">
+            Record Details for
+            <b>
+              {{ childDetails.childName }} ({{ childDetails.gender.substr(0, 1) }},
+              {{ childDetails.child_age }}yrs)
+            </b>
+          </h3>
 
           <div class="mb-1 col-6">
             <label for="exampleFormControlInput1" class="form-label"
@@ -67,7 +73,7 @@
               Submit
             </button>
 
-            <router-link to="/ChildSupplementarySummaryView" custom v-slot="{ navigate }">
+            <router-link to="/childsupplementarysummary" custom v-slot="{ navigate }">
               <button
                 class="bg-primary text-light float-end me-2"
                 data-nav="mob.kids"
@@ -91,7 +97,9 @@
               </thead>
               <tbody v-for="item in malnutritionstats">
                 <tr class="Row-styling">
-                  <td class="col-2 align-self-start">{{ item.date }}</td>
+                  <td class="col-2 align-self-start">
+                    {{ displayFormatDate(item.date) }}
+                  </td>
                   <td>
                     {{ item.height }}cms, {{ item.weight }}kg [{{
                       item.malnutritionIndexCategory
@@ -128,14 +136,13 @@
 </style>
 
 <script setup>
-import { ref, onMounted, computed, reactive } from "vue";
-import router from "../router";
+import { onMounted, computed, reactive } from "vue";
 import { useRoute } from "vue-router";
 import { useMalnutritionDetailStore } from "../stores/malnutritiondetail";
-import DatePicker from "vue3-datepicker";
-import { format } from "date-fns";
+import { useChildStore } from "../stores/child";
 
 const store = useMalnutritionDetailStore();
+const childStore = useChildStore();
 const route = useRoute();
 
 let dateObj = reactive({
@@ -166,13 +173,34 @@ let malnutritionstats = computed(() => {
   }
 });
 
+let childDetails = computed(() => {
+  if (childStore.child) {
+    return childStore.child;
+  } else {
+    return {
+      id: "",
+      childName: "",
+      motherName: "",
+      child_age: "",
+      gender: "",
+      isActive: "",
+    };
+  }
+});
+
+const displayFormatDate = (currentDate) => {
+  return new Date(currentDate)
+    .toLocaleDateString("en-GB", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    })
+    .replace(/ /g, "-");
+};
+
 const formattedDate = computed(() => {
-  console.log("date", dateObj.selectedDate);
+  console.log("selected date", dateObj.selectedDate);
   malnutritionDetail.date = dateObj.selectedDate;
-  //Todo: need to find whether we need this format later
-  // malnutritionDetail.stat_date = dateObj.selectedDate
-  //   ? format(dateObj.selectedDate, dateObj.dateFormat)
-  //   : "";
 });
 
 const isHistoryAvailable = computed(() => {
@@ -182,7 +210,9 @@ const isHistoryAvailable = computed(() => {
 onMounted(async () => {
   console.log("Editing.... ");
   console.log(route.params.id);
+  await childStore.getChild(route.params.id);
   await store.getChildMalnutritionHistory(route.params.id);
+  console.log("childDetails " + childDetails.childName);
   console.log("got result for child malnutrtion status");
   console.log(store.currentChildMalnutrition.data.data);
 });
@@ -195,7 +225,7 @@ const nutritionIndexchangevalue = (event) => {
 
 const postMalnutritionDetail = async () => {
   malnutritionDetail.child_id = route.params.id;
-  console.log("vue", malnutritionDetail);
+  console.log("added malnutritiondetails", malnutritionDetail);
   await store.postNutritionStats(malnutritionDetail);
   location.reload();
   //Todo: need to find another better solution

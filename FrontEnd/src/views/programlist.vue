@@ -14,7 +14,7 @@ const isProgramsAvailable = computed(() => {
 });
 
 const editProgram = (id) => {
-  router.replace({ path: '/editProgram/' + id })
+  router.replace({ path: "/editprogram/" + id });
 };
 const deleteProgram = (id) => {
   swal({
@@ -33,26 +33,29 @@ const deleteProgram = (id) => {
   });
 };
 onMounted(() => {
-  store.fetchProgram()
+  store.fetchProgram();
 });
-
 </script>
 
 <template>
-  <div id='x-main' class="container-full mt-5 p-3" style="min-height:550px">
+  <div id="x-main" class="container-full mt-5 p-3" style="min-height: 550px">
     <div class="container-md">
-
       <div class="row">
         <div class="col-12 p-2">
           <h3 class="float-start ps-2">Programs</h3>
-          <router-link to="/program" custom v-slot="{ navigate }">
-            <button type="button" class="btn btn-primary float-end mx-2" data-nav="ngo.program.new" @click="navigate"
-              role="link">
+          <router-link to="/addprogram" custom v-slot="{ navigate }">
+            <button
+              type="button"
+              class="btn btn-primary float-end mx-2"
+              data-nav="ngo.program.new"
+              @click="navigate"
+              role="link"
+            >
               <i class="bi bi-plus-square"></i>
             </button>
           </router-link>
         </div>
-        <div id='x-challenges'>
+        <div id="x-challenges">
           <table class="table table-striped" id="tbl_ch">
             <thead class="table-dark">
               <tr>
@@ -79,13 +82,21 @@ onMounted(() => {
                 <td>{{ program.to_date }}</td>
                 <td class="col-3">{{ program.notes }}</td>
                 <td class="col-2">
-                  <button type="button" class="btn btn-primary float-end mx-2" data-nav="ngo.program.del"
-                    @click="deleteProgram(program.id)">
+                  <button
+                    type="button"
+                    class="btn btn-primary float-end mx-2"
+                    data-nav="ngo.program.del"
+                    @click="deleteProgram(program.id)"
+                  >
                     <i class="bi bi-trash"></i>
                   </button>
-                  <router-link to="/program" custom v-slot="{ navigate }">
-                    <button type="button" class="btn btn-primary float-end mx-2" data-nav='ngo.program.edit'
-                      @click="editProgram(program.id)">
+                  <router-link to="/addprogram" custom v-slot="{ navigate }">
+                    <button
+                      type="button"
+                      class="btn btn-primary float-end mx-2"
+                      data-nav="ngo.program.edit"
+                      @click="editProgram(program.id)"
+                    >
                       <i class="bi bi-pencil-square"></i>
                     </button>
                   </router-link>

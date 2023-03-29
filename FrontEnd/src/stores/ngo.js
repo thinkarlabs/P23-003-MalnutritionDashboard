@@ -44,7 +44,6 @@ export const useNgoStore = defineStore("ngo", {
       try {
         await HTTP.put("ngos/" + updatedNgo.value.id, updatedNgo.value);
       } catch (error) {
-        debugger;
         alert(error.data);
         console.log(error);
       }

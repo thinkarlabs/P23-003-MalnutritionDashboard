@@ -7,6 +7,11 @@ const router = createRouter({
   history: createWebHistory("/"),
   routes: [
     {
+      path: "/login",
+      name: "loginweb",
+      component: () => import("../views/LoginWebView.vue"),
+    },
+    {
       path: "/",
       name: "dashboard",
       component: DashboardView,
@@ -42,69 +47,79 @@ const router = createRouter({
       component: () => import("../views/EditChildView.vue"),
     },
     {
-      path: "/ChildSupplementarySummaryView",
+      path: "/childsupplementarysummary",
       name: "ChildSupplementarySummaryView",
       component: () => import("../views/ChildSupplementarySummaryView.vue"),
     },
     {
-      path: "/addAanganwadi",
+      path: "/addaanganwadi",
       name: "addAanganwadi",
       component: () => import("../views/AddAanganwadi.vue"),
     },
     {
-      path: "/aanganwadiList",
+      path: "/aanganwadis",
       name: "aanganwadiList",
       component: () => import("../views/AanganwadiList.vue"),
     },
     {
-      path: "/editAanganwadiPage/:id",
+      path: "/editaanganwadipage/:id",
       name: "aanganwadi-details",
-      component: () => import("../views/EditAanganwadi.vue")
+      component: () => import("../views/EditAanganwadi.vue"),
     },
     {
-      path: "/addSupplement",
+      path: "/programssummary",
+      name: "programssummaryview",
+      component: () => import("../views/ProgramsSummaryView.vue"),
+    },
+    {
+      path: "/supplementsupply/:program_joining_id",
+      name: "SupplementSupplyView",
+      component: () => import("../views/SupplementSupplyView.vue"),
+    },
+    {
+      path: "/addsupplement",
       name: "addSupplement",
       component: () => import("../views/AddSupplement.vue"),
     },
     {
-      path: "/supplementList",
+      path: "/supplements",
       name: "supplementList",
       component: () => import("../views/SupplementList.vue"),
     },
     {
-      path: "/editSupplement/:id",
+      path: "/editsupplement/:id",
       name: "editSupplementPage",
-      component: () => import("../views/EditSupplement.vue")
+      component: () => import("../views/EditSupplement.vue"),
     },
     {
-      path: "/addDonor",
+      path: "/adddonor",
       name: "addDonor",
-      component: () => import("../views/AddDonor.vue")
+      component: () => import("../views/AddDonor.vue"),
     },
     {
-      path: "/donorsList",
+      path: "/donors",
       name: "donorsList",
-      component: () => import("../views/DonorsList.vue")
+      component: () => import("../views/DonorsList.vue"),
     },
     {
-      path: "/editDonor/:id",
+      path: "/editdonor/:id",
       name: "editDonor",
-      component: () => import("../views/EditDonor.vue")
+      component: () => import("../views/EditDonor.vue"),
     },
     {
-      path: "/program",
+      path: "/addprogram",
       name: "Program",
-      component: () => import("../views/Program.vue"),
+      component: () => import("../views/AddProgram.vue"),
     },
     {
-      path: "/programlist",
+      path: "/programs",
       name: "programlist",
       component: () => import("../views/programlist.vue"),
     },
     {
-      path: "/editProgram/:id",
+      path: "/editprogram/:id",
       name: "program-edit",
-      component: () => import("../views/EditProgram.vue")
+      component: () => import("../views/EditProgram.vue"),
     },
     {
       path: "/:catchAll(.*)*",

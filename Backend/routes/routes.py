@@ -237,15 +237,16 @@ async def get_child_malnutritions():
     return {"status": "ok", "data": childs}
 
 
-@child_malnutrition.get("/api/{id}/get_child_malnutrition_stats")
-async def get_child_malnutrition_stats(id: str):
+@child_malnutrition.get("/api/{child_id}/get_child_malnutrition_stats")
+async def get_child_malnutrition_stats(child_id: str):
     """
     This function is create for get the particular child malnutrition data.
     :param id: id of the ChildMalnutrition to retrieve.
     :return: Response status and fetched particular data.
     """
     child = child_malnutrition_list_serializer(
-        ChildMalnutritionCollection.find({"_id": ObjectId(id)}))
+        ChildMalnutritionCollection.find({"child_id": str(child_id)}))
+    print(child)
     return {"status": "ok", "data": child}
 
 
@@ -278,26 +279,28 @@ async def delete_child(id: str):
 supp_router = APIRouter()
 
 
-# Create Supplementary detail
+# Create Supplementary pack detail
 
 
 @supp_router.post('/api/add_supplement_pack/')
 async def add_supplement_pack(supplementary: SupplementaryPacks):
+    print(supplementary)
     _id = SupplementaryCollection.insert_one(dict(supplementary))
     add_supplementary = supplementaryPacks_list_serializer(
         SupplementaryCollection.find({"_id": _id.inserted_id}))
     return {"status": "ok", "data": add_supplementary}
 
 
-# Read all Supplementary details
+# Read all Supplementary pack details of a given program joining id
 
-@supp_router.get('/api/get_all_supplemet_packs/')
-async def get_all_supplemet_packs():
-    supplementaries = supplementaryPacks_list_serializer(SupplementaryCollection.find())
-    return {"status": "ok", "data": supplementaries}
+@supp_router.get('/api/get_all_supplemet_packs/{program_joining_id}')
+async def get_all_supplemet_packs_for_a_program(program_joining_id: str):
+    supplementary = supplementaryPacks_list_serializer(
+        SupplementaryCollection.find({"program_joining_id": str(program_joining_id)}))
+    return {"status": "ok", "data": supplementary}
 
 
-# Read a single Supplementary detail
+# Read a single Supplementary pack detail
 
 
 @supp_router.get('/api/get_supplement_pack/{supplementary_id}')
@@ -307,7 +310,7 @@ async def get_supplement_pack(supplementary_id: str):
     return {"status": "ok", "data": supplementary}
 
 
-# Update a Supplementary detail
+# Update a Supplementary pack detail
 
 @supp_router.put('/api/update_supplement_pack/{supplementary_id}')
 async def update_supplement_pack(supplementary_id: str, supplementary: SupplementaryPacks):
@@ -318,11 +321,12 @@ async def update_supplement_pack(supplementary_id: str, supplementary: Supplemen
     return {"status": "ok", "data": updated_supplementary}
 
 
-# Delete a Supplementary detail
+# Delete a Supplementary pack detail
 
 @supp_router.delete('/api/delete_supplement_pack/{supplementary_id}')
 def delete_supplement_pack(supplementary_id: str):
-    result = SupplementaryCollection.find_one_and_delete({"_id": ObjectId(supplementary_id)})
+    result = SupplementaryCollection.find_one_and_delete(
+        {"_id": ObjectId(supplementary_id)})
     return {"message": "supplementary deleted successfully"}
 
 
@@ -389,8 +393,10 @@ async def delete_supplement_details(id: str):
 
 @program_router.post("/api/add_program")
 async def add_program(program: Program):
-    donor_details = DonorsCollection.find_one({"_id": ObjectId(program.donor_id)})
-    suplement_details = SupplementDetailsCollection.find_one({"_id": ObjectId(program.supplements_details_id)})
+    donor_details = DonorsCollection.find_one(
+        {"_id": ObjectId(program.donor_id)})
+    suplement_details = SupplementDetailsCollection.find_one(
+        {"_id": ObjectId(program.supplements_details_id)})
     if not donor_details and suplement_details:
         raise HTTPException(status_code=404, detail="input are missing")
     program.donor_name = str(donor_details['name'])
@@ -433,12 +439,17 @@ async def delete_program(id: str):
 @program_joining.post("/api/Add_program_joining")
 async def add_program_joining(programs: ProgramJoining):
     result = ProgramsCollection.find_one({"invite_code": programs.invite_code})
+    identifedAaganwadi = AanganwadiCollection.find_one(
+        {"_id": ObjectId(programs.aanganwadi_id)})
     if not result:
         raise HTTPException(status_code=404, detail="Invalid invite code")
+    elif not identifedAaganwadi:
+        raise HTTPException(status_code=404, detail="Invalid Aaganwadi")
     else:
         programs.program_id = str(result['_id'])
         _id = ProgramJoiningCollection.insert_one(dict(programs))
-        add_joining_details = programjoining_list_serializer(ProgramJoiningCollection.find({"_id": _id.inserted_id}))
+        add_joining_details = programjoining_list_serializer(
+            ProgramJoiningCollection.find({"_id": _id.inserted_id}))
         return {"status": "ok", "data": add_joining_details}
 
 
@@ -451,23 +462,29 @@ async def get_programs():
 
 @program_joining.get("/api/get_program_joining_details/{aanganwadi_id}")
 async def get_program_joining_details(aanganwadi_id: str):
+
     list_of_program_joining_summary = []
     program_joining_array = programjoining_list_serializer(
         ProgramJoiningCollection.find({"aanganwadi_id": str(aanganwadi_id)}))
-    for entity in program_joining_array:
-        program_id = entity["program_id"]
-        id = entity["id"]
-        list_of_program_joining_summary.append(id)
-        program_details = program_list_serializer(ProgramsCollection.find({"_id": ObjectId(program_id)}))
+    print(program_joining_array)
+    for program_joining_obj in program_joining_array:
+        program_id = program_joining_obj["program_id"]
+        program_joining_id = program_joining_obj["id"]
+        program_details = program_list_serializer(
+            ProgramsCollection.find({"_id": ObjectId(program_id)}))
         if len(program_details) > 0:
             donor_name = program_details[0]["donor_name"]
-            list_of_program_joining_summary.append(donor_name)
             supplement_name = program_details[0]["supplement_name"]
-            list_of_program_joining_summary.append(supplement_name)
             from_date = program_details[0]["from_date"]
-            list_of_program_joining_summary.append(from_date)
             to_date = program_details[0]["to_date"]
-            list_of_program_joining_summary.append(to_date)
+            program_joining_object = {
+                "program_joining_id": program_joining_id,
+                "donor_name": donor_name,
+                "supplement_name": supplement_name,
+                "from_date": from_date,
+                "to_date": to_date
+            }
+            list_of_program_joining_summary.append(program_joining_object)
     return {"status": "ok", "data": list_of_program_joining_summary}
 
 
@@ -482,9 +499,12 @@ async def get_aaganwadi_summary(aaganwadi_id: str):
         return AaganwadiSummary()
 
     # Calculate the change count compared to the last week
-    sam_change = summary.get("SAMCountThisWeek", 0) - summary.get("SAMCountLastWeek", 0)
-    mam_change = summary.get("MAMCountThisWeek", 0) - summary.get("MAMCountLastWeek", 0)
-    normal_change = summary.get("NormalCountThisWeek", 0) - summary.get("NormalCountLastWeek", 0)
+    sam_change = summary.get("SAMCountThisWeek", 0) - \
+        summary.get("SAMCountLastWeek", 0)
+    mam_change = summary.get("MAMCountThisWeek", 0) - \
+        summary.get("MAMCountLastWeek", 0)
+    normal_change = summary.get(
+        "NormalCountThisWeek", 0) - summary.get("NormalCountLastWeek", 0)
 
     # Initialize a new instance of the AaganwadiSummary class with the summary data
     aaganwadi_summary = AaganwadiSummary(

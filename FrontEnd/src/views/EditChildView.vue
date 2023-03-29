@@ -1,6 +1,6 @@
 <template>
-  <main class="container-full">
-    <div id="x-main" class="container-fluid mt-5 p-3">
+  <main class="full-div container" style="width: 1280px">
+    <div id="x-contest" class="container-fluid p-3">
       <div class="row">
         <h3 class="">Manage Child Details</h3>
         <form @submit.prevent="updateChild">
@@ -65,11 +65,7 @@
           </div>
           <div class="row">
             <div class="col-6 p-0">
-              <router-link
-                to="/ChildSupplementarySummaryView"
-                custom
-                v-slot="{ navigate }"
-              >
+              <router-link to="/childsupplementarysummary" custom v-slot="{ navigate }">
                 <button
                   class="w-100 bg-primary text-light"
                   data-nav="mob.childs"
@@ -99,11 +95,11 @@
 
 <script setup>
 import { ref, onMounted, computed, reactive } from "vue";
-import { usechildStore } from "../stores/child.js";
+import { useChildStore } from "../stores/child.js";
 import { useRoute } from "vue-router";
 import router from "../router";
 
-const store = usechildStore();
+const store = useChildStore();
 const route = useRoute();
 
 let currentchild = reactive({
@@ -144,6 +140,6 @@ onMounted(async () => {
 
 const updateChild = async () => {
   await store.updateChild(currentchild);
-  return router.push("/ChildSupplementarySummaryView");
+  return router.push("/childsupplementarysummary");
 };
 </script>

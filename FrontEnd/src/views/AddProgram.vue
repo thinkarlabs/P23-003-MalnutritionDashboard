@@ -1,11 +1,19 @@
 <script setup>
-import { watch, onMounted, computed, reactive } from "vue";
-import { useProgramStore } from "../stores/program";
-import { useRoute } from "vue-router";
+import { ref, onMounted, computed, reactive, watch } from "vue";
 import router from "../router";
+import { useProgramStore } from "../stores/program.js";
 
 const store = useProgramStore();
-const route = useRoute();
+
+let donor = reactive({
+  name: "",
+  _id: null,
+});
+
+let supplement = reactive({
+  name: "",
+  _id: null,
+});
 
 let supplements = computed(() => {
   return store.supplement;
@@ -15,40 +23,57 @@ let donors = computed(() => {
   return store.donor.data;
 });
 
-let currentProgram = reactive({
-  title: "",
-  invite_code: "",
-  supplement_name: "",
-  donor_name: "",
-  notes: "",
-  from_date: "",
-  to_date: "",
+let selectedDonorObject = computed(() => {
+  return store.donor.data?.find((item) => item.name === donor.name);
 });
 
-currentProgram = computed(() => {
-  if (store.currentprogram) {
-    return store.currentprogram;
+watch(selectedDonorObject, (value) => {
+  if (value) {
+    donor._id = value.id;
   } else {
-    return {
-      title: "",
-      invite_code: "",
-      supplement_name: "",
-      donor_name: "",
-      notes: "",
-      from_date: "",
-      to_date: "",
-    };
+    donor._id = null;
   }
 });
+
+let selectedSupplementObj = computed(() => {
+  return store.supplement.data?.find((item) => item.name === supplement.name);
+});
+
+watch(selectedSupplementObj, (value) => {
+  if (value) {
+    supplement._id = value.id;
+  } else {
+    supplement._id = null;
+  }
+});
+
+let createProgram = {
+  title: "",
+  invite_code: "",
+  donor,
+  donor_name: "",
+  supplement_name: "",
+  supplement,
+  from_date: "",
+  to_date: "",
+  notes: "",
+};
 
 onMounted(async () => {
   await store.fetchSupplement();
   await store.fecthDonor();
-  await store.fetchProgramById(route.params.id);
 });
 
-const updatingProgram = async () => {
-  await store.updatingProgram(currentProgram);
+const addProgram = () => {
+  let idObject = {
+    suppId: createProgram.supplement._id,
+    donorId: createProgram.donor._id,
+  };
+  delete createProgram.donor;
+  delete createProgram.supplement;
+  createProgram["supplements_details_id"] = idObject.suppId;
+  createProgram["donor_id"] = idObject.donorId;
+  store.createProgram(createProgram);
   return router.push("/programs");
 };
 </script>
@@ -56,10 +81,10 @@ const updatingProgram = async () => {
 <template>
   <div class="full-div container" style="width: 1280px">
     <div id="x-contest" class="container-fluid p-3">
-      <form @submit.prevent="updatingProgram">
+      <form @submit.prevent="addProgram">
         <div class="row">
           <div class="col-12 p-2">
-            <h3 class="float-start">Updating Program</h3>
+            <h3 class="float-start">Add Program</h3>
             <router-link to="/programs" custom v-slot="{ navigate }">
               <button
                 type="button"
@@ -89,7 +114,7 @@ const updatingProgram = async () => {
                 class="form-control"
                 id="exampleFormControlInput1"
                 placeholder=""
-                v-model="currentProgram.title"
+                v-model="createProgram.title"
               />
             </div>
 
@@ -100,7 +125,7 @@ const updatingProgram = async () => {
                 class="form-control"
                 id="exampleFormControlInput1"
                 placeholder=""
-                v-model="currentProgram.from_date"
+                v-model="createProgram.from_date"
               />
             </div>
             <div class="col-3">
@@ -110,16 +135,16 @@ const updatingProgram = async () => {
                 class="form-control"
                 id="exampleFormControlInput1"
                 placeholder=""
-                v-model="currentProgram.to_date"
+                v-model="createProgram.to_date"
               />
             </div>
           </div>
           <div class="row mt-4">
             <div class="col-4">
               <label for="exampleFormControlInput1">Donor</label>
-              <select id="level" class="form-select" v-model="currentProgram.donor_name">
+              <select id="level" class="form-select" v-model="donor.name">
                 <option value="" selected>Donor</option>
-                <option v-for="item in donors" :value="item.name">
+                <option v-for="item in donors" v-bind:value="item.name">
                   {{ item.name }}
                 </option>
               </select>
@@ -127,11 +152,7 @@ const updatingProgram = async () => {
 
             <div class="col-4">
               <label for="exampleFormControlInput1">Supplement</label>
-              <select
-                id="level"
-                class="form-select"
-                v-model="currentProgram.supplement_name"
-              >
+              <select id="level" class="form-select" v-model="supplement.name">
                 <option value="" selected>Supplement</option>
                 <option v-for="item in supplements.data" v-bind:value="item.name">
                   {{ item.name }}
@@ -146,14 +167,14 @@ const updatingProgram = async () => {
                 class="form-control"
                 id="exampleFormControlInput1"
                 placeholder=""
-                v-model="currentProgram.invite_code"
+                v-model="createProgram.invite_code"
               />
             </div>
           </div>
           <div class="row mt-4">
             <div class="col-12">
               <label for="exampleFormControlInput1">Notes</label>
-              <textarea class="form-control" v-model="currentProgram.notes"></textarea>
+              <textarea class="form-control" v-model="createProgram.notes"></textarea>
             </div>
           </div>
         </div>
@@ -161,3 +182,4 @@ const updatingProgram = async () => {
     </div>
   </div>
 </template>
+<style></style>

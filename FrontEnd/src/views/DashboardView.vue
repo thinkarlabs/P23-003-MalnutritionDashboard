@@ -1,5 +1,5 @@
 <template>
-  <div id="x-main" class="container-full p-3">
+  <div id="x-main" class="container-full mt-5 p-3">
     <div class="container-md">
       <div class="row">
         <div class="col-12 p-2">
@@ -29,8 +29,7 @@
               <h3 class="card-title pricing-card-title">
                 7,812
                 <small class="text-muted fw-light"
-                  >[MAM]
-                  <i class="bi bi-arrow-down-circle text-success"></i> 123
+                  >[MAM] <i class="bi bi-arrow-down-circle text-success"></i> 123
                 </small>
               </h3>
             </div>
@@ -41,7 +40,11 @@
             </div>
             <div class="card-body">
               <textarea class="m-0 p-0 w-100" style="height: 140px">
- [2022-Week 48] 1,283 SAM | 9,328 MAM [2022-Week 47] 1,247 SAM | 12,732 MAM [2022-Week 46] 1,252 SAM | 14,328 MAM [2022-Week 45] 1,291 SAM | 14,447 MAM </textarea
+  [2022-Week 48] 1,283 SAM | 9,328 MAM
+  [2022-Week 47] 1,247 SAM | 12,732 MAM
+  [2022-Week 46] 1,252 SAM | 14,328 MAM
+  [2022-Week 45] 1,291 SAM | 14,447 MAM
+  			</textarea
               >
             </div>
           </div>

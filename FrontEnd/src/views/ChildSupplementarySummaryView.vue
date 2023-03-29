@@ -1,6 +1,6 @@
 <template>
-  <main class="container-full">
-    <div id="x-main" class="container-fluid mt-5 p-0">
+  <div class="full-div container" style="width: 1280px">
+    <div id="x-contest" class="container-fluid p-3">
       <div class="row">
         <div class="col-12 m-0">
           <table class="table table-hover">
@@ -12,21 +12,26 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="kidsummary of kidssummaries" :key="kidsummary.id">
+              <tr
+                v-for="kidsummary of childSummaries"
+                :key="kidsummary.id"
+                v-if="isSummaryDataAvailable"
+                v-bind:class="[kidsummary.index]"
+              >
                 <td>
                   <span data-nav="mob.kid.new" style="cursor: pointer">
                     <u @click="editChild(kidsummary.id)"
-                      >{{ kidsummary.kid_name }}
+                      >{{ kidsummary.childName }}
                     </u></span
                   >
-                  <br />  
-                  {{ kidsummary.kid_pname }} <br />
-                  {{ kidsummary.kid_gender }}, {{ kidsummary.kid_age }}
+                  <br />
+                  {{ kidsummary.motherName }} <br />
+                  {{ kidsummary.gender }}, {{ kidsummary.child_age }}
                 </td>
-                <td class="col-4 align-self-end">
-                  {{ kidsummary.kid_height }} <br />
-                  {{ kidsummary.kid_weight }} <br />
-                  {{ kidsummary.kid_statdate }}
+                <td class="col-4 align-self-end" v-if="kidsummary.height !== ''">
+                  {{ kidsummary.height }} <br />
+                  {{ kidsummary.weight }} <br />
+                  {{ kidsummary.statdate }}
                 </td>
                 <td class="col-1 align-self-start">
                   <router-link
@@ -60,9 +65,27 @@
         </router-link>
       </div>
     </div>
-  </main>
+  </div>
 </template>
+<style>
+#x-contest {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+#tableRow {
+  font-weight: 700;
+  font-size: 17px;
+}
 
+@media (max-width: 600px) {
+  .full-div {
+    max-width: fit-content;
+  }
+  .Row-styling {
+    border: none;
+  }
+}
+</style>
 <script setup>
 import { onMounted, computed } from "vue";
 import { useSupplmentarySummaryStore } from "../stores/SupplmentarySummary";
@@ -71,52 +94,30 @@ import router from "../router";
 const store = useSupplmentarySummaryStore();
 
 const childSummaries = computed(() => {
-  return store.childSummaries.data;
+  if (store.childSummaries) {
+    console.log("withing comp" + store.childSummaries);
+    return store.childSummaries;
+  } else {
+    return {
+      id: "",
+      childName: "",
+      statdate: "",
+      child_age: "",
+      height: "",
+      weight: "",
+      gender: "",
+      isActive: "",
+      motherName: "",
+    };
+  }
+  //return store.childSummaries?.data;
 });
 const isSummaryDataAvailable = computed(() => {
-  return store.childSummaries?.data?.length > 0;
+  return store.childSummaries?.length > 0;
 });
-const kidssummaries = [
-  {
-    id: "641150e25014ae42c9ddc8e8",
-    kid_name: "Sunil Karanth",
-    kid_gender: "M",
-    kid_age: "4y 3m",
-    kid_pname: "S/O Rukmini Karanth",
-    kid_height: "73 cms",
-    kid_weight: "14.3 kgs",
-    kid_index: "bg-light",
-    kid_pic: "Spinal Cord Injury",
-    kid_statdate: "02-Jan-2023",
-  },
-  {
-    id: "641151295014ae42c9ddc8ea",
-    kid_name: "Roshini K N",
-    kid_gender: "F",
-    kid_age: "3y 2m",
-    kid_pname: "D/O Ramadevi K N",
-    kid_height: "67 cms",
-    kid_weight: "12.3 kgs",
-    kid_index: "bg-warning",
-    kid_pic: "Spinal Cord Injury",
-    kid_statdate: "02-Jan-2023",
-  },
-  {
-    id: "6411ea5e79764ac25dc0ae82",
-    kid_name: "Kavitha Das",
-    kid_gender: "F",
-    kid_age: "3y 11m",
-    kid_pname: "D/O Soumitra Das",
-    kid_height: "76 cms",
-    kid_weight: "18.3 kgs",
-    kid_index: "bg-success",
-    kid_pic: "Spinal Cord Injury",
-    kid_statdate: "02-Jan-2023",
-  },
-];
 
-onMounted(() => {
-  store.fetchChildSummaries();
+onMounted(async () => {
+  await store.fetchChildSummaries();
 });
 const editChild = (id) => {
   console.log("edit clicked" + id);

@@ -70,7 +70,7 @@
               >
                 Save
               </button>
-              <router-link to="/aanganwadiList" custom v-slot="{ navigate }">
+              <router-link to="/aanganwadis" custom v-slot="{ navigate }">
                 <button
                   type="button"
                   class="btn btn-primary float-end mx-2"
@@ -88,35 +88,35 @@
     </div>
   </div>
 </template>
-  
-  <style>
-  @media (min-width: 1024px) {
-    .about {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-    }
+
+<style>
+@media (min-width: 1024px) {
+  .about {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
   }
-  </style>
-  
-  <script setup>
-  import { ref, onMounted, computed, reactive } from "vue";
-  import { useAanganwadiStore } from "../stores/aanganwadi";
-  import router from "../router";
-  let aanganwadi = reactive({
-    aanganwadiName: "",
-    contactPersonName: "",
-    contactPersonPhone: 0,
-    contactPersonEmail:"",
-    contactPersonPassword: "",
-    location: "",
-    location_coordinates: "",
-    pincode:0
-  });
-  const store = useAanganwadiStore();
-  
-  const postAanganwadi = () => {
-    store.postAanganwadi(aanganwadi);
-    return router.push("/aanganwadiList");
-  };
-  </script>
+}
+</style>
+
+<script setup>
+import { ref, onMounted, computed, reactive } from "vue";
+import { useAanganwadiStore } from "../stores/aanganwadi";
+import router from "../router";
+let aanganwadi = reactive({
+  aanganwadiName: "",
+  contactPersonName: "",
+  contactPersonPhone: 0,
+  contactPersonEmail: "",
+  contactPersonPassword: "",
+  location: "",
+  location_coordinates: "",
+  pincode: 0,
+});
+const store = useAanganwadiStore();
+
+const postAanganwadi = () => {
+  store.postAanganwadi(aanganwadi);
+  return router.push("/aanganwadis");
+};
+</script>

@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { HTTP } from "../../http-common";
 //childStore
-export const usechildStore = defineStore("child", {
+export const useChildStore = defineStore("child", {
   state: () => ({
     childs: [],
     child: "",

@@ -1,6 +1,6 @@
 <template>
-  <main class="container-full">
-    <div id="x-main" class="container-fluid mt-5 p-3">
+  <main class="full-div container" style="width: 1280px">
+    <div id="x-contest" class="container-fluid p-3">
       <div class="row">
         <h3 class="">Add Child Details</h3>
         <form @submit.prevent="postchild">
@@ -60,11 +60,7 @@
           </div>
           <div class="row">
             <div class="col-6 p-0">
-              <router-link
-                to="/ChildSupplementarySummaryView"
-                custom
-                v-slot="{ navigate }"
-              >
+              <router-link to="/childsupplementarysummary" custom v-slot="{ navigate }">
                 <button
                   class="w-100 bg-primary text-light"
                   data-nav="mob.childs"
@@ -94,7 +90,7 @@
 
 <script setup>
 import { ref, onMounted, computed, reactive } from "vue";
-import { usechildStore } from "../stores/child.js";
+import { useChildStore } from "../stores/child.js";
 import router from "../router";
 let newchild = reactive({
   childName: "",
@@ -103,7 +99,7 @@ let newchild = reactive({
   gender: 0,
   isActive: false,
 });
-const store = usechildStore();
+const store = useChildStore();
 
 const genderchangevalue = (event) => {
   const selectedvalue = event.target.options[event.target.options.selectedIndex].text;
@@ -113,6 +109,6 @@ const genderchangevalue = (event) => {
 
 const postchild = async () => {
   await store.postchild(newchild);
-  return router.push("/ChildSupplementarySummaryView");
+  return router.push("/childsupplementarysummary");
 };
 </script>
