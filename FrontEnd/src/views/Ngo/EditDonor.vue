@@ -101,9 +101,9 @@
 
 <script setup>
 import { ref, onMounted, computed, reactive } from "vue";
-import { useDonorsStore } from "../stores/donors";
+import { useDonorsStore } from "../../stores/donors";
 import { useRoute } from "vue-router";
-import router from "../router";
+import router from "../../router";
 
 let updatedDonor = reactive({
   id: "",

@@ -1,8 +1,8 @@
 <script setup>
 import { onMounted, computed } from "vue";
 import swal from "sweetalert";
-import { useProgramStore } from "../stores/program.js";
-import router from "../router";
+import { useProgramStore } from "../../stores/program.js";
+import router from "../../router";
 
 const store = useProgramStore();
 

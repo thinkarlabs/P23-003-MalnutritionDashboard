@@ -62,9 +62,7 @@
           </div>
 
           <div class="col-6 my-2">
-            <label for="exampleFormControlInput1"
-              >Contact Person Password</label
-            >
+            <label for="exampleFormControlInput1">Contact Person Password</label>
             <input
               class="form-control"
               id="exampleFormControlInput1"
@@ -165,9 +163,12 @@ const isValidSubmission = (newNgo) => {
   helperSupport.contactPersonName = helper.validateName(newNgo.contactPersonName);
   helperSupport.contactPersonEmail = helper.validateEmail(newNgo.contactPersonEmail);
   helperSupport.ngoName = helper.validateName(newNgo.ngoName);
-  helperSupport.contactPersonPhone = helper.validatePhoneNumber(newNgo.contactPersonPhone);
+  helperSupport.contactPersonPhone = helper.validatePhoneNumber(
+    newNgo.contactPersonPhone
+  );
   helperSupport.location = helper.validateName(newNgo.location);
-  helperSupport.contactPersonPassword = newNgo.contactPersonPassword !== "" ? "" : "Password is mandatory";
+  helperSupport.contactPersonPassword =
+    newNgo.contactPersonPassword !== "" ? "" : "Password is mandatory";
   return helper.isErrorMessagesAvailable(helperSupport) ? false : true;
 };
 
@@ -198,3 +199,24 @@ const postNgo = async () => {
   }
 }
 </style>
+
+<script setup>
+import { ref, onMounted, computed, reactive } from "vue";
+import { useNgoStore } from "../stores/ngo";
+import router from "../router";
+let newNgo = reactive({
+  ngoName: "",
+  contactPersonName: "",
+  contactPersonEmail: "",
+  contactPersonPhone: "",
+  contactPersonPassword: "",
+  location: "",
+  pincode: "",
+});
+const store = useNgoStore();
+
+const postNgo = async () => {
+  await store.postNgo(newNgo);
+  return router.push("/ngos");
+};
+</script>

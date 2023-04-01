@@ -19,107 +19,109 @@ const router = createRouter({
     {
       path: "/ngos",
       name: "ngoslist",
-      component: () => import("../views/NgosView.vue"),
+      component: () => import("../views/Admin/NgosView.vue"),
     },
     {
       path: "/addngo",
       name: "addngo",
-      component: () => import("../views/AddNgoView.vue"),
+      component: () => import("../views/Admin/AddNgoView.vue"),
     },
     {
       path: "/editngo/:id",
       name: "editngo",
-      component: () => import("../views/EditNgoView.vue"),
+      component: () => import("../views/Admin/EditNgoView.vue"),
     },
-    {
-      path: "/kidsCheckUp/:id",
-      name: "kidsCheckUp",
-      component: () => import("../views/kidsCheckUp.vue"),
-    },
-    {
-      path: "/addchild",
-      name: "addchild",
-      component: () => import("../views/AddChildView.vue"),
-    },
-    {
-      path: "/editchild/:id",
-      name: "editchild",
-      component: () => import("../views/EditChildView.vue"),
-    },
-    {
-      path: "/childsupplementarysummary",
-      name: "ChildSupplementarySummaryView",
-      component: () => import("../views/ChildSupplementarySummaryView.vue"),
-    },
+
     {
       path: "/addaanganwadi",
       name: "addAanganwadi",
-      component: () => import("../views/AddAanganwadi.vue"),
+      component: () => import("../views/Admin/AddAanganwadi.vue"),
     },
     {
       path: "/aanganwadis",
       name: "aanganwadiList",
-      component: () => import("../views/AanganwadiList.vue"),
+      component: () => import("../views/Admin/AanganwadiList.vue"),
     },
     {
       path: "/editaanganwadipage/:id",
       name: "aanganwadi-details",
-      component: () => import("../views/EditAanganwadi.vue"),
-    },
-    {
-      path: "/programssummary",
-      name: "programssummaryview",
-      component: () => import("../views/ProgramsSummaryView.vue"),
-    },
-    {
-      path: "/supplementsupply/:program_joining_id",
-      name: "SupplementSupplyView",
-      component: () => import("../views/SupplementSupplyView.vue"),
+      component: () => import("../views/Admin/EditAanganwadi.vue"),
     },
     {
       path: "/addsupplement",
       name: "addSupplement",
-      component: () => import("../views/AddSupplement.vue"),
+      component: () => import("../views/Ngo/AddSupplement.vue"),
     },
     {
       path: "/supplements",
       name: "supplementList",
-      component: () => import("../views/SupplementList.vue"),
+      component: () => import("../views/Ngo/SupplementList.vue"),
     },
     {
       path: "/editsupplement/:id",
       name: "editSupplementPage",
-      component: () => import("../views/EditSupplement.vue"),
+      component: () => import("../views/Ngo/EditSupplement.vue"),
     },
     {
       path: "/adddonor",
       name: "addDonor",
-      component: () => import("../views/AddDonor.vue"),
+      component: () => import("../views/Ngo/AddDonor.vue"),
     },
     {
       path: "/donors",
       name: "donorsList",
-      component: () => import("../views/DonorsList.vue"),
+      component: () => import("../views/Ngo/DonorsList.vue"),
     },
     {
       path: "/editdonor/:id",
       name: "editDonor",
-      component: () => import("../views/EditDonor.vue"),
+      component: () => import("../views/Ngo/EditDonor.vue"),
     },
     {
       path: "/addprogram",
       name: "Program",
-      component: () => import("../views/AddProgram.vue"),
+      component: () => import("../views/Ngo/AddProgram.vue"),
     },
     {
       path: "/programs",
       name: "programlist",
-      component: () => import("../views/programlist.vue"),
+      component: () => import("../views/Ngo/programlist.vue"),
     },
     {
       path: "/editprogram/:id",
       name: "program-edit",
-      component: () => import("../views/EditProgram.vue"),
+      component: () => import("../views/Ngo/EditProgram.vue"),
+    },
+    {
+      path: "/programssummary",
+      name: "programssummaryview",
+      component: () => import("../views/Aaganwadi/ProgramsSummaryView.vue"),
+    },
+    {
+      path: "/supplementsupply/:program_joining_id",
+      name: "SupplementSupplyView",
+      component: () => import("../views/Aaganwadi/SupplementSupplyView.vue"),
+    },
+    {
+      path: "/childsupplementarysummary",
+      name: "ChildSupplementarySummaryView",
+      component: () =>
+        import("../views/Aaganwadi/ChildSupplementarySummaryView.vue"),
+    },
+    {
+      path: "/addchild",
+      name: "addchild",
+      component: () => import("../views/Aaganwadi/AddChildView.vue"),
+    },
+    {
+      path: "/editchild/:id",
+      name: "editchild",
+      component: () => import("../views/Aaganwadi/EditChildView.vue"),
+    },
+    {
+      path: "/kidsCheckUp/:id",
+      name: "kidsCheckUp",
+      component: () => import("../views/Aaganwadi/kidsCheckUp.vue"),
     },
     {
       path: "/:catchAll(.*)*",

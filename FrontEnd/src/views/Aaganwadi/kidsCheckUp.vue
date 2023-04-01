@@ -138,8 +138,8 @@
 <script setup>
 import { onMounted, computed, reactive } from "vue";
 import { useRoute } from "vue-router";
-import { useMalnutritionDetailStore } from "../stores/malnutritiondetail";
-import { useChildStore } from "../stores/child";
+import { useMalnutritionDetailStore } from "../../stores/malnutritiondetail";
+import { useChildStore } from "../../stores/child";
 
 const store = useMalnutritionDetailStore();
 const childStore = useChildStore();

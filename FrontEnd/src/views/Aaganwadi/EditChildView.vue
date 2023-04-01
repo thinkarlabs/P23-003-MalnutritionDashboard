@@ -95,9 +95,9 @@
 
 <script setup>
 import { ref, onMounted, computed, reactive } from "vue";
-import { useChildStore } from "../stores/child.js";
+import { useChildStore } from "../../stores/child.js";
 import { useRoute } from "vue-router";
-import router from "../router";
+import router from "../../router";
 
 const store = useChildStore();
 const route = useRoute();
