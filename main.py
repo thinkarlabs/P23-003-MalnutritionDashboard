@@ -11,9 +11,9 @@ from fastapi.responses import HTMLResponse, FileResponse, RedirectResponse
 from Backend.routes.routes import user_router
 
 from Backend.routes.routes import aaganwadi_summary
-from Backend.routes.routes import ngo_router, aanganwadi_router, child_router, child_malnutrition, supplement_details, \
+from Backend.routes.routes import aanganwadi_router, child_router, child_malnutrition, supplement_details, \
     program_joining
-
+from Backend.routes.ngo_routes import ngo_router
 from Backend.routes.routes import donor_router, supp_router, program_router
 
 

@@ -5,10 +5,10 @@ from bson import ObjectId
 from fastapi import APIRouter, HTTPException
 from Backend.model.model import Ngo, User, Donor, Aanganwadi, Child, ChildMalnutrition, SupplementsDetail, Program, \
     ProgramJoining
-from Backend.config.database import NgoCollection, UserCollection, AanganwadiCollection, ChildCollection
+from Backend.config.database import UserCollection, AanganwadiCollection, ChildCollection
 from Backend.config.database import DonorsCollection, ChildMalnutritionCollection, SupplementDetailsCollection, \
     ProgramsCollection, ProgramJoiningCollection, AangawadiSummaryCollection
-from Backend.schemas.schema import ngo_list_serializer, user_list_serializer, donors_list_serializer, \
+from Backend.schemas.schema import user_list_serializer, donors_list_serializer, \
     program_list_serializer
 from Backend.schemas.schema import supplements_list_serializer
 from Backend.schemas.schema import aanganwadi_list_serializer, child_list_serializer, \
@@ -65,42 +65,6 @@ async def read_item(username: str, password: Union[str, None] = None, user_type:
     else:
         raise HTTPException(status_code=200, detail="Successful login")
         # return {"response":"Successful login"}
-
-
-@ngo_router.post("/api/create_ngo")
-async def create_ngo(ngo: Ngo):
-    _id = NgoCollection.insert_one(dict(ngo))
-    added_ngo = ngo_list_serializer(
-        NgoCollection.find({"_id": _id.inserted_id}))
-    return {"status": "ok", "data": added_ngo}
-
-
-@ngo_router.get("/api/getNgos")
-async def get_ngos():
-    ngos = ngo_list_serializer(NgoCollection.find())
-    return {"status": "ok", "data": ngos}
-
-
-@ngo_router.get("/api/{id}/get_ngo")
-async def get_ngo(id: str):
-    ngo = ngo_list_serializer(
-        NgoCollection.find({"_id": ObjectId(id)}))
-    return {"status": "ok", "data": ngo}
-
-
-@ngo_router.put("/api/ngos/{ngo_id}")
-async def update_ngo(ngo_id: str, ngo: Ngo):
-    NgoCollection.find_one_and_update({"_id": ObjectId(ngo_id)},
-                                      {"$set": dict(ngo)})
-    updated_value = ngo_list_serializer(
-        NgoCollection.find({"_id": ObjectId(ngo_id)}))
-    return {"status": "ok", "data": updated_value}
-
-
-@ngo_router.delete("/api/delete_ngo/{id}")
-async def delete_ngo(id: str):
-    NgoCollection.find_one_and_delete({"_id": ObjectId(id)})
-    return {"status": "ok", "data": []}
 
 
 @donor_router.post("/api/donors")
