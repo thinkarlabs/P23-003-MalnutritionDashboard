@@ -1,7 +1,7 @@
 <template>
   <div class="full-div container" style="width: 1280px">
     <div id="x-contest" class="container-fluid p-3">
-      <form @submit.prevent="postNgo">
+      <form v-on:submit.prevent="postNgo">
         <div class="row">
           <h3 class="float-start">Add NGO</h3>
 
@@ -11,9 +11,12 @@
               type="text"
               class="form-control"
               id="exampleFormControlInput1"
-              placeholder="NGO name"
+              placeholder=""
               v-model="newNgo.ngoName"
             />
+            <div className="text-danger mrgnbtn" v-if="msg.ngoName">
+              {{ msg.ngoName }}
+            </div>
           </div>
 
           <div class="col-6 my-2">
@@ -25,6 +28,9 @@
               placeholder="Contact Person Name"
               v-model="newNgo.contactPersonName"
             />
+            <div className="text-danger mrgnbtn" v-if="msg.contactPersonName">
+              {{ msg.contactPersonName }}
+            </div>
           </div>
 
           <div class="col-6 my-2">
@@ -36,6 +42,9 @@
               placeholder="Contact Person Phone"
               v-model="newNgo.contactPersonPhone"
             />
+            <div className="text-danger mrgnbtn" v-if="msg.phoneNumber">
+              {{ msg.phoneNumber }}
+            </div>
           </div>
 
           <div class="col-6 my-2">
@@ -47,12 +56,16 @@
               placeholder="Contact Person Email"
               v-model="newNgo.contactPersonEmail"
             />
+            <div className="text-danger mrgnbtn" v-if="msg.email">
+              {{ msg.email }}
+            </div>
           </div>
 
           <div class="col-6 my-2">
-            <label for="exampleFormControlInput1">Contact Person Password</label>
+            <label for="exampleFormControlInput1"
+              >Contact Person Password</label
+            >
             <input
-              type="password"
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="Password"
@@ -68,6 +81,9 @@
               placeholder="Location"
               v-model="newNgo.location"
             />
+            <div className="text-danger mrgnbtn" v-if="msg.location">
+              {{ msg.location }}
+            </div>
           </div>
           <div class="col-6 my-2">
             <label for="exampleFormControlInput1">Pincode</label>
@@ -78,6 +94,9 @@
               placeholder="pincode"
               v-model="newNgo.pincode"
             />
+            <div className="text-danger mrgnbtn" v-if="msg.pincode">
+              {{ msg.pincode }}
+            </div>
           </div>
           <div class="row">
             <div class="col-12 p-2">
@@ -130,7 +149,7 @@
 </style>
 
 <script setup>
-import { ref, onMounted, computed, reactive } from "vue";
+import { ref, onMounted, computed, reactive, watch } from "vue";
 import { useNgoStore } from "../stores/ngo";
 import router from "../router";
 let newNgo = reactive({
@@ -142,10 +161,60 @@ let newNgo = reactive({
   location: "",
   pincode: "",
 });
+
 const store = useNgoStore();
 
+let msg = reactive([]);
+
 const postNgo = async () => {
-  await store.postNgo(newNgo);
-  return router.push("/ngos");
+  let validationRegex = {
+    name: /^[a-zA-Z]+(\s[a-zA-Z]+)?$/,
+    pincode: /^[0-9]{6}$/,
+    number: /^([+]\d{2})?\d{10}$/,
+    email: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+  };
+
+  if (newNgo.pincode.match(validationRegex.pincode)) {
+    msg["pincode"] = "";
+  } else {
+    msg["pincode"] = "Please entered valid pincode";
+  }
+  if (newNgo.contactPersonName.match(validationRegex.name)) {
+    msg["contactPersonName"] = "";
+  } else {
+    msg["contactPersonName"] = "Please entered a valid name";
+  }
+  if (newNgo.ngoName.match(validationRegex.name)) {
+    msg["ngoName"] = "";
+  } else {
+    msg["ngoName"] = "Please entered a valid name";
+  }
+  if (newNgo.location.match(validationRegex.name)) {
+    msg["location"] = "";
+  } else {
+    msg["location"] = "Please entered a valid name";
+  }
+  if (newNgo.contactPersonPhone.match(validationRegex.number)) {
+    msg["phoneNumber"] = "";
+  } else {
+    msg["phoneNumber"] = "Please entered a valid phoneNumber";
+  }
+
+  if (newNgo.contactPersonEmail.match(validationRegex.email)) {
+    msg["email"] = "";
+  } else {
+    msg["email"] = "Please entered a valid email";
+  }
+  if (
+    newNgo.contactPersonEmail.match(validationRegex.email) &&
+    newNgo.contactPersonPhone.match(validationRegex.number) &&
+    newNgo.pincode.match(validationRegex.pincode) &&
+    newNgo.contactPersonName.match(validationRegex.name) &&
+    newNgo.ngoName.match(validationRegex.name) &&
+    newNgo.location.match(validationRegex.name)
+  ) {
+    await store.postNgo(newNgo);
+    return router.push("/ngos");
+  }
 };
 </script>
