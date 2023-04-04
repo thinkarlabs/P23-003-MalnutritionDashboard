@@ -15,5 +15,4 @@ SupplementaryCollection = db["Supplementary"]
 SupplementDetailsCollection = db["SupplementsDetails"]
 ProgramsCollection = db["Programs"]
 ProgramJoiningCollection = db["ProgramJoining"]
-
 AangawadiSummaryCollection = db["AaganwadiSummary"]
