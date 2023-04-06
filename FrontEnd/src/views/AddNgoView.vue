@@ -11,9 +11,12 @@
               type="text"
               class="form-control"
               id="exampleFormControlInput1"
-              placeholder="NGO name"
+              placeholder="Ngo Name"
               v-model="newNgo.ngoName"
             />
+            <div className="text-danger mrgnbtn" v-if="helperSupport.ngoName">
+              {{ helperSupport.ngoName }}
+            </div>
           </div>
 
           <div class="col-6 my-2">
@@ -25,6 +28,9 @@
               placeholder="Contact Person Name"
               v-model="newNgo.contactPersonName"
             />
+            <div className="text-danger mrgnbtn" v-if="helperSupport.contactPersonName">
+              {{ helperSupport.contactPersonName }}
+            </div>
           </div>
 
           <div class="col-6 my-2">
@@ -36,6 +42,9 @@
               placeholder="Contact Person Phone"
               v-model="newNgo.contactPersonPhone"
             />
+            <div className="text-danger mrgnbtn" v-if="helperSupport.contactPersonPhone">
+              {{ helperSupport.contactPersonPhone }}
+            </div>
           </div>
 
           <div class="col-6 my-2">
@@ -47,17 +56,27 @@
               placeholder="Contact Person Email"
               v-model="newNgo.contactPersonEmail"
             />
+            <div className="text-danger mrgnbtn" v-if="helperSupport.contactPersonEmail">
+              {{ helperSupport.contactPersonEmail }}
+            </div>
           </div>
 
           <div class="col-6 my-2">
-            <label for="exampleFormControlInput1">Contact Person Password</label>
+            <label for="exampleFormControlInput1"
+              >Contact Person Password</label
+            >
             <input
-              type="password"
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="Password"
               v-model="newNgo.contactPersonPassword"
             />
+            <div
+              className="text-danger mrgnbtn"
+              v-if="helperSupport.contactPersonPassword"
+            >
+              {{ helperSupport.contactPersonPassword }}
+            </div>
           </div>
           <div class="col-6 my-2">
             <label for="exampleFormControlInput1">Location</label>
@@ -68,6 +87,9 @@
               placeholder="Location"
               v-model="newNgo.location"
             />
+            <div className="text-danger mrgnbtn" v-if="helperSupport.location">
+              {{ helperSupport.location }}
+            </div>
           </div>
           <div class="col-6 my-2">
             <label for="exampleFormControlInput1">Pincode</label>
@@ -78,6 +100,9 @@
               placeholder="pincode"
               v-model="newNgo.pincode"
             />
+            <div className="text-danger mrgnbtn" v-if="helperSupport.pincode">
+              {{ helperSupport.pincode }}
+            </div>
           </div>
           <div class="row">
             <div class="col-12 p-2">
@@ -109,6 +134,51 @@
   </div>
 </template>
 
+<script setup>
+import { reactive } from "vue";
+import { useNgoStore } from "../stores/ngo";
+import router from "../router";
+import helper from "../helper/validation.helper.js";
+let newNgo = reactive({
+  ngoName: "",
+  contactPersonName: "",
+  contactPersonEmail: "",
+  contactPersonPhone: "",
+  contactPersonPassword: "",
+  location: "",
+  pincode: "",
+});
+
+const helperSupport = reactive({
+  ngoName: "",
+  contactPersonName: "",
+  contactPersonEmail: "",
+  contactPersonPhone: "",
+  contactPersonPassword: "",
+  location: "",
+  pincode: "",
+});
+const store = useNgoStore();
+
+const isValidSubmission = (newNgo) => {
+  helperSupport.pincode = helper.validatePincode(newNgo.pincode);
+  helperSupport.contactPersonName = helper.validateName(newNgo.contactPersonName);
+  helperSupport.contactPersonEmail = helper.validateEmail(newNgo.contactPersonEmail);
+  helperSupport.ngoName = helper.validateName(newNgo.ngoName);
+  helperSupport.contactPersonPhone = helper.validatePhoneNumber(newNgo.contactPersonPhone);
+  helperSupport.location = helper.validateName(newNgo.location);
+  helperSupport.contactPersonPassword = newNgo.contactPersonPassword !== "" ? "" : "Password is mandatory";
+  return helper.isErrorMessagesAvailable(helperSupport) ? false : true;
+};
+
+const postNgo = async () => {
+  if (isValidSubmission(newNgo) == true) {
+    await store.postNgo(newNgo);
+    return router.push("/ngos");
+  }
+};
+</script>
+
 <style>
 #x-contest {
   padding-left: 0px !important;
@@ -128,24 +198,3 @@
   }
 }
 </style>
-
-<script setup>
-import { ref, onMounted, computed, reactive } from "vue";
-import { useNgoStore } from "../stores/ngo";
-import router from "../router";
-let newNgo = reactive({
-  ngoName: "",
-  contactPersonName: "",
-  contactPersonEmail: "",
-  contactPersonPhone: "",
-  contactPersonPassword: "",
-  location: "",
-  pincode: "",
-});
-const store = useNgoStore();
-
-const postNgo = async () => {
-  await store.postNgo(newNgo);
-  return router.push("/ngos");
-};
-</script>
