@@ -14,8 +14,8 @@
               placeholder="Ngo Name"
               v-model="newNgo.ngoName"
             />
-            <div className="text-danger mrgnbtn" v-if="helper.ValidationMessage.ngoName">
-              {{ helper.ValidationMessage.ngoName }}
+            <div className="text-danger mrgnbtn" v-if="helperSupport.ngoName">
+              {{ helperSupport.ngoName }}
             </div>
           </div>
 
@@ -28,8 +28,8 @@
               placeholder="Contact Person Name"
               v-model="newNgo.contactPersonName"
             />
-            <div className="text-danger mrgnbtn" v-if="helper.ValidationMessage.contactPersonName">
-              {{ helper.ValidationMessage.contactPersonName }}
+            <div className="text-danger mrgnbtn" v-if="helperSupport.contactPersonName">
+              {{ helperSupport.contactPersonName }}
             </div>
           </div>
 
@@ -42,8 +42,8 @@
               placeholder="Contact Person Phone"
               v-model="newNgo.contactPersonPhone"
             />
-            <div className="text-danger mrgnbtn" v-if="helper.ValidationMessage.phoneNumber">
-              {{ helper.ValidationMessage.phoneNumber }}
+            <div className="text-danger mrgnbtn" v-if="helperSupport.contactPersonPhone">
+              {{ helperSupport.contactPersonPhone }}
             </div>
           </div>
 
@@ -56,8 +56,8 @@
               placeholder="Contact Person Email"
               v-model="newNgo.contactPersonEmail"
             />
-            <div className="text-danger mrgnbtn" v-if="helper.ValidationMessage.email">
-              {{ helper.ValidationMessage.email }}
+            <div className="text-danger mrgnbtn" v-if="helperSupport.contactPersonEmail">
+              {{ helperSupport.contactPersonEmail }}
             </div>
           </div>
 
@@ -71,6 +71,12 @@
               placeholder="Password"
               v-model="newNgo.contactPersonPassword"
             />
+            <div
+              className="text-danger mrgnbtn"
+              v-if="helperSupport.contactPersonPassword"
+            >
+              {{ helperSupport.contactPersonPassword }}
+            </div>
           </div>
           <div class="col-6 my-2">
             <label for="exampleFormControlInput1">Location</label>
@@ -81,8 +87,8 @@
               placeholder="Location"
               v-model="newNgo.location"
             />
-            <div className="text-danger mrgnbtn" v-if="helper.ValidationMessage.location">
-              {{ helper.ValidationMessage.location }}
+            <div className="text-danger mrgnbtn" v-if="helperSupport.location">
+              {{ helperSupport.location }}
             </div>
           </div>
           <div class="col-6 my-2">
@@ -94,8 +100,8 @@
               placeholder="pincode"
               v-model="newNgo.pincode"
             />
-            <div className="text-danger mrgnbtn" v-if="helper.ValidationMessage.code">
-              {{ helper.ValidationMessage.code }}
+            <div className="text-danger mrgnbtn" v-if="helperSupport.pincode">
+              {{ helperSupport.pincode }}
             </div>
           </div>
           <div class="row">
@@ -129,10 +135,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, reactive, watch } from "vue";
+import { reactive } from "vue";
 import { useNgoStore } from "../stores/ngo";
 import router from "../router";
-import helper from "../helper/validation.helper.js"
+import helper from "../helper/validation.helper.js";
 let newNgo = reactive({
   ngoName: "",
   contactPersonName: "",
@@ -143,28 +149,33 @@ let newNgo = reactive({
   pincode: "",
 });
 
+const helperSupport = reactive({
+  ngoName: "",
+  contactPersonName: "",
+  contactPersonEmail: "",
+  contactPersonPhone: "",
+  contactPersonPassword: "",
+  location: "",
+  pincode: "",
+});
 const store = useNgoStore();
 
-const validation = (newNgo)=>{
-  helper.validationPincode(newNgo.pincode);
-  helper.validationContactPersonName(newNgo.contactPersonName);
-  helper.validationEmail(newNgo.contactPersonEmail);
-  helper.validationNgoName(newNgo.ngoName);
-  helper.validationPhoneNumber(newNgo.contactPersonPhone);
-  helper.validationLocation(newNgo.location);
-  if(helper.validationsOfAllfields(newNgo) == true){
-    return true;
-  }else{
-    return false
-  }
-}
+const isValidSubmission = (newNgo) => {
+  helperSupport.pincode = helper.validatePincode(newNgo.pincode);
+  helperSupport.contactPersonName = helper.validateName(newNgo.contactPersonName);
+  helperSupport.contactPersonEmail = helper.validateEmail(newNgo.contactPersonEmail);
+  helperSupport.ngoName = helper.validateName(newNgo.ngoName);
+  helperSupport.contactPersonPhone = helper.validatePhoneNumber(newNgo.contactPersonPhone);
+  helperSupport.location = helper.validateName(newNgo.location);
+  helperSupport.contactPersonPassword = newNgo.contactPersonPassword !== "" ? "" : "Password is mandatory";
+  return helper.isErrorMessagesAvailable(helperSupport) ? false : true;
+};
 
 const postNgo = async () => {
-  console.log("3330",helper.ValidationMessage)
-    if(validation(newNgo) == true){
-      await store.postNgo(newNgo);
-      return router.push("/ngos");
-    }
+  if (isValidSubmission(newNgo) == true) {
+    await store.postNgo(newNgo);
+    return router.push("/ngos");
+  }
 };
 </script>
 

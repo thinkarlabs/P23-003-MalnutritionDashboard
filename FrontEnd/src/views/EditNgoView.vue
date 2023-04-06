@@ -14,8 +14,8 @@
               placeholder="Ngo Name"
               v-model="updatedNgo.ngoName"
             />
-            <div className="text-danger mrgnbtn" v-if="msg.name">
-              {{ msg.name }}
+            <div className="text-danger mrgnbtn" v-if="helperSupport.ngoName">
+              {{ helperSupport.ngoName }}
             </div>
           </div>
 
@@ -28,8 +28,11 @@
               placeholder="Contact Person Name"
               v-model="updatedNgo.contactPersonName"
             />
-            <div className="text-danger mrgnbtn" v-if="msg.contactPersonName">
-              {{ msg.contactPersonName }}
+            <div
+              className="text-danger mrgnbtn"
+              v-if="helperSupport.contactPersonName"
+            >
+              {{ helperSupport.contactPersonName }}
             </div>
           </div>
 
@@ -42,8 +45,11 @@
               placeholder="Contact Person Phone"
               v-model="updatedNgo.contactPersonPhone"
             />
-            <div className="text-danger mrgnbtn" v-if="msg.phoneNumber">
-              {{ msg.phoneNumber }}
+            <div
+              className="text-danger mrgnbtn"
+              v-if="helperSupport.contactPersonName"
+            >
+              {{ helperSupport.contactPersonName }}
             </div>
           </div>
 
@@ -56,8 +62,11 @@
               placeholder="Contact Person Email"
               v-model="updatedNgo.contactPersonEmail"
             />
-            <div className="text-danger mrgnbtn" v-if="msg.email">
-              {{ msg.email }}
+            <div
+              className="text-danger mrgnbtn"
+              v-if="helperSupport.contactPersonEmail"
+            >
+              {{ helperSupport.contactPersonEmail }}
             </div>
           </div>
 
@@ -72,6 +81,12 @@
               placeholder="Password"
               v-model="updatedNgo.contactPersonPassword"
             />
+            <div
+              className="text-danger mrgnbtn"
+              v-if="helperSupport.contactPersonPassword"
+            >
+              {{ helperSupport.contactPersonPassword }}
+            </div>
           </div>
           <div class="col-6 my-2">
             <label for="exampleFormControlInput1">Location</label>
@@ -82,8 +97,8 @@
               placeholder="Location"
               v-model="updatedNgo.location"
             />
-            <div className="text-danger mrgnbtn" v-if="msg.location">
-              {{ msg.location }}
+            <div className="text-danger mrgnbtn" v-if="helperSupport.location">
+              {{ helperSupport.location }}
             </div>
           </div>
           <div class="col-6 my-2">
@@ -95,8 +110,8 @@
               placeholder="pincode"
               v-model="updatedNgo.pincode"
             />
-            <div className="text-danger mrgnbtn" v-if="msg.pincode">
-              {{ msg.pincode }}
+            <div className="text-danger mrgnbtn" v-if="helperSupport.pincode">
+              {{ helperSupport.pincode }}
             </div>
           </div>
           <div class="row">
@@ -154,6 +169,7 @@ import { ref, onMounted, computed, reactive } from "vue";
 import { useNgoStore } from "../stores/ngo";
 import { useRoute } from "vue-router";
 import router from "../router";
+import helper from "../helper/validation.helper.js";
 
 let updatedNgo = reactive({
   id: "",
@@ -185,61 +201,46 @@ updatedNgo = computed(() => {
     };
   }
 });
+
+const helperSupport = reactive({
+  ngoName: "",
+  contactPersonName: "",
+  contactPersonEmail: "",
+  contactPersonPhone: "",
+  contactPersonPassword: "",
+  location: "",
+  pincode: "",
+});
+
+const isValidSubmission = (updatedNgo) => {
+  helperSupport.pincode = helper.validatePincode(updatedNgo._value.pincode);
+  helperSupport.contactPersonName = helper.validateName(
+    updatedNgo._value.contactPersonName
+  );
+  helperSupport.contactPersonEmail = helper.validateEmail(
+    updatedNgo._value.contactPersonEmail
+  );
+  helperSupport.ngoName = helper.validateName(updatedNgo._value.ngoName);
+  helperSupport.contactPersonPhone = helper.validatePhoneNumber(
+    updatedNgo._value.contactPersonPhone
+  );
+  helperSupport.location = helper.validateName(updatedNgo._value.location);
+  helperSupport.contactPersonPassword =
+    updatedNgo._value.contactPersonPassword !== ""
+      ? ""
+      : "Password is mandatory";
+  return helper.isErrorMessagesAvailable(helperSupport) ? false : true;
+};
+
 onMounted(async () => {
   console.log("Editing.... ");
   console.log(route.params.id);
   await store.getNgo(route.params.id);
   console.log(store.ngo);
 });
-let msg = reactive([]);
 
 const updateNgo = async () => {
-  let validationRegex = {
-    name: /^[a-zA-Z]+(\s[a-zA-Z]+)?$/,
-    pincode: /^[0-9]{6}$/,
-    number: /^([+]\d{2})?\d{10}$/,
-    email: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-  };
-
-  if (updatedNgo._value.pincode.match(validationRegex.pincode)) {
-    msg["pincode"] = "";
-  } else {
-    msg["pincode"] = "Please entered valid pincode";
-  }
-  if (updatedNgo._value.contactPersonName.match(validationRegex.name)) {
-    msg["contactPersonName"] = "";
-  } else {
-    msg["contactPersonName"] = "Please entered a valid name";
-  }
-  if (updatedNgo._value.ngoName.match(validationRegex.name)) {
-    msg["ngoName"] = "";
-  } else {
-    msg["ngoName"] = "Please entered a valid name";
-  }
-  if (updatedNgo._value.location.match(validationRegex.name)) {
-    msg["location"] = "";
-  } else {
-    msg["location"] = "Please entered a valid name";
-  }
-  if (updatedNgo._value.contactPersonPhone.match(validationRegex.number)) {
-    msg["phoneNumber"] = "";
-  } else {
-    msg["phoneNumber"] = "Please entered a valid phoneNumber";
-  }
-
-  if (updatedNgo._value.contactPersonEmail.match(validationRegex.email)) {
-    msg["email"] = "";
-  } else {
-    msg["email"] = "Please entered a valid email";
-  }
-  if (
-    updatedNgo._value.contactPersonEmail.match(validationRegex.email) &&
-    updatedNgo._value.contactPersonPhone.match(validationRegex.number) &&
-    updatedNgo._value.pincode.match(validationRegex.pincode) &&
-    updatedNgo._value.contactPersonName.match(validationRegex.name) &&
-    updatedNgo._value.ngoName.match(validationRegex.name) &&
-    updatedNgo._value.location.match(validationRegex.name)
-  ) {
+  if (isValidSubmission(updatedNgo) == true) {
     await store.updateNgo(updatedNgo);
     return router.push("/ngos");
   }
