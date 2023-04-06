@@ -45,22 +45,37 @@ async def get_user(id: str):
     return {"status": "ok", "data": user}
 
 
-def Validate_User_Object(email, password, user_type):
+def Validate_User_Object(username, password):
     valid = 0
-    for user in UserCollection.find():
-        if (user['username'] == email) & (user['password'] == password) & (user['user_type'] == user_type):
-            valid = 1
-    return valid
+    userSearched = user_list_serializer(UserCollection.find(
+        {'username': str(username), 'password': str(password)}))
+    ngoSearched = ngo_list_serializer(
+        NgoCollection.find({"contactPersonName": str(username), "contactPersonPassword": str(password)}))
+    aaganwadiSearched = aanganwadi_list_serializer(AanganwadiCollection.find(
+        {'contactPersonName': str(username), 'contactPersonPassword': str(password)}))
+    identifiedUser = User(username=str(username), password=str(
+        password), user_type=str(""))
+    if (ngoSearched):
+        identifiedUser.user_type = "ngo"
+    elif (aaganwadiSearched):
+        identifiedUser.user_type = "aaganwadi"
+    elif (userSearched):
+        identifiedUser.user_type = "admin"
+    print('identifiedUser' + str(identifiedUser))
+    return identifiedUser
 
 
-@user_router.get("/api/isvaliduser")
-async def read_item(username: str, password: Union[str, None] = None, user_type: Union[str, None] = None):
-    valid = Validate_User_Object(username, password, user_type)
-    if valid == 0:
-        raise HTTPException(status_code=404, detail="user not found")
-        # return {"response":"Invalid username or password"}
+@user_router.post("/api/isvaliduser")
+async def read_item(requestUser: User):
+    identifiedUser = Validate_User_Object(
+        requestUser.username, requestUser.password)
+    if identifiedUser.user_type == "":
+        raise HTTPException(
+            status_code=404, detail="Invalid username or password")
+        # return {"response": "Invalid username or password"}
     else:
-        raise HTTPException(status_code=200, detail="Successful login")
+        return {"status": "ok", "data": identifiedUser}
+        # raise HTTPException(status_code=200, detail="Successful login")
         # return {"response":"Successful login"}
 
 

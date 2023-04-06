@@ -4,16 +4,29 @@ import { HTTP } from "../../http-common";
 export const useAuthStore = defineStore("auth", {
   state: () => ({
     authDetail: {
-      isAdmin: true,
+      isAdmin: false,
       isNgo: false,
       isAaganwadi: false,
+      userName: "",
     },
   }),
   actions: {
-    async getChild(id) {
+    async getLoginUser(requestUserDetail) {
       try {
-        await HTTP.get(id + "/get_child").then((response) => {
-          this.child = response.data.data[0];
+        await HTTP.post("isvaliduser", requestUserDetail).then((response) => {
+          this.authDetail.userName = response.data.data.userName;
+          switch (response.data.data.user_type) {
+            case "admin":
+              this.authDetail.isAdmin = true;
+              break;
+            case "ngo":
+              this.authDetail.isNgo = true;
+              break;
+            case "aaganwadi":
+              this.authDetail.isAaganwadi = true;
+              break;
+          }
+          return this.authDetail;
         });
       } catch (error) {
         alert(error);

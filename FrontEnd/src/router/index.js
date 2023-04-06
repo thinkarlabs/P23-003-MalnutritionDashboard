@@ -7,12 +7,12 @@ const router = createRouter({
   history: createWebHistory("/"),
   routes: [
     {
-      path: "/login",
+      path: "/",
       name: "loginweb",
       component: () => import("../views/LoginWebView.vue"),
     },
     {
-      path: "/",
+      path: "/dashboard",
       name: "dashboard",
       component: DashboardView,
     },

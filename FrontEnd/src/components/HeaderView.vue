@@ -1,5 +1,5 @@
 <template>
-  <div id="admin" v-if="store.authDetail.isAdmin">
+  <div id="admin" v-if="logindetail.isAdmin">
     <div id="x-header">
       <nav class="navbar navbar-expand navbar-dark fixed-top bg-dark p-1">
         <div class="container-fluid">
@@ -56,7 +56,9 @@
                     <a class="dropdown-item" data-nav="profile">Profile</a>
                   </li>
                   <li>
-                    <a class="dropdown-item" data-nav="web.login">Logout</a>
+                    <router-link to="/" class="dropdown-item" data-nav="web.login"
+                      >Logout</router-link
+                    >
                   </li>
                 </ul>
               </li>
@@ -66,7 +68,7 @@
       </nav>
     </div>
   </div>
-  <div id="ngo" v-if="store.authDetail.isNgo">
+  <div id="ngo" v-if="logindetail.isNgo">
     <div id="x-header">
       <nav class="navbar navbar-expand navbar-dark fixed-top bg-dark p-1">
         <div class="container-fluid">
@@ -135,7 +137,9 @@
                     <a class="dropdown-item" data-nav="profile">Profile</a>
                   </li>
                   <li>
-                    <a class="dropdown-item" data-nav="web.login">Logout</a>
+                    <router-link to="/" class="dropdown-item" data-nav="web.login"
+                      >Logout</router-link
+                    >
                   </li>
                 </ul>
               </li>
@@ -145,7 +149,7 @@
       </nav>
     </div>
   </div>
-  <div id="Aaganwadi" v-if="store.authDetail.isAaganwadi">
+  <div id="Aaganwadi" v-if="logindetail.isAaganwadi">
     <div id="x-header">
       <nav class="navbar navbar-expand navbar-dark fixed-top bg-dark p-1">
         <div class="container-fluid">
@@ -184,9 +188,9 @@
                 ></router-link>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" data-nav="mob.login"
+                <router-link to="/" class="dropdown-item" data-nav="web.login"
                   ><i class="bi bi-box-arrow-right"></i
-                ></a>
+                ></router-link>
               </li>
             </ul>
           </div>
@@ -201,4 +205,9 @@ import { ref, onMounted, computed, reactive } from "vue";
 import { useAuthStore } from "../stores/auth.js";
 
 const store = useAuthStore();
+
+const logindetail = computed(() => {
+  console.log(store.authDetail);
+  return store.authDetail;
+});
 </script>

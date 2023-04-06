@@ -18,6 +18,7 @@
                     class="form-control"
                     id="usernameInput"
                     placeholder="Enter username"
+                    v-model="loginDetail.username"
                   />
                 </div>
                 <div class="form-group mt-2">
@@ -27,12 +28,14 @@
                     class="form-control"
                     id="passwordInput"
                     placeholder="Enter password"
+                    v-model="loginDetail.password"
                   />
                 </div>
                 <button
                   type="submit"
                   class="mt-4 btn btn-primary"
                   data-nav="admin.dashboard"
+                  @click="login()"
                 >
                   Login
                 </button>
@@ -54,3 +57,43 @@
     </div>
   </main>
 </template>
+
+<script setup>
+import { onMounted, computed, reactive } from "vue";
+import { useAuthStore } from "../stores/auth.js";
+import router from "../router";
+
+const store = useAuthStore();
+
+let loginDetail = reactive({
+  username: "",
+  password: "",
+});
+
+const userDetails = computed(() => {
+  console.log("ours login");
+  console.log(JSON.stringify(store.authDetail.data));
+  return store.authDetail;
+});
+
+onMounted(() => {
+  store.authDetail.isAdmin = false;
+  store.authDetail.isAaganwadi = false;
+  store.authDetail.isNgo = false;
+});
+const login = async () => {
+  console.log("loginDetail" + JSON.stringify(loginDetail));
+  await store.getLoginUser(loginDetail);
+  console.log("afterlogin");
+  if (userDetails.value.isAdmin) {
+    router.push("/dashboard");
+  }
+  if (userDetails.value.isNgo) {
+    router.push("/dashboard");
+  }
+
+  if (userDetails.value.isAaganwadi) {
+    router.push("/programssummary");
+  }
+};
+</script>

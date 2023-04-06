@@ -2,8 +2,7 @@ def user_serializer(newUser) -> dict:
     return {
         "id": str(newUser["_id"]),
         "username": str(newUser["username"]),
-        "password": str(newUser["password"]),
-        "user_type": str(newUser["user_type"])
+        "password": str(newUser["password"])
     }
 
 
