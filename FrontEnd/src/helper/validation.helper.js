@@ -1,5 +1,4 @@
 class Helper {
-  ValidationMessage = [];
   validationRegex = {
     name: /^[a-zA-Z]+(\s[a-zA-Z]+)?$/,
     pincode: /^[0-9]{6}$/,
@@ -7,66 +6,35 @@ class Helper {
     email: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
   };
 
-  validationPincode = (pincode) => {
-    // console.log("pincode",code)
-    if (pincode.toString().match(this.validationRegex.pincode)) {    
-      this.ValidationMessage["pincode"] = "";
-    } else {
-      this.ValidationMessage["pincode"] = "Please entered valid pincode";
-    }
-  };
+  validatePincode = (pincode) =>
+    pincode.toString().match(this.validationRegex.pincode)
+      ? ""
+      : "Please entered valid pincode";
 
-  validationContactPersonName = (contactPersonName) => {
-    if (contactPersonName.match(this.validationRegex.name)) {
-      this.ValidationMessage["contactPersonName"] = "";
-    } else {
-      this.ValidationMessage["contactPersonName"] = "Please entered a valid name";
-    }
-  };
+  validateName = (contactPersonName) =>
+    contactPersonName.match(this.validationRegex.name)
+      ? ""
+      : "Please entered a valid name";
 
-  validationNgoName = (ngoName) => {
-    if (ngoName.match(this.validationRegex.name)) {
-      this.ValidationMessage["ngoName"] = "";
-    } else {
-      this.ValidationMessage["ngoName"] = "Please entered a valid name";
-    }
-  };
+  validateEmail = (contactPersonEmail) =>
+    contactPersonEmail.match(this.validationRegex.email)
+      ? ""
+      : "Please entered a valid email";
 
-  validationLocation = (location) => {
-    if (location.match(this.validationRegex.name)) {
-      this.ValidationMessage["location"] = "";
-    } else {
-      this.ValidationMessage["location"] = "Please entered a valid name";
-    }
-  };
+  validatePhoneNumber = (contactPersonPhone) =>
+    contactPersonPhone.toString().match(this.validationRegex.number)
+      ? ""
+      : "Please entered a valid phoneNumber";
 
-  validationEmail = (contactPersonEmail) => {
-    if (contactPersonEmail.match(this.validationRegex.email)) {
-      this.ValidationMessage["email"] = "";
-    } else {
-      this.ValidationMessage["email"] = "Please entered a valid email";
+  isErrorMessagesAvailable = (obj) => {
+    var isError = false;
+    for (const key in obj) {
+      if (obj[key] !== "") {
+        isError = true;
+        break;
+      }
     }
-  };
-
-  validationPhoneNumber = (contactPersonPhone) => {
-    if (contactPersonPhone.toString().match(this.validationRegex.number)) {
-      this.ValidationMessage["phoneNumber"] = "";
-    } else {
-      this.ValidationMessage["phoneNumber"] = "Please entered a valid phoneNumber";
-    }
-  };
-
-  validationsOfAllfields = (newNgo) => {
-    if (
-      newNgo.contactPersonEmail.match(this.validationRegex.email) &&
-      newNgo.contactPersonPhone.toString().match(this.validationRegex.number) &&
-      newNgo.pincode.toString().match(this.validationRegex.pincode) &&
-      newNgo.contactPersonName.match(this.validationRegex.name) &&
-      newNgo.ngoName.match(this.validationRegex.name) &&
-      newNgo.location.match(this.validationRegex.name)
-    ) {
-      return true;
-    }
+    return isError;
   };
 }
 export default new Helper();
