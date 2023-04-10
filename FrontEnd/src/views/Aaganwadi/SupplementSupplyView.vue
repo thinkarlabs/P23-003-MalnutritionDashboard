@@ -91,9 +91,9 @@
 
 <script setup>
 import { ref, onMounted, computed, reactive } from "vue";
-import router from "../router";
+import router from "../../router";
 import { useRoute } from "vue-router";
-import { useSupplementSupplyStore } from "../stores/SupplementSupply";
+import { useSupplementSupplyStore } from "../../stores/SupplementSupply";
 import { format } from "date-fns";
 
 const store = useSupplementSupplyStore();

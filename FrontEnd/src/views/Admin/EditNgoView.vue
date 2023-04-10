@@ -28,10 +28,7 @@
               placeholder="Contact Person Name"
               v-model="updatedNgo.contactPersonName"
             />
-            <div
-              className="text-danger mrgnbtn"
-              v-if="helperSupport.contactPersonName"
-            >
+            <div className="text-danger mrgnbtn" v-if="helperSupport.contactPersonName">
               {{ helperSupport.contactPersonName }}
             </div>
           </div>
@@ -45,10 +42,7 @@
               placeholder="Contact Person Phone"
               v-model="updatedNgo.contactPersonPhone"
             />
-            <div
-              className="text-danger mrgnbtn"
-              v-if="helperSupport.contactPersonName"
-            >
+            <div className="text-danger mrgnbtn" v-if="helperSupport.contactPersonName">
               {{ helperSupport.contactPersonName }}
             </div>
           </div>
@@ -62,18 +56,13 @@
               placeholder="Contact Person Email"
               v-model="updatedNgo.contactPersonEmail"
             />
-            <div
-              className="text-danger mrgnbtn"
-              v-if="helperSupport.contactPersonEmail"
-            >
+            <div className="text-danger mrgnbtn" v-if="helperSupport.contactPersonEmail">
               {{ helperSupport.contactPersonEmail }}
             </div>
           </div>
 
           <div class="col-6 my-2">
-            <label for="exampleFormControlInput1"
-              >Contact Person Password</label
-            >
+            <label for="exampleFormControlInput1">Contact Person Password</label>
             <input
               type="password"
               class="form-control"
@@ -226,9 +215,7 @@ const isValidSubmission = (updatedNgo) => {
   );
   helperSupport.location = helper.validateName(updatedNgo._value.location);
   helperSupport.contactPersonPassword =
-    updatedNgo._value.contactPersonPassword !== ""
-      ? ""
-      : "Password is mandatory";
+    updatedNgo._value.contactPersonPassword !== "" ? "" : "Password is mandatory";
   return helper.isErrorMessagesAvailable(helperSupport) ? false : true;
 };
 

@@ -3,12 +3,12 @@
     <div id="x-contest" class="container-fluid p-3">
       <div class="row">
         <div class="col-12 p-2">
-          <h3 class="float-start ps-2">Supplements</h3>
-          <router-link to="/addsupplement" custom v-slot="{ navigate }">
+          <h3 class="float-start ps-2">Aanganwadies</h3>
+          <router-link to="/addaanganwadi" custom v-slot="{ navigate }">
             <button
               type="button"
               class="btn btn-primary float-end mx-2"
-              data-nav="admin.supplements.new"
+              data-nav="admin.aanganwadi.new"
               @click="navigate"
               role="link"
             >
@@ -20,34 +20,38 @@
         <table class="col-12 table table-striped" id="tbl_ch">
           <thead class="table-dark">
             <tr>
-              <th scope="col">Name</th>
-              <th scope="col">Description</th>
+              <th scope="col">Contact Person</th>
+              <th scope="col">Contact Phone</th>
+              <th scope="col">Location</th>
+              <th scope="col">GeoCoordinates</th>
               <th scope="col" class="text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
-            <div v-show="!isSupplementsAvailable">
+            <div v-show="!isAanganwadiAvailable">
               <tr>
                 <td>No records available</td>
               </tr>
             </div>
-            <tr v-for="item of supplements" :key="item.id">
-              <td>{{ item.name }}</td>
-              <td>{{ item.description }}</td>
+            <tr v-for="item of aanganwadies" :key="item.id">
+              <td>{{ item.contactPersonName }}</td>
+              <td>{{ item.contactPersonPhone }}</td>
+              <td>{{ item.location }}</td>
+              <td>{{ item.location_coordinates }}</td>
               <td class="col-2">
                 <button
                   type="button"
                   class="btn btn-primary float-end mx-2"
                   data-nav="admin.exercise.del"
-                  @click="deleteSupplement(item.id)"
+                  @click="deleteAanganwadi(item.id)"
                 >
                   <i class="bi bi-trash"></i>
                 </button>
                 <button
                   type="button"
                   class="btn btn-primary float-end mx-2"
-                  data-nav="admin.exercise.edit"
-                  @click="editSupplementPage(item.id)"
+                  data-nav='admin.exercise.edit?memid="{{item.id}}"'
+                  @click="editAanganwadiPage(item.id)"
                 >
                   <i class="bi bi-pencil-square"></i>
                 </button>
@@ -80,40 +84,50 @@
 </style>
 <script setup>
 import { onMounted, computed } from "vue";
-import { useSupplementStore } from "../stores/supplement";
+import { useAanganwadiStore } from "../../stores/aanganwadi.js";
 import swal from "sweetalert";
-import router from "../router";
+import router from "../../router";
 
-const store = useSupplementStore();
+const store = useAanganwadiStore();
 
-const supplements = computed(() => {
-  return store.supplements.data;
+const aanganwadies = computed(() => {
+  return store.aanganwadies.data;
 });
-const isSupplementsAvailable = computed(() => {
-  return store.supplements?.data?.length > 0;
+const isAanganwadiAvailable = computed(() => {
+  console.log("aanganwadies -> " + JSON.stringify(store.aanganwadies));
+  return store.aanganwadies != null;
 });
-const deleteSupplement = (id) => {
+const deleteAanganwadi = (id) => {
   swal({
     title: "Are you sure?",
-    text: "Once deleted, you will not be able to recover this Supplement!",
+    text: "Once deleted, you will not be able to recover this Aanganwadi!",
     icon: "warning",
     buttons: true,
     dangerMode: true,
   }).then((willDelete) => {
     if (willDelete) {
-      store.deleteSupplement(id);
-      swal("Supplement has been deleted!", {
+      store.deleteAanganwadi(id);
+      swal("Aanganwadi has been deleted!", {
         icon: "success",
       });
-      supplements.value = store.fetchSupplements();
+      store.fetchAanganwadies();
     }
   });
 };
-const editSupplementPage = (id) => {
-  console.log("edit clicked" + id);
-  router.push("editsupplement/" + id);
+
+const editAanganwadiPage = (id) => {
+  router.replace({ path: "/editaanganwadipage/" + id });
 };
+
+const editAanganwadi = (id) => {
+  store.editAanganwadi(id);
+  swal("Aanganwadi has been updated!", {
+    icon: "success",
+  });
+  store.fetchAanganwadies();
+};
+
 onMounted(() => {
-  store.fetchSupplements();
+  store.fetchAanganwadies();
 });
 </script>

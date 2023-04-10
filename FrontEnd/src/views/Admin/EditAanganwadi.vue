@@ -1,9 +1,9 @@
 <template>
   <div class="full-div container" style="width: 1280px">
     <div id="x-contest" class="container-fluid p-3">
-      <form @submit.prevent="postAanganwadi">
+      <form @submit.prevent="updateAanganwadi">
         <div class="row">
-          <h3 class="float-start">Add Aanganwadi</h3>
+          <h3 class="float-start">Edit Aanganwadi</h3>
 
           <div class="col-12 my-2">
             <label for="exampleFormControlInput1">Aanganwadi Contact Person</label>
@@ -12,18 +12,18 @@
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="Aanganwadi Contact Person"
-              v-model="aanganwadi.contactPersonName"
+              v-model="updatedAanganwadi.contactPersonName"
             />
           </div>
 
           <div class="col-6 my-2">
             <label for="exampleFormControlInput1">Contact Phone</label>
             <input
-              type="number"
+              type="text"
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="Phone Number"
-              v-model="aanganwadi.contactPersonPhone"
+              v-model="updatedAanganwadi.contactPersonPhone"
             />
           </div>
 
@@ -34,7 +34,7 @@
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="Password"
-              v-model="aanganwadi.contactPersonPassword"
+              v-model="updatedAanganwadi.contactPersonPassword"
             />
           </div>
 
@@ -45,7 +45,7 @@
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="Location"
-              v-model="aanganwadi.location"
+              v-model="updatedAanganwadi.location"
             />
           </div>
 
@@ -56,7 +56,7 @@
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="Latitude, Longitude Coordinates"
-              v-model="aanganwadi.location_coordinates"
+              v-model="updatedAanganwadi.location_coordinates"
             />
           </div>
           <div class="row">
@@ -101,22 +101,52 @@
 
 <script setup>
 import { ref, onMounted, computed, reactive } from "vue";
-import { useAanganwadiStore } from "../stores/aanganwadi";
-import router from "../router";
-let aanganwadi = reactive({
+import { useAanganwadiStore } from "../../stores/aanganwadi";
+import router from "../../router";
+import axios from "axios";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+
+let updatedAanganwadi = reactive({
   aanganwadiName: "",
   contactPersonName: "",
-  contactPersonPhone: "",
   contactPersonEmail: "",
+  contactPersonPhone: "",
   contactPersonPassword: "",
-  location: "",
   location_coordinates: "",
+  location: "",
   pincode: 0,
 });
+
 const store = useAanganwadiStore();
 
-const postAanganwadi = () => {
-  store.postAanganwadi(aanganwadi);
+updatedAanganwadi = computed(() => {
+  if (store.currentAanganwadi) {
+    return store.currentAanganwadi;
+  } else {
+    return {
+      id: "",
+      aanganwadiName: "",
+      contactPersonName: "",
+      contactPersonEmail: "",
+      contactPersonPhone: "",
+      contactPersonPassword: "",
+      location: "",
+      location_coordinates: "",
+      pincode: 0,
+    };
+  }
+});
+
+onMounted(async () => {
+  console.log("Aanganwadi ID :: " + route.params.id);
+  await store.getAanganwadi(route.params.id);
+  console.log(store.currentAanganwadi);
+});
+
+const updateAanganwadi = async () => {
+  await store.updateAanganwadi(updatedAanganwadi);
   return router.push("/aanganwadis");
 };
 </script>

@@ -3,12 +3,12 @@
     <div id="x-contest" class="container-fluid p-3">
       <div class="row">
         <div class="col-12 p-2">
-          <h3 class="float-start ps-2">Donors</h3>
-          <router-link to="/adddonor" custom v-slot="{ navigate }">
+          <h3 class="float-start ps-2">NGOs</h3>
+          <router-link to="/addngo" custom v-slot="{ navigate }">
             <button
               type="button"
               class="btn btn-primary float-end mx-2"
-              data-nav="admin.donor.new"
+              data-nav="admin.ngo.new"
               @click="navigate"
               role="link"
             >
@@ -20,30 +20,32 @@
         <table class="col-12 table table-striped" id="tbl_ch">
           <thead class="table-dark">
             <tr>
-              <th scope="col">Name</th>
-              <th scope="col">Contact</th>
-              <th scope="col">Email</th>
-              <th scope="col">Phone No</th>
+              <th scope="col">NGO Name</th>
+              <th scope="col">Contact Person</th>
+              <th scope="col">Contact EMail</th>
+              <th scope="col">Contact Password</th>
+              <th scope="col">Contact Phone</th>
               <th scope="col" class="text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
-            <div v-show="!isDonorsAvailable">
+            <div v-show="!isNgoAvailable">
               <tr>
                 <td>No records available</td>
               </tr>
             </div>
-            <tr v-for="item of donors" :key="item.id">
-              <td>{{ item.name }}</td>
-              <td>{{ item.contactperson }}</td>
-              <td>{{ item.email }}</td>
-              <td>{{ item.phone }}</td>
+            <tr v-for="item of ngos" :key="item.id">
+              <td>{{ item.ngoName }}</td>
+              <td>{{ item.contactPersonName }}</td>
+              <td>{{ item.contactPersonEmail }}</td>
+              <td>{{ item.contactPersonPassword }}</td>
+              <td>{{ item.contactPersonPhone }}</td>
               <td class="col-2">
                 <button
                   type="button"
                   class="btn btn-primary float-end mx-2"
                   data-nav="admin.exercise.del"
-                  @click="deleteDonor(item.id)"
+                  @click="deleteNgo(item.id)"
                 >
                   <i class="bi bi-trash"></i>
                 </button>
@@ -51,7 +53,7 @@
                   type="button"
                   class="btn btn-primary float-end mx-2"
                   data-nav="admin.exercise.edit"
-                  @click="editDonor(item.id)"
+                  @click="editNgo(item.id)"
                 >
                   <i class="bi bi-pencil-square"></i>
                 </button>
@@ -84,40 +86,40 @@
 </style>
 <script setup>
 import { onMounted, computed } from "vue";
-import { useDonorsStore } from "../stores/donors";
+import { useNgoStore } from "../../stores/ngo";
 import swal from "sweetalert";
-import router from "../router";
+import router from "../../router";
 
-const store = useDonorsStore();
+const store = useNgoStore();
 
-const donors = computed(() => {
-  return store.donors.data;
+const ngos = computed(() => {
+  return store.ngos.data;
 });
-const isDonorsAvailable = computed(() => {
-  return store.donors?.data?.length > 0;
+const isNgoAvailable = computed(() => {
+  return store.ngos?.data?.length > 0;
 });
-const deleteDonor = (id) => {
+const deleteNgo = (id) => {
   swal({
     title: "Are you sure?",
-    text: "Once deleted, you will not be able to recover this Donor!",
+    text: "Once deleted, you will not be able to recover this Ngo!",
     icon: "warning",
     buttons: true,
     dangerMode: true,
   }).then((willDelete) => {
     if (willDelete) {
-      store.deleteDonor(id);
-      swal("Donor has been deleted!", {
+      store.deleteNgo(id);
+      swal("Ngo has been deleted!", {
         icon: "success",
       });
-      donors.value = store.fetchDonors();
+      ngos.value = store.fetchNgos();
     }
   });
 };
-const editDonor = (id) => {
-  console.log("DonorsList :: edit clicked " + id);
-  router.push("editdonor/" + id);
+const editNgo = (id) => {
+  console.log("edit clicked" + id);
+  router.push("editngo/" + id);
 };
 onMounted(() => {
-  store.fetchDonors();
+  store.fetchNgos();
 });
 </script>

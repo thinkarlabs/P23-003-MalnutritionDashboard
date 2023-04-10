@@ -79,9 +79,9 @@
 
 <script setup>
 import { ref, onMounted, computed, reactive } from "vue";
-import { useSupplementStore } from "../stores/supplement";
+import { useSupplementStore } from "../../stores/supplement";
 import { useRoute } from "vue-router";
-import router from "../router";
+import router from "../../router";
 
 let updatedSupplement = reactive({
   id: "",

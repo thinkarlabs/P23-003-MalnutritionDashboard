@@ -90,8 +90,8 @@
 
 <script setup>
 import { ref, onMounted, computed, reactive } from "vue";
-import { useChildStore } from "../stores/child.js";
-import router from "../router";
+import { useChildStore } from "../../stores/child.js";
+import router from "../../router";
 let newchild = reactive({
   childName: "",
   motherName: "",

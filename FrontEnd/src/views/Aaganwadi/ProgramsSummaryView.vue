@@ -76,8 +76,8 @@
 </style>
 <script setup>
 import { onMounted, computed, reactive } from "vue";
-import { useProgramSummaryStore } from "../stores/programsummary";
-import router from "../router";
+import { useProgramSummaryStore } from "../../stores/programsummary";
+import router from "../../router";
 
 const store = useProgramSummaryStore();
 

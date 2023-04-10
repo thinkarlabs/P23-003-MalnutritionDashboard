@@ -1,9 +1,9 @@
 <template>
   <div class="full-div container" style="width: 1280px">
     <div id="x-contest" class="container-fluid p-3">
-      <form @submit.prevent="updateAanganwadi">
+      <form @submit.prevent="postAanganwadi">
         <div class="row">
-          <h3 class="float-start">Edit Aanganwadi</h3>
+          <h3 class="float-start">Add Aanganwadi</h3>
 
           <div class="col-12 my-2">
             <label for="exampleFormControlInput1">Aanganwadi Contact Person</label>
@@ -12,18 +12,18 @@
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="Aanganwadi Contact Person"
-              v-model="updatedAanganwadi.contactPersonName"
+              v-model="aanganwadi.contactPersonName"
             />
           </div>
 
           <div class="col-6 my-2">
             <label for="exampleFormControlInput1">Contact Phone</label>
             <input
-              type="text"
+              type="number"
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="Phone Number"
-              v-model="updatedAanganwadi.contactPersonPhone"
+              v-model="aanganwadi.contactPersonPhone"
             />
           </div>
 
@@ -34,7 +34,7 @@
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="Password"
-              v-model="updatedAanganwadi.contactPersonPassword"
+              v-model="aanganwadi.contactPersonPassword"
             />
           </div>
 
@@ -45,7 +45,7 @@
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="Location"
-              v-model="updatedAanganwadi.location"
+              v-model="aanganwadi.location"
             />
           </div>
 
@@ -56,7 +56,7 @@
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="Latitude, Longitude Coordinates"
-              v-model="updatedAanganwadi.location_coordinates"
+              v-model="aanganwadi.location_coordinates"
             />
           </div>
           <div class="row">
@@ -101,52 +101,40 @@
 
 <script setup>
 import { ref, onMounted, computed, reactive } from "vue";
-import { useAanganwadiStore } from "../stores/aanganwadi";
-import router from "../router";
+import { useAanganwadiStore } from "../../stores/aanganwadi";
+import router from "../../router";
 import axios from "axios";
-import { useRoute } from "vue-router";
-
-const route = useRoute();
-
-let updatedAanganwadi = reactive({
+let aanganwadi = reactive({
   aanganwadiName: "",
   contactPersonName: "",
-  contactPersonEmail: "",
   contactPersonPhone: "",
+  contactPersonEmail: "",
   contactPersonPassword: "",
-  location_coordinates: "",
   location: "",
+  location_coordinates: "",
   pincode: 0,
 });
-
 const store = useAanganwadiStore();
 
-updatedAanganwadi = computed(() => {
-  if (store.currentAanganwadi) {
-    return store.currentAanganwadi;
-  } else {
-    return {
-      id: "",
-      aanganwadiName: "",
-      contactPersonName: "",
-      contactPersonEmail: "",
-      contactPersonPhone: "",
-      contactPersonPassword: "",
-      location: "",
-      location_coordinates: "",
-      pincode: 0,
-    };
+onMounted(async () => {
+  if (await navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(getPosition, showLocationDenialAlert);
   }
 });
 
-onMounted(async () => {
-  console.log("Aanganwadi ID :: " + route.params.id);
-  await store.getAanganwadi(route.params.id);
-  console.log(store.currentAanganwadi);
-});
+const getPosition = (position) => {
+  aanganwadi.location_coordinates =
+    position.coords.latitude + "," + position.coords.longitude;
+};
 
-const updateAanganwadi = async () => {
-  await store.updateAanganwadi(updatedAanganwadi);
+const showLocationDenialAlert = () => {
+  alert(
+    "It seems you have denied to get location, Please allow the location to capture more accurate details"
+  );
+};
+
+const postAanganwadi = () => {
+  store.postAanganwadi(aanganwadi);
   return router.push("/aanganwadis");
 };
 </script>

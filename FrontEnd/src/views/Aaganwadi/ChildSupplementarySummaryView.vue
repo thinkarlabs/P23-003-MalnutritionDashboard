@@ -88,8 +88,8 @@
 </style>
 <script setup>
 import { onMounted, computed } from "vue";
-import { useSupplmentarySummaryStore } from "../stores/SupplmentarySummary";
-import router from "../router";
+import { useSupplmentarySummaryStore } from "../../stores/SupplmentarySummary";
+import router from "../../router";
 
 const store = useSupplmentarySummaryStore();
 

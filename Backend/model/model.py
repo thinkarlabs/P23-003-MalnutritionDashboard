@@ -86,7 +86,7 @@ class ParameterValidator:
 class User(BaseModel):
     username: str
     password: str
-    user_type: str
+    user_type: Optional[str] = None
 
 
 class Ngo(BaseModel):
@@ -184,9 +184,10 @@ class SupplementaryPacks(BaseModel):
     program_joining_id: str
     given_date: str
     no_of_packs_given: int
-    _validate_program_joining_id = validator('program_joining_id', allow_reuse=True) \
-        (ParameterValidator.validate_is_empty)
-    _validate_given_date = validator('given_date', allow_reuse=True)(ParameterValidator.validate_date)
+    _validate_program_joining_id = validator(
+        'program_joining_id', allow_reuse=True)(ParameterValidator.validate_is_empty)
+    _validate_given_date = validator('given_date', allow_reuse=True)(
+        ParameterValidator.validate_date)
 
     class Config:
         arbitrary_types_allowed = True
@@ -214,11 +215,14 @@ class Program(BaseModel):
     to_date: str
     notes: str
 
-    _validate_title = validator('title', allow_reuse=True)(ParameterValidator.validate_is_empty)
-    _validate_invite_code = validator('invite_code', allow_reuse=True)(ParameterValidator.validate_is_empty)
-    _validate_donor_id = validator('donor_id', allow_reuse=True)(ParameterValidator.validate_is_empty)
-    _validate_supplements_details_id = validator('supplements_details_id', allow_reuse=True) \
-        (ParameterValidator.validate_is_empty)
+    _validate_title = validator('title', allow_reuse=True)(
+        ParameterValidator.validate_is_empty)
+    _validate_invite_code = validator('invite_code', allow_reuse=True)(
+        ParameterValidator.validate_is_empty)
+    _validate_donor_id = validator('donor_id', allow_reuse=True)(
+        ParameterValidator.validate_is_empty)
+    _validate_supplements_details_id = validator(
+        'supplements_details_id', allow_reuse=True)(ParameterValidator.validate_is_empty)
     _validate_from_date = validator('from_date', allow_reuse=True)(
         ParameterValidator.validate_date)
     _validate_to_date = validator('to_date', allow_reuse=True)(
