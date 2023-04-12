@@ -134,9 +134,9 @@
 
 <script setup>
 import { reactive } from "vue";
-import { useNgoStore } from "../stores/ngo";
-import router from "../router";
-import helper from "../helper/validation.helper.js";
+import { useNgoStore } from "../../stores/ngo.js";
+import router from "../../router";
+import helper from "../../helper/validation.helper.js";
 let newNgo = reactive({
   ngoName: "",
   contactPersonName: "",
@@ -199,24 +199,3 @@ const postNgo = async () => {
   }
 }
 </style>
-
-<script setup>
-import { ref, onMounted, computed, reactive } from "vue";
-import { useNgoStore } from "../stores/ngo";
-import router from "../router";
-let newNgo = reactive({
-  ngoName: "",
-  contactPersonName: "",
-  contactPersonEmail: "",
-  contactPersonPhone: "",
-  contactPersonPassword: "",
-  location: "",
-  pincode: "",
-});
-const store = useNgoStore();
-
-const postNgo = async () => {
-  await store.postNgo(newNgo);
-  return router.push("/ngos");
-};
-</script>
