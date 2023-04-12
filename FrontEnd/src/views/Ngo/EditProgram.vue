@@ -2,7 +2,8 @@
 import { watch, onMounted, computed, reactive } from "vue";
 import { useProgramStore } from "../../stores/program";
 import { useRoute } from "vue-router";
-import router from "../../router";
+import router from "../router";
+import helper from "../helper/validation.helper.js";
 
 const store = useProgramStore();
 const route = useRoute();
