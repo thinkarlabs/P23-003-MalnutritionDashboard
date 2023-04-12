@@ -1,7 +1,7 @@
 <template>
   <div class="full-div container" style="width: 1280px">
     <div id="x-contest" class="container-fluid p-3">
-      <form @submit.prevent="postNgo">
+      <form v-on:submit.prevent="postNgo">
         <div class="row">
           <h3 class="float-start">Add NGO</h3>
 

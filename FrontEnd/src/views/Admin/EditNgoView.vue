@@ -231,8 +231,11 @@ let msg = reactive([]);
 
 const updateNgo = async () => {
 <<<<<<< HEAD:FrontEnd/src/views/Admin/EditNgoView.vue
+<<<<<<< HEAD:FrontEnd/src/views/Admin/EditNgoView.vue
   if (isValidSubmission(updatedNgo) == true) {
 =======
+=======
+>>>>>>> f237158 (Validation_for_Ngo):FrontEnd/src/views/EditNgoView.vue
   let validationRegex = {
     name: /^[a-zA-Z]+(\s[a-zA-Z]+)?$/,
     pincode: /^[0-9]{6}$/,
@@ -279,7 +282,10 @@ const updateNgo = async () => {
     updatedNgo._value.ngoName.match(validationRegex.name) &&
     updatedNgo._value.location.match(validationRegex.name)
   ) {
+<<<<<<< HEAD:FrontEnd/src/views/Admin/EditNgoView.vue
 >>>>>>> 6670827 (Validation_for_Ngo):FrontEnd/src/views/EditNgoView.vue
+=======
+>>>>>>> f237158 (Validation_for_Ngo):FrontEnd/src/views/EditNgoView.vue
     await store.updateNgo(updatedNgo);
     return router.push("/ngos");
   }
