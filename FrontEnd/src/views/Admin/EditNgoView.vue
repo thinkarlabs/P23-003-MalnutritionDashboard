@@ -28,7 +28,10 @@
               placeholder="Contact Person Name"
               v-model="updatedNgo.contactPersonName"
             />
-            <div className="text-danger mrgnbtn" v-if="helperSupport.contactPersonName">
+            <div
+              className="text-danger mrgnbtn"
+              v-if="helperSupport.contactPersonName"
+            >
               {{ helperSupport.contactPersonName }}
             </div>
           </div>
@@ -42,8 +45,11 @@
               placeholder="Contact Person Phone"
               v-model="updatedNgo.contactPersonPhone"
             />
-            <div className="text-danger mrgnbtn" v-if="helperSupport.contactPersonName">
-              {{ helperSupport.contactPersonName }}
+            <div
+              className="text-danger mrgnbtn"
+              v-if="helperSupport.contactPersonPhone"
+            >
+              {{ helperSupport.contactPersonPhone }}
             </div>
           </div>
 
@@ -56,13 +62,18 @@
               placeholder="Contact Person Email"
               v-model="updatedNgo.contactPersonEmail"
             />
-            <div className="text-danger mrgnbtn" v-if="helperSupport.contactPersonEmail">
+            <div
+              className="text-danger mrgnbtn"
+              v-if="helperSupport.contactPersonEmail"
+            >
               {{ helperSupport.contactPersonEmail }}
             </div>
           </div>
 
           <div class="col-6 my-2">
-            <label for="exampleFormControlInput1">Contact Person Password</label>
+            <label for="exampleFormControlInput1"
+              >Contact Person Password</label
+            >
             <input
               type="password"
               class="form-control"
@@ -138,6 +149,7 @@
   padding-left: 0px !important;
   padding-right: 0px !important;
 }
+
 #tableRow {
   font-weight: 700;
   font-size: 17px;
@@ -147,6 +159,7 @@
   .full-div {
     max-width: fit-content;
   }
+
   .Row-styling {
     border: none;
   }
@@ -155,10 +168,10 @@
 
 <script setup>
 import { ref, onMounted, computed, reactive } from "vue";
-import { useNgoStore } from "../../stores/ngo";
+import { useNgoStore } from "../stores/ngo";
 import { useRoute } from "vue-router";
-import router from "../../router";
-import helper from "../../helper/validation.helper.js";
+import router from "../router";
+import helper from "../helper/validation.helper.js";
 
 let updatedNgo = reactive({
   id: "",
@@ -215,7 +228,9 @@ const isValidSubmission = (updatedNgo) => {
   );
   helperSupport.location = helper.validateName(updatedNgo._value.location);
   helperSupport.contactPersonPassword =
-    updatedNgo._value.contactPersonPassword !== "" ? "" : "Password is mandatory";
+    updatedNgo._value.contactPersonPassword !== ""
+      ? ""
+      : "Password is mandatory";
   return helper.isErrorMessagesAvailable(helperSupport) ? false : true;
 };
 
