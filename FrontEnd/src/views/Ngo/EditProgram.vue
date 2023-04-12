@@ -55,7 +55,6 @@ onMounted(async () => {
 });
 
 const isValidSubmission = (currentProgram) => {
-  console.log("3333", currentProgram);
   helperSupport.title = helper.validateName(currentProgram._value.title);
   helperSupport.invite_code = helper.validatePincode(
     currentProgram._value.invite_code

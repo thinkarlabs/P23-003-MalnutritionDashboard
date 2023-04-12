@@ -28,7 +28,10 @@
               placeholder="Contact Person Name"
               v-model="updatedNgo.contactPersonName"
             />
-            <div className="text-danger mrgnbtn" v-if="helperSupport.contactPersonName">
+            <div
+              className="text-danger mrgnbtn"
+              v-if="helperSupport.contactPersonName"
+            >
               {{ helperSupport.contactPersonName }}
             </div>
           </div>
@@ -42,16 +45,11 @@
               placeholder="Contact Person Phone"
               v-model="updatedNgo.contactPersonPhone"
             />
-<<<<<<< HEAD:FrontEnd/src/views/Admin/EditNgoView.vue
-            <div className="text-danger mrgnbtn" v-if="helperSupport.contactPersonName">
-              {{ helperSupport.contactPersonName }}
-=======
             <div
               className="text-danger mrgnbtn"
               v-if="helperSupport.contactPersonPhone"
             >
               {{ helperSupport.contactPersonPhone }}
->>>>>>> 42b6411 (Address the comment):FrontEnd/src/views/EditNgoView.vue
             </div>
           </div>
 
@@ -64,7 +62,10 @@
               placeholder="Contact Person Email"
               v-model="updatedNgo.contactPersonEmail"
             />
-            <div className="text-danger mrgnbtn" v-if="helperSupport.contactPersonEmail">
+            <div
+              className="text-danger mrgnbtn"
+              v-if="helperSupport.contactPersonEmail"
+            >
               {{ helperSupport.contactPersonEmail }}
             </div>
           </div>
@@ -148,6 +149,7 @@
   padding-left: 0px !important;
   padding-right: 0px !important;
 }
+
 #tableRow {
   font-weight: 700;
   font-size: 17px;
@@ -157,6 +159,7 @@
   .full-div {
     max-width: fit-content;
   }
+
   .Row-styling {
     border: none;
   }
@@ -165,10 +168,10 @@
 
 <script setup>
 import { ref, onMounted, computed, reactive } from "vue";
-import { useNgoStore } from "../../stores/ngo";
+import { useNgoStore } from "../stores/ngo";
 import { useRoute } from "vue-router";
-import router from "../../router";
-import helper from "../../helper/validation.helper.js";
+import router from "../router";
+import helper from "../helper/validation.helper.js";
 
 let updatedNgo = reactive({
   id: "",
@@ -225,7 +228,9 @@ const isValidSubmission = (updatedNgo) => {
   );
   helperSupport.location = helper.validateName(updatedNgo._value.location);
   helperSupport.contactPersonPassword =
-    updatedNgo._value.contactPersonPassword !== "" ? "" : "Password is mandatory";
+    updatedNgo._value.contactPersonPassword !== ""
+      ? ""
+      : "Password is mandatory";
   return helper.isErrorMessagesAvailable(helperSupport) ? false : true;
 };
 
@@ -235,57 +240,9 @@ onMounted(async () => {
   await store.getNgo(route.params.id);
   console.log(store.ngo);
 });
-let msg = reactive([]);
 
 const updateNgo = async () => {
-< HEAD:FrontEnd/src/views/Admin/EditNgoView.vue
   if (isValidSubmission(updatedNgo) == true) {
-  let validationRegex = {
-    name: /^[a-zA-Z]+(\s[a-zA-Z]+)?$/,
-    pincode: /^[0-9]{6}$/,
-    number: /^([+]\d{2})?\d{10}$/,
-    email: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-  };
-
-  if (updatedNgo._value.pincode.match(validationRegex.pincode)) {
-    msg["pincode"] = "";
-  } else {
-    msg["pincode"] = "Please entered valid pincode";
-  }
-  if (updatedNgo._value.contactPersonName.match(validationRegex.name)) {
-    msg["contactPersonName"] = "";
-  } else {
-    msg["contactPersonName"] = "Please entered a valid name";
-  }
-  if (updatedNgo._value.ngoName.match(validationRegex.name)) {
-    msg["ngoName"] = "";
-  } else {
-    msg["ngoName"] = "Please entered a valid name";
-  }
-  if (updatedNgo._value.location.match(validationRegex.name)) {
-    msg["location"] = "";
-  } else {
-    msg["location"] = "Please entered a valid name";
-  }
-  if (updatedNgo._value.contactPersonPhone.match(validationRegex.number)) {
-    msg["phoneNumber"] = "";
-  } else {
-    msg["phoneNumber"] = "Please entered a valid phoneNumber";
-  }
-
-  if (updatedNgo._value.contactPersonEmail.match(validationRegex.email)) {
-    msg["email"] = "";
-  } else {
-    msg["email"] = "Please entered a valid email";
-  }
-  if (
-    updatedNgo._value.contactPersonEmail.match(validationRegex.email) &&
-    updatedNgo._value.contactPersonPhone.match(validationRegex.number) &&
-    updatedNgo._value.pincode.match(validationRegex.pincode) &&
-    updatedNgo._value.contactPersonName.match(validationRegex.name) &&
-    updatedNgo._value.ngoName.match(validationRegex.name) &&
-    updatedNgo._value.location.match(validationRegex.name)
-  ) {
     await store.updateNgo(updatedNgo);
     return router.push("/ngos");
   }
