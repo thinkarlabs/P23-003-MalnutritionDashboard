@@ -2,8 +2,8 @@
 import { watch, onMounted, computed, reactive } from "vue";
 import { useProgramStore } from "../../stores/program";
 import { useRoute } from "vue-router";
-import router from "../router";
-import helper from "../helper/validation.helper.js";
+import router from "../../router";
+import helper from "../../helper/validation.helper.js";
 
 const store = useProgramStore();
 const route = useRoute();
@@ -57,9 +57,7 @@ onMounted(async () => {
 
 const isValidSubmission = (currentProgram) => {
   helperSupport.title = helper.validateName(currentProgram._value.title);
-  helperSupport.invite_code = helper.validatePincode(
-    currentProgram._value.invite_code
-  );
+  helperSupport.invite_code = helper.validatePincode(currentProgram._value.invite_code);
   helperSupport.date = helper.validateDateRange(
     currentProgram._value.from_date,
     currentProgram._value.to_date
@@ -116,9 +114,9 @@ const updatingProgram = async () => {
                 placeholder="Title"
                 v-model="currentProgram.title"
               />
-            </div>
-            <div className="text-danger mrgnbtn" v-if="helperSupport.title">
+              <div className="text-danger mrgnbtn" v-if="helperSupport.title">
               {{ helperSupport.title }}
+            </div>
             </div>
             <div class="col-3">
               <label for="exampleFormControlInput1">From</label>
@@ -147,11 +145,7 @@ const updatingProgram = async () => {
           <div class="row mt-4">
             <div class="col-4">
               <label for="exampleFormControlInput1">Donor</label>
-              <select
-                id="level"
-                class="form-select"
-                v-model="currentProgram.donor_name"
-              >
+              <select id="level" class="form-select" v-model="currentProgram.donor_name">
                 <option value="" selected>Donor</option>
                 <option v-for="item in donors" :value="item.name">
                   {{ item.name }}
@@ -167,10 +161,7 @@ const updatingProgram = async () => {
                 v-model="currentProgram.supplement_name"
               >
                 <option value="" selected>Supplement</option>
-                <option
-                  v-for="item in supplements.data"
-                  v-bind:value="item.name"
-                >
+                <option v-for="item in supplements.data" v-bind:value="item.name">
                   {{ item.name }}
                 </option>
               </select>
@@ -185,10 +176,7 @@ const updatingProgram = async () => {
                 placeholder="Invite Code"
                 v-model="currentProgram.invite_code"
               />
-              <div
-                className="text-danger mrgnbtn"
-                v-if="helperSupport.invite_code"
-              >
+              <div className="text-danger mrgnbtn" v-if="helperSupport.invite_code">
                 {{ helperSupport.invite_code }}
               </div>
             </div>
@@ -196,10 +184,7 @@ const updatingProgram = async () => {
           <div class="row mt-4">
             <div class="col-12">
               <label for="exampleFormControlInput1">Notes</label>
-              <textarea
-                class="form-control"
-                v-model="currentProgram.notes"
-              ></textarea>
+              <textarea class="form-control" v-model="currentProgram.notes"></textarea>
               <div className="text-danger mrgnbtn" v-if="helperSupport.notes">
                 {{ helperSupport.notes }}
               </div>

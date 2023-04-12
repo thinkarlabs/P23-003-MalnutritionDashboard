@@ -2,6 +2,7 @@
 import { ref, onMounted, computed, reactive, watch } from "vue";
 import router from "../../router";
 import { useProgramStore } from "../../stores/program.js";
+import helper from "../../helper/validation.helper.js";
 
 const store = useProgramStore();
 
@@ -85,6 +86,7 @@ const isValidSubmission = (createProgram) => {
 };
 
 const addProgram = () => {
+  console.log("eeee")
   if (isValidSubmission(createProgram) == true) {
     let idObject = {
       suppId: createProgram.supplement._id,
