@@ -8,11 +8,13 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, FileResponse, RedirectResponse
 from Backend.routes.routes import user_router
 from Backend.routes.routes import aaganwadi_summary
-from Backend.routes.routes import child_router, child_malnutrition, supplement_details, program_joining
+from Backend.routes.routes import child_malnutrition, supplement_details, program_joining
 from Backend.routes.ngo_routes import ngo_router
 from Backend.routes.aaganwadi_routes import aanganwadi_router
-from Backend.routes.routes import donor_router, supp_router, program_router
+from Backend.routes.routes import supp_router, program_router
 from app.routes import sign_router
+from Backend.routes.child_routes import child_router
+from Backend.routes.donors_routes import donor_router
 
 
 # from fastapi.templating import Jinja2Templates

@@ -3,21 +3,19 @@ from Backend.config.database import SupplementaryCollection
 from typing import List
 from bson import ObjectId
 from fastapi import APIRouter, HTTPException
-from Backend.model.model import Ngo, User, Donor, Child, ChildMalnutrition, SupplementsDetail, Program, \
+from Backend.model.model import Ngo, User, ChildMalnutrition, SupplementsDetail, Program, \
     ProgramJoining
 from Backend.config.database import UserCollection, AanganwadiCollection, ChildCollection
 from Backend.config.database import DonorsCollection, ChildMalnutritionCollection, SupplementDetailsCollection, \
-    ProgramsCollection, ProgramJoiningCollection, AangawadiSummaryCollection
-from Backend.schemas.schema import user_list_serializer, donors_list_serializer, program_list_serializer
-from Backend.schemas.schema import supplements_list_serializer
-from Backend.schemas.schema import child_list_serializer, \
+    ProgramsCollection, ProgramJoiningCollection, AangawadiSummaryCollection, NgoCollection
+from Backend.schemas.schema import user_list_serializer, program_list_serializer
+from Backend.schemas.schema import supplements_list_serializer, ngo_list_serializer, aanganwadi_list_serializer
+from Backend.schemas.schema import  \
     child_malnutrition_list_serializer, programjoining_list_serializer, supplementaryPacks_list_serializer
 from typing import Union
 
 user_router = APIRouter()
 ngo_router = APIRouter()
-donor_router = APIRouter()
-child_router = APIRouter()
 child_malnutrition = APIRouter()
 supplement_details = APIRouter()
 program_router = APIRouter()
@@ -77,80 +75,6 @@ async def read_item(requestUser: User):
         return {"status": "ok", "data": identifiedUser}
         # raise HTTPException(status_code=200, detail="Successful login")
         # return {"response":"Successful login"}
-
-
-@donor_router.post("/api/donors")
-async def create_donor(donor: Donor):
-    _id = DonorsCollection.insert_one(dict(donor))
-    donor = donors_list_serializer(
-        DonorsCollection.find({"_id": _id.inserted_id}))
-    return {"status": "ok", "data": donor}
-
-
-@donor_router.get("/api/getdonors")
-async def get_donors():
-    donors = donors_list_serializer(DonorsCollection.find())
-    return {"status": "ok", "data": donors}
-
-
-@donor_router.get("/api/{id}/get_donor")
-async def get_donor(id: str):
-    donor = donors_list_serializer(
-        DonorsCollection.find({"_id": ObjectId(id)}))
-    return {"status": "ok", "data": donor}
-
-
-@donor_router.delete("/api/delete_donor/{id}")
-async def delete_donor(id: str):
-    DonorsCollection.find_one_and_delete({"_id": ObjectId(id)})
-    return {"status": "ok", "data": []}
-
-
-@donor_router.put("/api/donors/{id}")
-async def update_donor(id: str, donor: Donor):
-    DonorsCollection.find_one_and_update({"_id": ObjectId(id)},
-                                         {"$set": dict(donor)})
-    updated_data = donors_list_serializer(
-        DonorsCollection.find({"_id": ObjectId(id)}))
-    return {"status": "ok", "data": updated_data}
-
-
-
-
-@child_router.post("/api/add_child")
-async def add_child(child: Child):
-    _id = ChildCollection.insert_one(dict(child))
-    added_child = child_list_serializer(
-        ChildCollection.find({"_id": _id.inserted_id}))
-    return {"status": "ok", "data": added_child}
-
-
-@child_router.get("/api/get_childs")
-async def get_childs():
-    childs = child_list_serializer(ChildCollection.find())
-    return {"status": "ok", "data": childs}
-
-
-@child_router.get("/api/{id}/get_child")
-async def get_child(id: str):
-    childs = child_list_serializer(
-        ChildCollection.find({"_id": ObjectId(id)}))
-    return {"status": "ok", "data": childs}
-
-
-@child_router.put("/api/updatechild/{id}")
-async def update_child(id: str, child: Child):
-    ChildCollection.find_one_and_update({"_id": ObjectId(id)},
-                                        {"$set": dict(child)})
-    updated_child = child_list_serializer(
-        ChildCollection.find({"_id": ObjectId(id)}))
-    return {"status": "ok", "data": updated_child}
-
-
-@child_router.delete("/api/deletechild")
-async def delete_child(id: str):
-    ChildCollection.find_one_and_delete({"_id": ObjectId(id)})
-    return {"status": "ok", "data": []}
 
 
 @child_malnutrition.post("/api/childMalnutrion_Add")
