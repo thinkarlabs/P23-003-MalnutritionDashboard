@@ -78,8 +78,7 @@ const isValidSubmission = (createProgram) => {
     createProgram.from_date,
     createProgram.to_date
   );
-  helperSupport.notes =
-    createProgram.notes !== "" ? "" : "Description is mandatory";
+  helperSupport.notes = createProgram.notes !== "" ? "" : "Description is mandatory";
   console.log("date", helperSupport.date);
   return helper.isErrorMessagesAvailable(helperSupport) ? false : true;
 };
@@ -181,10 +180,7 @@ const addProgram = () => {
               <label for="exampleFormControlInput1">Supplement</label>
               <select id="level" class="form-select" v-model="supplement.name">
                 <option value="" selected>Supplement</option>
-                <option
-                  v-for="item in supplements.data"
-                  v-bind:value="item.name"
-                >
+                <option v-for="item in supplements.data" v-bind:value="item.name">
                   {{ item.name }}
                 </option>
               </select>
@@ -199,10 +195,7 @@ const addProgram = () => {
                 placeholder="Invite Code"
                 v-model="createProgram.invite_code"
               />
-              <div
-                className="text-danger mrgnbtn"
-                v-if="helperSupport.invite_code"
-              >
+              <div className="text-danger mrgnbtn" v-if="helperSupport.invite_code">
                 {{ helperSupport.invite_code }}
               </div>
             </div>
@@ -210,10 +203,7 @@ const addProgram = () => {
           <div class="row mt-4">
             <div class="col-12">
               <label for="exampleFormControlInput1">Notes</label>
-              <textarea
-                class="form-control"
-                v-model="createProgram.notes"
-              ></textarea>
+              <textarea class="form-control" v-model="createProgram.notes"></textarea>
               <div className="text-danger mrgnbtn" v-if="helperSupport.notes">
                 {{ helperSupport.notes }}
               </div>
