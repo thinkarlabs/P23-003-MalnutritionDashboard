@@ -39,20 +39,19 @@
                 >
                   Login
                 </button>
-                <!-- <button type="submit" class="mt-4 btn btn-primary" data-nav="ngo.dashboard">NGO</button> -->
               </form1>
             </div>
           </div>
-
           <div class="card login-card m-4 bg-secondary text-light">
             <div class="card-body">
               <h5 class="card-title">Supported by</h5>
-              <a href="https://www.emids.com/" target="_blank"
-                ><img
+              <a href="https://www.emids.com/" target="_blank">
+                <img
                   style="width: 160px"
                   src="../../public/img/emids-logo.png"
                   class="me-3"
-              /></a>
+                />
+              </a>
             </div>
           </div>
         </div>
@@ -84,14 +83,12 @@ onMounted(() => {
   store.authDetail.isAaganwadi = false;
   store.authDetail.isNgo = false;
 });
+
 const login = async () => {
   console.log("loginDetail" + JSON.stringify(loginDetail));
   await store.getLoginUser(loginDetail);
   console.log("afterlogin");
-  if (userDetails.value.isAdmin) {
-    router.push("/dashboard");
-  }
-  if (userDetails.value.isNgo) {
+  if (userDetails.value.isAdmin || userDetails.value.isNgo) {
     router.push("/dashboard");
   }
 
