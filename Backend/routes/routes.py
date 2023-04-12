@@ -1,23 +1,20 @@
-from Backend.model.model import SupplementaryPacks, AaganwadiSummary
-from Backend.config.database import SupplementaryCollection
+from Backend.model.model import AaganwadiSummary
 from typing import List
 from bson import ObjectId
 from fastapi import APIRouter, HTTPException
-from Backend.model.model import Ngo, User, ChildMalnutrition, SupplementsDetail, Program, \
-    ProgramJoining
-from Backend.config.database import UserCollection, AanganwadiCollection, ChildCollection
-from Backend.config.database import DonorsCollection, ChildMalnutritionCollection, SupplementDetailsCollection, \
+from Backend.model.model import Ngo,User, ChildMalnutrition, Program, ProgramJoining
+from Backend.config.database import UserCollection, AanganwadiCollection, ChildCollection, \
+    SupplementDetailsCollection
+from Backend.config.database import DonorsCollection, ChildMalnutritionCollection,  \
     ProgramsCollection, ProgramJoiningCollection, AangawadiSummaryCollection, NgoCollection
 from Backend.schemas.schema import user_list_serializer, program_list_serializer
-from Backend.schemas.schema import supplements_list_serializer, ngo_list_serializer, aanganwadi_list_serializer
-from Backend.schemas.schema import  \
-    child_malnutrition_list_serializer, programjoining_list_serializer, supplementaryPacks_list_serializer
+from Backend.schemas.schema import ngo_list_serializer, aanganwadi_list_serializer
+from Backend.schemas.schema import child_malnutrition_list_serializer, programjoining_list_serializer
 from typing import Union
 
 user_router = APIRouter()
 ngo_router = APIRouter()
 child_malnutrition = APIRouter()
-supplement_details = APIRouter()
 program_router = APIRouter()
 program_joining = APIRouter()
 aaganwadi_summary = APIRouter()
@@ -140,122 +137,6 @@ async def delete_child(id: str):
     """
     ChildMalnutritionCollection.find_one_and_delete({"_id": ObjectId(id)})
     return {"status": "ok", "data": []}
-
-
-supp_router = APIRouter()
-
-
-# Create Supplementary pack detail
-
-
-@supp_router.post('/api/add_supplement_pack/')
-async def add_supplement_pack(supplementary: SupplementaryPacks):
-    print(supplementary)
-    _id = SupplementaryCollection.insert_one(dict(supplementary))
-    add_supplementary = supplementaryPacks_list_serializer(
-        SupplementaryCollection.find({"_id": _id.inserted_id}))
-    return {"status": "ok", "data": add_supplementary}
-
-
-# Read all Supplementary pack details of a given program joining id
-
-@supp_router.get('/api/get_all_supplemet_packs/{program_joining_id}')
-async def get_all_supplemet_packs_for_a_program(program_joining_id: str):
-    supplementary = supplementaryPacks_list_serializer(
-        SupplementaryCollection.find({"program_joining_id": str(program_joining_id)}))
-    return {"status": "ok", "data": supplementary}
-
-
-# Read a single Supplementary pack detail
-
-
-@supp_router.get('/api/get_supplement_pack/{supplementary_id}')
-async def get_supplement_pack(supplementary_id: str):
-    supplementary = supplementaryPacks_list_serializer(
-        SupplementaryCollection.find({"_id": ObjectId(supplementary_id)}))
-    return {"status": "ok", "data": supplementary}
-
-
-# Update a Supplementary pack detail
-
-@supp_router.put('/api/update_supplement_pack/{supplementary_id}')
-async def update_supplement_pack(supplementary_id: str, supplementary: SupplementaryPacks):
-    SupplementaryCollection.find_one_and_update({"_id": ObjectId(supplementary_id)},
-                                                {"$set": dict(supplementary)})
-    updated_supplementary = supplementaryPacks_list_serializer(
-        SupplementaryCollection.find({"_id": ObjectId(supplementary_id)}))
-    return {"status": "ok", "data": updated_supplementary}
-
-
-# Delete a Supplementary pack detail
-
-@supp_router.delete('/api/delete_supplement_pack/{supplementary_id}')
-def delete_supplement_pack(supplementary_id: str):
-    result = SupplementaryCollection.find_one_and_delete(
-        {"_id": ObjectId(supplementary_id)})
-    return {"message": "supplementary deleted successfully"}
-
-
-@supplement_details.post('/api/add_supplement_details')
-def add_supplement_details(supplement: SupplementsDetail):
-    """
-    This function is create for add the supplement details.
-    :param supplement: A Pydantic model representing the supplement data to be created.
-    :return: Response status and newly created supplement data.
-    """
-    _id = SupplementDetailsCollection.insert_one(dict(supplement))
-    added_supplement = supplements_list_serializer(
-        SupplementDetailsCollection.find({"_id": _id.inserted_id}))
-    return {"status": "ok", "data": added_supplement}
-
-
-@supplement_details.get('/api/get_supplements_details')
-async def get_supplements_details():
-    """
-    This function is create for get the supplement details.
-    :return: Response status and fetched all data from db
-    """
-    result = supplements_list_serializer(SupplementDetailsCollection.find())
-    return {"status": "ok", "data": result}
-
-
-@supplement_details.get('/api/{id}/get_supplement_details')
-async def get_supplement_details(id: str):
-    """
-    This function is create to retrieve particular supplement details.
-    :param id: id of the supplements to retrieve.
-    :return: Response status and a dictionary representing the supplement data in a custom format.
-    """
-    result = supplements_list_serializer(
-        SupplementDetailsCollection.find({"_id": ObjectId(id)}))
-    return {"status": "ok", "data": result}
-
-
-@supplement_details.put('/api/update_supplement_details/{id}')
-async def update_supplement_details(id: str, supplement: SupplementsDetail):
-    """
-    This function is create to update the supplement details.
-    :param id: id of the supplement to be updated.
-    :param supplement: The pydantic model representing the updated supplement data.
-    :return: Response status and updated supplement data.
-    """
-    SupplementDetailsCollection.find_one_and_update({"_id": ObjectId(id)},
-                                                    {"$set": dict(supplement)})
-    updated_value = supplements_list_serializer(
-        SupplementDetailsCollection.find({"_id": ObjectId(id)}))
-    return {"status": "ok", "data": updated_value}
-
-
-@supplement_details.delete('/api/delete_supplement_details/{id}')
-async def delete_supplement_details(id: str):
-    """
-    This function is create to delete the supplement details.
-    :param id: id of the supplement to be deleted.
-    :return: Response status.
-    """
-    SupplementDetailsCollection.find_one_and_delete({"_id": ObjectId(id)})
-    return {"status": "ok", "data": []}
-
 
 @program_router.post("/api/add_program")
 async def add_program(program: Program):
