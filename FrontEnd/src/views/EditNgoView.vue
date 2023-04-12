@@ -47,9 +47,9 @@
             />
             <div
               className="text-danger mrgnbtn"
-              v-if="helperSupport.contactPersonName"
+              v-if="helperSupport.contactPersonPhone"
             >
-              {{ helperSupport.contactPersonName }}
+              {{ helperSupport.contactPersonPhone }}
             </div>
           </div>
 
