@@ -155,10 +155,10 @@
 
 <script setup>
 import { ref, onMounted, computed, reactive } from "vue";
-import { useNgoStore } from "../stores/ngo";
+import { useNgoStore } from "../../stores/ngo";
 import { useRoute } from "vue-router";
-import router from "../router";
-import helper from "../helper/validation.helper.js";
+import router from "../../router";
+import helper from "../../helper/validation.helper.js";
 
 let updatedNgo = reactive({
   id: "",
