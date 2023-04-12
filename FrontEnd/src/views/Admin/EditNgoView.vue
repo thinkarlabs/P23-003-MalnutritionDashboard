@@ -62,7 +62,9 @@
           </div>
 
           <div class="col-6 my-2">
-            <label for="exampleFormControlInput1">Contact Person Password</label>
+            <label for="exampleFormControlInput1"
+              >Contact Person Password</label
+            >
             <input
               type="password"
               class="form-control"
@@ -225,9 +227,59 @@ onMounted(async () => {
   await store.getNgo(route.params.id);
   console.log(store.ngo);
 });
+let msg = reactive([]);
 
 const updateNgo = async () => {
+<<<<<<< HEAD:FrontEnd/src/views/Admin/EditNgoView.vue
   if (isValidSubmission(updatedNgo) == true) {
+=======
+  let validationRegex = {
+    name: /^[a-zA-Z]+(\s[a-zA-Z]+)?$/,
+    pincode: /^[0-9]{6}$/,
+    number: /^([+]\d{2})?\d{10}$/,
+    email: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+  };
+
+  if (updatedNgo._value.pincode.match(validationRegex.pincode)) {
+    msg["pincode"] = "";
+  } else {
+    msg["pincode"] = "Please entered valid pincode";
+  }
+  if (updatedNgo._value.contactPersonName.match(validationRegex.name)) {
+    msg["contactPersonName"] = "";
+  } else {
+    msg["contactPersonName"] = "Please entered a valid name";
+  }
+  if (updatedNgo._value.ngoName.match(validationRegex.name)) {
+    msg["ngoName"] = "";
+  } else {
+    msg["ngoName"] = "Please entered a valid name";
+  }
+  if (updatedNgo._value.location.match(validationRegex.name)) {
+    msg["location"] = "";
+  } else {
+    msg["location"] = "Please entered a valid name";
+  }
+  if (updatedNgo._value.contactPersonPhone.match(validationRegex.number)) {
+    msg["phoneNumber"] = "";
+  } else {
+    msg["phoneNumber"] = "Please entered a valid phoneNumber";
+  }
+
+  if (updatedNgo._value.contactPersonEmail.match(validationRegex.email)) {
+    msg["email"] = "";
+  } else {
+    msg["email"] = "Please entered a valid email";
+  }
+  if (
+    updatedNgo._value.contactPersonEmail.match(validationRegex.email) &&
+    updatedNgo._value.contactPersonPhone.match(validationRegex.number) &&
+    updatedNgo._value.pincode.match(validationRegex.pincode) &&
+    updatedNgo._value.contactPersonName.match(validationRegex.name) &&
+    updatedNgo._value.ngoName.match(validationRegex.name) &&
+    updatedNgo._value.location.match(validationRegex.name)
+  ) {
+>>>>>>> 6670827 (Validation_for_Ngo):FrontEnd/src/views/EditNgoView.vue
     await store.updateNgo(updatedNgo);
     return router.push("/ngos");
   }
