@@ -9,7 +9,7 @@ class Helper {
   validatePincode = (pincode) =>
     pincode.toString().match(this.validationRegex.pincode)
       ? ""
-      : "Please entered valid pincode";
+      : "Please entered valid code";
   
   validateName = (contactPersonName) =>
     contactPersonName.match(this.validationRegex.name)
@@ -37,5 +37,10 @@ class Helper {
     }
     return isError;
   };
+  
+  validateDateRange = (fromDate,toDate)=> 
+    fromDate && toDate?
+    new Date(fromDate) >= new Date(toDate) ? 'From date must be earlier than to date':"":"Please a Enter a Date"
+  
 }
 export default new Helper();
