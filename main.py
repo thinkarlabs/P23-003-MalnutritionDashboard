@@ -6,12 +6,12 @@ from fastapi import FastAPI, Request, Form, Depends, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, FileResponse, RedirectResponse
-from Backend.routes.routes import user_router
+from Backend.routes.users_routes import user_router
 from Backend.routes.routes import aaganwadi_summary
 from Backend.routes.routes import child_malnutrition, program_joining
 from Backend.routes.ngo_routes import ngo_router
 from Backend.routes.aaganwadi_routes import aanganwadi_router
-from Backend.routes.routes import program_router
+from Backend.routes.programs_routes import program_router
 from app.routes import sign_router
 from Backend.routes.child_routes import child_router
 from Backend.routes.donors_routes import donor_router
