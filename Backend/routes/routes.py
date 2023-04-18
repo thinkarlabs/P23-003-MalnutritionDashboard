@@ -1,75 +1,21 @@
 from Backend.model.model import AaganwadiSummary
 from typing import List
-from bson import ObjectId
-from fastapi import APIRouter, HTTPException
-from Backend.model.model import ProgramJoining
-from Backend.config.database import AanganwadiCollection
-from Backend.config.database import ProgramsCollection, ProgramJoiningCollection, AangawadiSummaryCollection
-from Backend.schemas.schema import program_list_serializer
-from Backend.schemas.schema import programjoining_list_serializer
+from fastapi import APIRouter
+from Backend.config.database import AangawadiSummaryCollection
+
 from typing import Union
 
-
-child_malnutrition = APIRouter()
-program_joining = APIRouter()
 aaganwadi_summary = APIRouter()
-
-
-@program_joining.post("/api/Add_program_joining")
-async def add_program_joining(programs: ProgramJoining):
-    result = ProgramsCollection.find_one({"invite_code": programs.invite_code})
-    identifedAaganwadi = AanganwadiCollection.find_one(
-        {"_id": ObjectId(programs.aanganwadi_id)})
-    if not result:
-        raise HTTPException(status_code=404, detail="Invalid invite code")
-    elif not identifedAaganwadi:
-        raise HTTPException(status_code=404, detail="Invalid Aaganwadi")
-    else:
-        programs.program_id = str(result['_id'])
-        _id = ProgramJoiningCollection.insert_one(dict(programs))
-        add_joining_details = programjoining_list_serializer(
-            ProgramJoiningCollection.find({"_id": _id.inserted_id}))
-        return {"status": "ok", "data": add_joining_details}
-
-
-@program_joining.get("/api/get_programs_joining_details")
-async def get_programs():
-    programs = programjoining_list_serializer(
-        ProgramJoiningCollection.find())
-    return {"status": "ok", "data": programs}
-
-
-@program_joining.get("/api/get_program_joining_details/{aanganwadi_id}")
-async def get_program_joining_details(aanganwadi_id: str):
-
-    list_of_program_joining_summary = []
-    program_joining_array = programjoining_list_serializer(
-        ProgramJoiningCollection.find({"aanganwadi_id": str(aanganwadi_id)}))
-    print(program_joining_array)
-    for program_joining_obj in program_joining_array:
-        program_id = program_joining_obj["program_id"]
-        program_joining_id = program_joining_obj["id"]
-        program_details = program_list_serializer(
-            ProgramsCollection.find({"_id": ObjectId(program_id)}))
-        if len(program_details) > 0:
-            donor_name = program_details[0]["donor_name"]
-            supplement_name = program_details[0]["supplement_name"]
-            from_date = program_details[0]["from_date"]
-            to_date = program_details[0]["to_date"]
-            program_joining_object = {
-                "program_joining_id": program_joining_id,
-                "donor_name": donor_name,
-                "supplement_name": supplement_name,
-                "from_date": from_date,
-                "to_date": to_date
-            }
-            list_of_program_joining_summary.append(program_joining_object)
-    return {"status": "ok", "data": list_of_program_joining_summary}
-
 
 # FastAPI endpoint to retrieve the summary of an Aaganwadi program
 @aaganwadi_summary.get("/aaganwadi/summary/{aaganwadi_id}")
 async def get_aaganwadi_summary(aaganwadi_id: str):
+    """
+    Get the Aaganwadi program summary for the given ID.
+    :aaganwadi_id (str): The ID of the Aaganwadi program to get the summary for.
+    :Returns:AaganwadiSummary: An instance of the AaganwadiSummary class containing the summary data.
+    If the program summary is not found in the database, returns an instance with all counts set to 0.
+    """
     # Query the MongoDB database for the Aaganwadi program summary
     summary = AangawadiSummaryCollection.find_one({"_id": aaganwadi_id})
 

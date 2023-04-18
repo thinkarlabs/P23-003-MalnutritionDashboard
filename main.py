@@ -8,7 +8,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, FileResponse, RedirectResponse
 from Backend.routes.users_routes import user_router
 from Backend.routes.routes import aaganwadi_summary
-from Backend.routes.routes import program_joining
+from Backend.routes.program_joining_routes import program_joining
 from Backend.routes.ngo_routes import ngo_router
 from Backend.routes.aaganwadi_routes import aanganwadi_router
 from Backend.routes.programs_routes import program_router
