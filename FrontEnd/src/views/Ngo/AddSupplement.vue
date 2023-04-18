@@ -12,8 +12,11 @@
               class="form-control"
               id="exampleFormControlInput1"
               placeholder="Supplement Title"
-              v-model="newSupplement.name"
+              v-model="newSupplement.title"
             />
+            <div className="text-danger mrgnbtn" v-if="helperSupport.title">
+              {{ helperSupport.title }}
+            </div>
           </div>
 
           <div class="col-12 my-2">
@@ -25,6 +28,12 @@
               placeholder="Supplement Description"
               v-model="newSupplement.description"
             />
+            <div
+              className="text-danger mrgnbtn"
+              v-if="helperSupport.description"
+            >
+              {{ helperSupport.description }}
+            </div>
           </div>
 
           <div class="row">
@@ -81,14 +90,29 @@
 import { ref, onMounted, computed, reactive } from "vue";
 import { useSupplementStore } from "../../stores/supplement";
 import router from "../../router";
+import helper from "../../helper/validation.helper.js";
 let newSupplement = reactive({
   title: "",
   description: "",
 });
 const store = useSupplementStore();
 
+const helperSupport = reactive({
+  title: "",
+  description: "",
+});
+
+const isValidSubmission = (newSupplement) => {
+  helperSupport.title = helper.validateName(newSupplement.name);
+  helperSupport.description =
+    newSupplement.description !== "" ? "" : "Description is mandatory";
+  return helper.isErrorMessagesAvailable(helperSupport) ? false : true;
+};
+
 const postSupplement = async () => {
-  await store.postSupplement(newSupplement);
-  return router.push("/supplements");
+  if (isValidSubmission(newSupplement) == true) {
+    await store.postSupplement(newSupplement);
+    return router.push("/supplements");
+  }
 };
 </script>

@@ -14,6 +14,9 @@
               placeholder="Entity name"
               v-model="newDonor.name"
             />
+            <div className="text-danger mrgnbtn" v-if="helperSupport.name">
+              {{ helperSupport.name }}
+            </div>
           </div>
 
           <div class="col-6 my-2">
@@ -25,6 +28,9 @@
               placeholder="Name of Contact Person"
               v-model="newDonor.contactperson"
             />
+            <div className="text-danger mrgnbtn" v-if="helperSupport.contactPersonName">
+              {{ helperSupport.contactPersonName }}
+            </div>
           </div>
 
           <div class="col-6 my-2">
@@ -36,6 +42,9 @@
               placeholder="Email Address"
               v-model="newDonor.email"
             />
+            <div className="text-danger mrgnbtn" v-if="helperSupport.contactPersonEmail">
+              {{ helperSupport.contactPersonEmail }}
+            </div>
           </div>
 
           <div class="col-6 my-2">
@@ -47,6 +56,9 @@
               placeholder="Phone Number"
               v-model="newDonor.phone"
             />
+            <div className="text-danger mrgnbtn" v-if="helperSupport.contactPersonPhone">
+              {{ helperSupport.contactPersonPhone }}
+            </div>
           </div>
 
           <div class="row">
@@ -103,16 +115,35 @@
 import { ref, onMounted, computed, reactive } from "vue";
 import { useDonorsStore } from "../../stores/donors";
 import router from "../../router";
+import helper from "../../helper/validation.helper.js";
+
 let newDonor = reactive({
   name: "",
   contactperson: "",
   email: "",
   phone: "",
 });
+
 const store = useDonorsStore();
+const helperSupport = reactive({
+  name: "",
+  contactPersonName: "",
+  contactPersonEmail: "",
+  contactPersonPhone: "",
+});
+
+const isValidSubmission = (newDonor) => {
+  helperSupport.name = helper.validateName(newDonor.name);
+  helperSupport.contactPersonName = helper.validateName(newDonor.contactperson);
+  helperSupport.contactPersonEmail = helper.validateEmail(newDonor.email);
+  helperSupport.contactPersonPhone = helper.validatePhoneNumber(newDonor.phone);
+  return helper.isErrorMessagesAvailable(helperSupport) ? false : true;
+};
 
 const postDonor = async () => {
+  if (isValidSubmission(newDonor) == true) {
   await store.postDonor(newDonor);
   return router.push("/donors");
+  }
 };
 </script>
