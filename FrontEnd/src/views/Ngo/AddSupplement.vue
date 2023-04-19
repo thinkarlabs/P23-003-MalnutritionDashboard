@@ -13,10 +13,9 @@
               id="exampleFormControlInput1"
               placeholder="Supplement Title"
               v-model="newSupplement.title"
-              @keypress="helper.validateName($event)"
-              @input="helper.validateName($event)">
-            <div className="text-danger mrgnbtn" ref="exampleFormControlInput1" v-if="helper.shownameError"> 
-              {{ helper.msg.name}}
+            />
+            <div className="text-danger mrgnbtn" v-if="helperSupport.title">
+              {{ helperSupport.title }}
             </div>
           </div>
 
@@ -28,11 +27,12 @@
               id="exampleFormControlInput1"
               placeholder="Supplement Description"
               v-model="newSupplement.description"
-              @keypress="helper.validateName($event)"
-              @input="helper.validateName($event)"
             />
-            <div className="text-danger mrgnbtn" ref="exampleFormControlInput1" v-if="helper.shownameError"> 
-              {{ helper.msg.name}}
+            <div
+              className="text-danger mrgnbtn"
+              v-if="helperSupport.description"
+            >
+              {{ helperSupport.description }}
             </div>
           </div>
 
@@ -87,7 +87,7 @@
 </style>
 
 <script setup>
-import { ref,reactive,watch,onUpdated} from "vue";
+import { ref, onMounted, computed, reactive } from "vue";
 import { useSupplementStore } from "../../stores/supplement";
 import router from "../../router";
 import helper from "../../helper/validation.helper.js";
@@ -97,24 +97,16 @@ let newSupplement = reactive({
 });
 const store = useSupplementStore();
 
-const helperSupport = {
-  title:"",
+const helperSupport = reactive({
+  title: "",
   description: "",
+});
+
+const isValidSubmission = (newSupplement) => {
+  helperSupport.title = helper.validateName(newSupplement.title);
+  helperSupport.description = newSupplement.description !== "" ? "" : "this is mandatory field";
+  return helper.isErrorMessagesAvailable(helperSupport) ? false : true;
 };
-
-
-// console.log("support",helperSupport.title ,helper.msg['name'])
-// watch(newSupplement.title ,(value) => {
-//   if (value) {
-//     helperSupport.title=helper.msg['name']
-//   }
-// });
-
-// const isValidSubmission = (newSupplement) => {
-//   // helperSupport.title = helper.validateName(newSupplement.name);
-//   helperSupport.description = newSupplement.description !== "" ? "" : "Description is mandatory";
-//   return helper.isErrorMessagesAvailable(helperSupport) ? false : true;
-// };
 
 const postSupplement = async () => {
   if (isValidSubmission(newSupplement) == true) {

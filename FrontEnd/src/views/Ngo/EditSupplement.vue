@@ -109,11 +109,9 @@ const helperSupport = reactive({
 const isValidSubmission = (updatedSupplement) => {
   helperSupport.title = helper.validateName(updatedSupplement._value.name);
   helperSupport.description =
-  updatedSupplement._value.description !== "" ? "" : "Description is mandatory";
+  updatedSupplement._value.description !== "" ? "" : "this is mandatory field";
   return helper.isErrorMessagesAvailable(helperSupport) ? false : true;
 };
-
-
 
 updatedSupplement = computed(() => {
   if (store.supplement) {
