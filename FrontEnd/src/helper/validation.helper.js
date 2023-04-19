@@ -1,4 +1,11 @@
 class Helper {
+  shownameError=false;
+  msg={
+    name:"",
+    pincode:"",
+    number:"",
+    email:""
+  };
   validationRegex = {
     name: /^[a-zA-Z]+(\s[a-zA-Z]+)?$/,
     pincode: /^[0-9]{6}$/,
@@ -11,11 +18,21 @@ class Helper {
       ? ""
       : "Please entered valid code";
   
-  validateName = (contactPersonName) =>
-    contactPersonName.match(this.validationRegex.name)
-      ? ""
-      : "Please entered a valid name";
-
+  validateName = (e) =>{
+    // debugger
+    const name = e.target.value;
+    console.log("nameee",name,name.match(this.validationRegex.name))
+    if(!name.match(this.validationRegex.name)){
+    console.log("22222222222")
+      this.shownameError=true;
+      this.msg.name= "Please entered a valid name";
+    }
+    else{
+      console.log("validatioErr")
+      this.shownameError=true
+      this.msg.name="";
+    }
+  }
   validateEmail = (contactPersonEmail) =>
     contactPersonEmail.match(this.validationRegex.email)
       ? ""

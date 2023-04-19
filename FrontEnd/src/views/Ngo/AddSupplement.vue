@@ -3,7 +3,7 @@
     <div id="x-contest" class="container-fluid p-3">
       <form @submit.prevent="postSupplement">
         <div class="row">
-          <h3 class="float-start">Manage Supplement</h3>
+          <h3 class="float-start">Add Supplement</h3>
 
           <div class="col-12 my-2">
             <label for="exampleFormControlInput1">Title</label>
@@ -13,9 +13,10 @@
               id="exampleFormControlInput1"
               placeholder="Supplement Title"
               v-model="newSupplement.title"
-            />
-            <div className="text-danger mrgnbtn" v-if="helperSupport.title">
-              {{ helperSupport.title }}
+              @keypress="helper.validateName($event)"
+              @input="helper.validateName($event)">
+            <div className="text-danger mrgnbtn" ref="exampleFormControlInput1" v-if="helper.shownameError"> 
+              {{ helper.msg.name}}
             </div>
           </div>
 
@@ -27,12 +28,11 @@
               id="exampleFormControlInput1"
               placeholder="Supplement Description"
               v-model="newSupplement.description"
+              @keypress="helper.validateName($event)"
+              @input="helper.validateName($event)"
             />
-            <div
-              className="text-danger mrgnbtn"
-              v-if="helperSupport.description"
-            >
-              {{ helperSupport.description }}
+            <div className="text-danger mrgnbtn" ref="exampleFormControlInput1" v-if="helper.shownameError"> 
+              {{ helper.msg.name}}
             </div>
           </div>
 
@@ -87,7 +87,7 @@
 </style>
 
 <script setup>
-import { ref, onMounted, computed, reactive } from "vue";
+import { ref,reactive,watch,onUpdated} from "vue";
 import { useSupplementStore } from "../../stores/supplement";
 import router from "../../router";
 import helper from "../../helper/validation.helper.js";
@@ -97,17 +97,24 @@ let newSupplement = reactive({
 });
 const store = useSupplementStore();
 
-const helperSupport = reactive({
-  title: "",
+const helperSupport = {
+  title:"",
   description: "",
-});
-
-const isValidSubmission = (newSupplement) => {
-  helperSupport.title = helper.validateName(newSupplement.name);
-  helperSupport.description =
-    newSupplement.description !== "" ? "" : "Description is mandatory";
-  return helper.isErrorMessagesAvailable(helperSupport) ? false : true;
 };
+
+
+// console.log("support",helperSupport.title ,helper.msg['name'])
+// watch(newSupplement.title ,(value) => {
+//   if (value) {
+//     helperSupport.title=helper.msg['name']
+//   }
+// });
+
+// const isValidSubmission = (newSupplement) => {
+//   // helperSupport.title = helper.validateName(newSupplement.name);
+//   helperSupport.description = newSupplement.description !== "" ? "" : "Description is mandatory";
+//   return helper.isErrorMessagesAvailable(helperSupport) ? false : true;
+// };
 
 const postSupplement = async () => {
   if (isValidSubmission(newSupplement) == true) {
