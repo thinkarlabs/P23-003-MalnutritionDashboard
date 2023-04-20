@@ -10,7 +10,7 @@ class Helper {
     pincode.toString().match(this.validationRegex.pincode)
       ? ""
       : "Please entered valid code";
-  
+
   validateName = (contactPersonName) =>
     contactPersonName.match(this.validationRegex.name)
       ? ""
@@ -19,7 +19,7 @@ class Helper {
   validateEmail = (contactPersonEmail) =>
     contactPersonEmail.match(this.validationRegex.email)
       ? ""
-      : "Please entered a valid email";
+      : "Please entered a valid email verified";
 
   validatePhoneNumber = (contactPersonPhone) =>
     contactPersonPhone.toString().match(this.validationRegex.number)
@@ -27,7 +27,7 @@ class Helper {
       : "Please entered a valid phoneNumber";
 
   isErrorMessagesAvailable = (obj) => {
-    console.log("obj",obj);
+    console.log("obj", obj);
     var isError = false;
     for (const key in obj) {
       if (obj[key] !== "") {
@@ -37,10 +37,12 @@ class Helper {
     }
     return isError;
   };
-  
-  validateDateRange = (fromDate,toDate)=> 
-    fromDate && toDate?
-    new Date(fromDate) >= new Date(toDate) ? 'From date must be earlier than to date':"":"Please a Enter a Date"
-  
+
+  validateDateRange = (fromDate, toDate) =>
+    fromDate && toDate
+      ? new Date(fromDate) >= new Date(toDate)
+        ? "From date must be earlier than to date"
+        : ""
+      : "Please a Enter a Date";
 }
 export default new Helper();

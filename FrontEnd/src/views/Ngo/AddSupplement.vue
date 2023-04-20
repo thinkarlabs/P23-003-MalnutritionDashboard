@@ -25,7 +25,7 @@
               type="text"
               class="form-control"
               id="exampleFormControlInput1"
-              placeholder="Supplement Description"
+              placeholder="Supplffement Description"
               v-model="newSupplement.description"
             />
             <div
@@ -104,7 +104,8 @@ const helperSupport = reactive({
 
 const isValidSubmission = (newSupplement) => {
   helperSupport.title = helper.validateName(newSupplement.title);
-  helperSupport.description = newSupplement.description !== "" ? "" : "this is mandatory field";
+  helperSupport.description =
+    newSupplement.description !== "" ? "" : "this is mandatory field";
   return helper.isErrorMessagesAvailable(helperSupport) ? false : true;
 };
 

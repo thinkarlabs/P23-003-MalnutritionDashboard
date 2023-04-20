@@ -194,7 +194,7 @@ updatedNgo = computed(() => {
     return {
       id: "",
       ngoName: "",
-      contactPersonName: "",
+      contactPersonNameff: "",
       contactPersonEmail: "",
       contactPersonPhone: "",
       contactPersonPassword: "",
