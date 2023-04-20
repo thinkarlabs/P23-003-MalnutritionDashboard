@@ -14,6 +14,9 @@
               placeholder="Entity Name"
               v-model="updatedDonor.name"
             />
+            <div className="text-danger mrgnbtn" v-if="helperSupport.name">
+              {{ helperSupport.name }}
+            </div>
           </div>
 
           <div class="col-6 my-2">
@@ -25,6 +28,12 @@
               placeholder="Contact Person Name"
               v-model="updatedDonor.contactperson"
             />
+            <div
+              className="text-danger mrgnbtn"
+              v-if="helperSupport.contactPersonName"
+            >
+              {{ helperSupport.contactPersonName }}
+            </div>
           </div>
 
           <div class="col-6 my-2">
@@ -36,6 +45,12 @@
               placeholder="Email Address"
               v-model="updatedDonor.email"
             />
+            <div
+              className="text-danger mrgnbtn"
+              v-if="helperSupport.contactPersonEmail"
+            >
+              {{ helperSupport.contactPersonEmail }}
+            </div>
           </div>
 
           <div class="col-6 my-2">
@@ -47,6 +62,12 @@
               placeholder="Phone Number"
               v-model="updatedDonor.phone"
             />
+            <div
+              className="text-danger mrgnbtn"
+              v-if="helperSupport.contactPersonPhone"
+            >
+              {{ helperSupport.contactPersonPhone }}
+            </div>
           </div>
 
           <div class="row">
@@ -104,6 +125,7 @@ import { ref, onMounted, computed, reactive } from "vue";
 import { useDonorsStore } from "../../stores/donors";
 import { useRoute } from "vue-router";
 import router from "../../router";
+import helper from "../../helper/validation.helper.js";
 
 let updatedDonor = reactive({
   id: "",
@@ -113,6 +135,12 @@ let updatedDonor = reactive({
   phone: 0,
 });
 
+const helperSupport = reactive({
+  name: "",
+  contactPersonName: "",
+  contactPersonEmail: "",
+  contactPersonPhone: "",
+});
 const route = useRoute();
 const store = useDonorsStore();
 
@@ -129,6 +157,21 @@ updatedDonor = computed(() => {
     };
   }
 });
+
+const isValidSubmission = (updatedDonor) => {
+  helperSupport.name = helper.validateName(updatedDonor._value.name);
+  helperSupport.contactPersonName = helper.validateName(
+    updatedDonor._value.contactperson
+  );
+  helperSupport.contactPersonEmail = helper.validateEmail(
+    updatedDonor._value.email
+  );
+  helperSupport.contactPersonPhone = helper.validatePhoneNumber(
+    updatedDonor._value.phone
+  );
+  return helper.isErrorMessagesAvailable(helperSupport) ? false : true;
+};
+
 onMounted(async () => {
   console.log("Editing Donor.... ");
   console.log(route.params.id);
@@ -137,7 +180,9 @@ onMounted(async () => {
 });
 
 const updateDonor = async () => {
-  await store.updateDonor(updatedDonor);
-  return router.push("/donors");
+  if (isValidSubmission(updatedDonor) == true) {
+    await store.updateDonor(updatedDonor);
+    return router.push("/donors");
+  }
 };
 </script>
