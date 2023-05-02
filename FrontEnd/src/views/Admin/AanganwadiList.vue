@@ -8,6 +8,7 @@
             <button
               type="button"
               class="btn btn-primary float-end mx-2"
+              id="addAanganwadi"
               data-nav="admin.aanganwadi.new"
               @click="navigate"
               role="link"
@@ -42,6 +43,7 @@
                 <button
                   type="button"
                   class="btn btn-primary float-end mx-2"
+                  id = "deleteAanganwadi"
                   data-nav="admin.exercise.del"
                   @click="deleteAanganwadi(item.id)"
                 >
@@ -50,6 +52,7 @@
                 <button
                   type="button"
                   class="btn btn-primary float-end mx-2"
+                  id = "editAanganwadi"
                   data-nav='admin.exercise.edit?memid="{{item.id}}"'
                   @click="editAanganwadiPage(item.id)"
                 >

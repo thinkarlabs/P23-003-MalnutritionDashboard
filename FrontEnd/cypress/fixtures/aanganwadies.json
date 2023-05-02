@@ -1,0 +1,45 @@
+{
+    "status":"ok",
+    "data":[
+       {
+          "id":"640b29c92a8b45f6f8bbf05e",
+          "ngoName":"Kardashians",
+          "contactPersonName":"Kim Kardashian",
+          "contactPersonEmail":"kimmy@gmail.com",
+          "contactPersonPassword":"123",
+          "contactPersonPhone":"172123314",
+          "location":"Miami",
+          "pincode":"616263"
+       },
+       {
+          "id":"640de03a3d00336e79c690dd",
+          "ngoName":"Hurley",
+          "contactPersonName":"Elizabeth Hurley",
+          "contactPersonEmail":"elizabeth@hurley.com",
+          "contactPersonPassword":"123",
+          "contactPersonPhone":"7972981124",
+          "location":"England",
+          "pincode":"123456"
+       },
+       {
+          "id":"640de3167f9d91e0f61974c5",
+          "ngoName":"Keeping Up with Kardashians",
+          "contactPersonName":"Kim Kardashian",
+          "contactPersonEmail":"keepingupwithkardashians@hotmail.com",
+          "contactPersonPassword":"123",
+          "contactPersonPhone":"172123314",
+          "location":"Miami",
+          "pincode":"653243"
+       },
+       {
+          "id":"6423c7b8f915f8130c5605c5",
+          "ngoName":"Test",
+          "contactPersonName":"test",
+          "contactPersonEmail":"test@gmail.com",
+          "contactPersonPassword":"123",
+          "contactPersonPhone":"4561239872",
+          "location":"Location",
+          "pincode":"123456"
+       }
+    ]
+  }
