@@ -130,13 +130,3 @@ def test_delete_child_invalid_id():
     response = client.delete(f"/api/deletechild?id={invalid_child_id}")
     # Assert the response
     assert response.status_code == 404
-
-
-
-
-
-
-
-
-
-
