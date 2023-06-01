@@ -1,21 +1,4 @@
-/// <reference types="cypress" />
-
-describe('AANGANWADI', () => {
-  
-    beforeEach(() => {
-      cy.intercept("GET", "/aanganwadis/", {fixture: "aanganwadies.json",}).as("mockedNgos")
-    });
-  
-     it("checks if h3 has Aanganwadies", () => {
-       cy.visit("/aanganwadis");
-       cy.contains("h3", "Aanganwadies");
-       
-       cy.request("GET", "/aanganwadis").should((response) => {
-       expect(response.status).to.eq(200);
-     });
-     });
-     
-     it('should display Aanganwadies data on page',() => {
+Aanganwadies data on page',() => {
        cy.visit('/aanganwadis');
        //cy.wait('@mockedNgos');
    
