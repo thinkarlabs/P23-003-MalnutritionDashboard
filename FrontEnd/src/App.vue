@@ -1,5 +1,6 @@
 <template>
   <HeaderView></HeaderView>
+  <Language></Language>
   <RouterView /><FooterView></FooterView>
 </template>
 
@@ -7,7 +8,7 @@
 import { RouterView } from "vue-router";
 import HeaderView from "../src/components/HeaderView.vue";
 import FooterView from "../src/components/FooterView.vue";
-
+import Language from "../src/components/Language.vue";
 import { ref, onMounted, computed, reactive } from "vue";
 import { useAuthStore } from "../src/stores/auth.js";
 

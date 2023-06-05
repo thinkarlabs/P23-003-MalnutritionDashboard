@@ -1,0 +1,16 @@
+{
+    "ngo": {
+      "NGOs": "NGOs",
+      "name": "NGO Name",
+      "contact_person":"Contact Person",
+      "contact_email":"Contact Email",
+      "contact_password":"Contact Password",
+      "contact_phone":"Contact Phone",
+      "actions":"Actions"
+    },
+    "dashboard": {
+      "welcomeMsg": "Welcome",
+      "admin": "Admin",
+      "malnutrition-dashboard":"Malnutrition Dashboard"
+    }
+  }

@@ -1,9 +1,14 @@
 <template>
   <div id="x-main" class="container-full mt-5 p-3">
+    
     <div class="container-md">
+      
       <div class="row">
+        <div>
+          <h1>{{ $t('dashboard.welcomeMsg') }}</h1>
+        </div>
         <div class="col-12 p-2">
-          <h3 class="float-start ps-2">Malnutrition Dashboard (Admin)</h3>
+          <h3 class="float-start ps-2" id = "test">{{ $t('dashboard.malnutrition-dashboard')}} ({{ $t('dashboard.admin') }})</h3>
         </div>
         <div class="col-8 p-2">
           <l-map :zoom="leafletdata.zoom" :center="leafletdata.center">
@@ -69,4 +74,6 @@ let leafletdata = reactive({
   url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
   marker: [47.41322, -1.219482],
 });
+
+
 </script>

@@ -1,0 +1,17 @@
+{
+    "dashboard": {
+      "welcomeMsg": "Bienvenue",
+      "admin": "Admin",
+      "malnutrition-dashboard":"Tableau de bord de la malnutrition"
+    },
+    "ngo": {
+      "NGOs": "NGOs",
+      "name": "Nom de l’ONG",
+      "contact_person":"Personne de contact",
+      "contact_email":"Courriel de contact",
+      "contact_password":"Mot de passe de contact",
+      "contact_phone":"Téléphone de contact",
+      "actions":"Actions"
+    }
+  }
+  
