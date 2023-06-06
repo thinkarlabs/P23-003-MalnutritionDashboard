@@ -1,0 +1,20 @@
+{
+    "dashboard": {
+        "welcomeMsg": "स्वागत है",
+        "admin": "व्यवस्थापक",
+        "malnutrition-dashboard":"कुपोषण डैशबोर्ड"
+      },
+      "ngo": {
+        "NGOs": "गैर सरकारी संगठन",
+        "name": "नाम",
+        "contact_person":"संपर्क व्यक्ति",
+        "contact_email":"ईमेल",
+        "contact_password":"संपर्क पासवर्ड",
+        "contact_phone":"संपर्क फ़ोन",
+        "actions":"क्रिया",
+        "pincode":"पिनकोड"
+      },
+      "common":{
+        "no_records":"कोई रिकॉर्ड उपलब्ध नहीं है"
+      }
+}

@@ -5,7 +5,7 @@
         <div class="container-fluid">
           <img src="https://www.asthrasoft.com/site/img/logo.png" style="height: 25px" />
           <p class="navbar-brand my-0 ms-2">Think Nutrition</p>
-
+          <a class="float-start ps-2" href="#" @click.prevent="changeLocale">{{ currentLocale }}</a>
           <button
             class="navbar-toggler"
             type="button"
@@ -19,6 +19,7 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav ms-auto">
+              
               <li class="nav-item">
                 <router-link
                   class="nav-link active"
@@ -56,7 +57,7 @@
                     <a class="dropdown-item" data-nav="profile">Profile</a>
                   </li>
                   <li>
-                    <router-link to="/" class="dropdown-item" data-nav="web.login"
+                    <router-link to="/" class="dropdown-item" data-nav="web.login" id = "logout"
                       >Logout</router-link
                     >
                   </li>

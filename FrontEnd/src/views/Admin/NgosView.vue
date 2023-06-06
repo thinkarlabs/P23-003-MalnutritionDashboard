@@ -3,11 +3,12 @@
     <div id="x-contest" class="container-fluid p-3">
       <div class="row">
         <div class="col-12 p-2">
-          <h3 class="float-start ps-2">NGOs</h3>
+          <h3 class="float-start ps-2">{{ $t('ngo.NGOs') }}</h3>
           <router-link to="/addngo" custom v-slot="{ navigate }">
             <button
               type="button"
               class="btn btn-primary float-end mx-2"
+              id="addNGO"
               data-nav="admin.ngo.new"
               @click="navigate"
               role="link"
@@ -20,18 +21,18 @@
         <table class="col-12 table table-striped" id="tbl_ch">
           <thead class="table-dark">
             <tr>
-              <th scope="col">NGO Name</th>
-              <th scope="col">Contact Person</th>
-              <th scope="col">Contact EMail</th>
-              <th scope="col">Contact Password</th>
-              <th scope="col">Contact Phone</th>
-              <th scope="col" class="text-center">Actions</th>
+              <th scope="col">{{ $t('ngo.name') }}</th>
+              <th scope="col">{{ $t('ngo.contact_person') }}</th>
+              <th scope="col">{{ $t('ngo.contact_email') }}</th>
+              <th scope="col">{{ $t('ngo.contact_password') }}</th>
+              <th scope="col">{{ $t('ngo.contact_phone') }}</th>
+              <th scope="col" class="text-center">{{ $t('ngo.actions') }}</th>
             </tr>
           </thead>
           <tbody>
             <div v-show="!isNgoAvailable">
               <tr>
-                <td>No records available</td>
+                <td>{{ $t('common.no_records') }}</td>
               </tr>
             </div>
             <tr v-for="item of ngos" :key="item.id">
@@ -45,6 +46,7 @@
                   type="button"
                   class="btn btn-primary float-end mx-2"
                   data-nav="admin.exercise.del"
+                  id="deleteNGO"
                   @click="deleteNgo(item.id)"
                 >
                   <i class="bi bi-trash"></i>
@@ -52,6 +54,7 @@
                 <button
                   type="button"
                   class="btn btn-primary float-end mx-2"
+                  id="editNGO"
                   data-nav="admin.exercise.edit"
                   @click="editNgo(item.id)"
                 >
