@@ -34,6 +34,7 @@
                 <button
                   type="submit"
                   class="mt-4 btn btn-primary"
+                  id="login"
                   data-nav="admin.dashboard"
                   @click="login()"
                 >

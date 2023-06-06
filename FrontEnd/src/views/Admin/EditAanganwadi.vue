@@ -10,7 +10,7 @@
             <input
               type="text"
               class="form-control"
-              id="exampleFormControlInput1"
+              id="contactPersonName"
               placeholder="Aanganwadi Contact Person"
               v-model="updatedAanganwadi.contactPersonName"
             />
@@ -21,7 +21,7 @@
             <input
               type="text"
               class="form-control"
-              id="exampleFormControlInput1"
+              id="contactPersonPhone"
               placeholder="Phone Number"
               v-model="updatedAanganwadi.contactPersonPhone"
             />
@@ -32,7 +32,7 @@
             <input
               type="password"
               class="form-control"
-              id="exampleFormControlInput1"
+              id="contactPersonPassword"
               placeholder="Password"
               v-model="updatedAanganwadi.contactPersonPassword"
             />
@@ -43,7 +43,7 @@
             <input
               type="text"
               class="form-control"
-              id="exampleFormControlInput1"
+              id="location"
               placeholder="Location"
               v-model="updatedAanganwadi.location"
             />
@@ -64,6 +64,7 @@
               <button
                 type="submit"
                 class="btn btn-primary float-end mx-2"
+                id = "updateAanganwadi"
                 data-nav="admin.aanganwadis"
                 @click="navigate"
                 role="link"

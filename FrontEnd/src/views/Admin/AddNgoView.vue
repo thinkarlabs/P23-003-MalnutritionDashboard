@@ -62,7 +62,9 @@
           </div>
 
           <div class="col-6 my-2">
-            <label for="exampleFormControlInput1">Contact Person Password</label>
+            <label for="exampleFormControlInput1"
+              >Contact Person Password</label
+            >
             <input
               class="form-control"
               id="exampleFormControlInput1"

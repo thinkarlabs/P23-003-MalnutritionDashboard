@@ -14,6 +14,9 @@
               placeholder=""
               v-model="updatedSupplement.name"
             />
+            <div className="text-danger mrgnbtn" v-if="helperSupport.title">
+              {{ helperSupport.title }}
+            </div>
           </div>
 
           <div class="col-12 my-2">
@@ -25,6 +28,12 @@
               placeholder=""
               v-model="updatedSupplement.description"
             />
+            <div
+              className="text-danger mrgnbtn"
+              v-if="helperSupport.description"
+            >
+              {{ helperSupport.description }}
+            </div>
           </div>
 
           <div class="row">
@@ -82,6 +91,7 @@ import { ref, onMounted, computed, reactive } from "vue";
 import { useSupplementStore } from "../../stores/supplement";
 import { useRoute } from "vue-router";
 import router from "../../router";
+import helper from "../../helper/validation.helper.js";
 
 let updatedSupplement = reactive({
   id: "",
@@ -91,6 +101,17 @@ let updatedSupplement = reactive({
 
 const route = useRoute();
 const store = useSupplementStore();
+const helperSupport = reactive({
+  title: "",
+  description: "",
+});
+
+const isValidSubmission = (updatedSupplement) => {
+  helperSupport.title = helper.validateName(updatedSupplement._value.name);
+  helperSupport.description =
+  updatedSupplement._value.description !== "" ? "" : "this is mandatory field";
+  return helper.isErrorMessagesAvailable(helperSupport) ? false : true;
+};
 
 updatedSupplement = computed(() => {
   if (store.supplement) {
@@ -112,7 +133,9 @@ onMounted(async () => {
 });
 
 const updateSupplement = async () => {
-  await store.updateSupplement(updatedSupplement);
-  return router.push("/supplements");
+  if (isValidSubmission(updatedSupplement) == true) {
+    await store.updateSupplement(updatedSupplement);
+    return router.push("/supplements");
+  }
 };
 </script>
